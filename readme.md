@@ -12,7 +12,7 @@
 [Info  | miralis::virt] > Average measure : 5657 Statistics : Statistics { mean: 5653, min: 5624, max: 6300, p25: 5645, p50: 5652, p75: 5662, p95: 5666, p99: 5678 } \
 [Info  | miralis::virt] > Average measure : 5655 Statistics : Statistics { mean: 5652, min: 5622, max: 6175, p25: 5644, p50: 5652, p75: 5662, p95: 5666, p99: 5670 } \
 [Info  | miralis::virt] > Average measure : 5655 Statistics : Statistics { mean: 5652, min: 5622, max: 6175, p25: 5644, p50: 5652, p75: 5662, p95: 5666, p99: 5670 } \
-[Info  | miralis::virt] > Average measure : 5653 Statistics : Statistics { mean: 5657, min: 5624, max: 8838, p25: 5646, p50: 5656, p75: 5664, p95: 5669, p99: 5686 } \
+[Info  | miralis::virt] > Average measure : 5653 Statistics : Statistics { mean: 5657, min: 5624, max: 8838, p25: 5646, p50: 5656, p75: 5664, p95: 5669, p99: 5686 } 
 
 #### Coremark pro -- visionfive 2 board - default policy
 
