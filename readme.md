@@ -35,54 +35,68 @@
 
 #### Yahoo benchmark - memcached - visionfive2board - miralis - default policy - client located on the visionfive2 board
 
+[OVERALL], RunTime(ms), 7622 \
+[OVERALL], Throughput(ops/sec), 131.19916032537392 \
+[TOTAL_GCS_Copy], Count, 6 \
+[TOTAL_GC_TIME_Copy], Time(ms), 57 \
+[TOTAL_GC_TIME_%_Copy], Time(%), 0.7478352138546313 \
+[TOTAL_GCS_MarkSweepCompact], Count, 0 \
+[TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0 \
+[TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0 \
+[TOTAL_GCs], Count, 6 \
+[TOTAL_GC_TIME], Time(ms), 57 \
+[TOTAL_GC_TIME_%], Time(%), 0.7478352138546313 \
+[READ], Operations, 511 \
+[READ], AverageLatency(us), 6910.506849315068 \
+[READ], MinLatency(us), 3026 \
+[READ], MaxLatency(us), 100415 \
+[READ], 95thPercentileLatency(us), 10967 \
+[READ], 99thPercentileLatency(us), 11751 \
+[READ], Return=OK, 511 \
+[CLEANUP], Operations, 1 \
+[CLEANUP], AverageLatency(us), 17608.0 \
+[CLEANUP], MinLatency(us), 17600 \
+[CLEANUP], MaxLatency(us), 17615 \
+[CLEANUP], 95thPercentileLatency(us), 17615 \
+[CLEANUP], 99thPercentileLatency(us), 17615 \
+[UPDATE], Operations, 489 \
+[UPDATE], AverageLatency(us), 5382.118609406953 \
+[UPDATE], MinLatency(us), 2920 \
+[UPDATE], MaxLatency(us), 403199 \
+[UPDATE], 95thPercentileLatency(us), 6935 \
+[UPDATE], 99thPercentileLatency(us), 7895 \
+[UPDATE], Return=OK, 489 
 
-##### Overall Metrics
+#### Yahoo benchmark - redis - visionfive2board - miralis - default policy - client located on the visionfive2 board
 
-| Metric                  | Value                  |
-|-------------------------|------------------------|
-| RunTime (ms)           | 7622                  |
-| Throughput (ops/sec)   | 131.19916032537392    |
-
-##### Garbage Collection Metrics
-
-| GC Type                 | Count | Time (ms) | Time (%)          |
-|-------------------------|-------|-----------|-------------------|
-| Copy                   | 6     | 57        | 0.7478352138546313 |
-| MarkSweepCompact       | 0     | 0         | 0.0               |
-| **Total**              | 6     | 57        | 0.7478352138546313 |
-
-#####  READ Operation Metrics
-
-| Metric                  | Value      |
-|-------------------------|------------|
-| Operations             | 511        |
-| Average Latency (us)   | 6910.51    |
-| Min Latency (us)       | 3026       |
-| Max Latency (us)       | 100415     |
-| 95th Percentile (us)   | 10967      |
-| 99th Percentile (us)   | 11751      |
-| Return=OK             | 511        |
-
-#####  CLEANUP Operation Metrics
-
-| Metric                  | Value      |
-|-------------------------|------------|
-| Operations             | 1          |
-| Average Latency (us)   | 17608.0    |
-| Min Latency (us)       | 17600      |
-| Max Latency (us)       | 17615      |
-| 95th Percentile (us)   | 17615      |
-| 99th Percentile (us)   | 17615      |
-
-##### UPDATE Operation Metrics
-
-| Metric                  | Value      |
-|-------------------------|------------|
-| Operations             | 489        |
-| Average Latency (us)   | 5382.12    |
-| Min Latency (us)       | 2920       |
-| Max Latency (us)       | 403199     |
-| 95th Percentile (us)   | 6935       |
-| 99th Percentile (us)   | 7895       |
-| Return=OK             | 489        |
-
+[OVERALL], RunTime(ms), 2840 \
+[OVERALL], Throughput(ops/sec), 352.11267605633805 \
+[TOTAL_GCS_Copy], Count, 3 \
+[TOTAL_GC_TIME_Copy], Time(ms), 42 \
+[TOTAL_GC_TIME_%_Copy], Time(%), 1.4788732394366197 \
+[TOTAL_GCS_MarkSweepCompact], Count, 0 \
+[TOTAL_GC_TIME_MarkSweepCompact], Time(ms), 0 \
+[TOTAL_GC_TIME_%_MarkSweepCompact], Time(%), 0.0 \
+[TOTAL_GCs], Count, 3 \
+[TOTAL_GC_TIME], Time(ms), 42 \
+[TOTAL_GC_TIME_%], Time(%), 1.4788732394366197 \
+[READ], Operations, 478 \
+[READ], AverageLatency(us), 1933.3807531380753 \
+[READ], MinLatency(us), 1583 \
+[READ], MaxLatency(us), 79231 \
+[READ], 95thPercentileLatency(us), 1927 \
+[READ], 99thPercentileLatency(us), 2325 \
+[READ], Return=OK, 478 \
+[CLEANUP], Operations, 1 \
+[CLEANUP], AverageLatency(us), 2967.0 \
+[CLEANUP], MinLatency(us), 2966 \
+[CLEANUP], MaxLatency(us), 2967 \
+[CLEANUP], 95thPercentileLatency(us), 2967 \
+[CLEANUP], 99thPercentileLatency(us), 2967 \
+[UPDATE], Operations, 522 \
+[UPDATE], AverageLatency(us), 1306.2471264367816 \
+[UPDATE], MinLatency(us), 958 \
+[UPDATE], MaxLatency(us), 22479 \
+[UPDATE], 95thPercentileLatency(us), 1291 \
+[UPDATE], 99thPercentileLatency(us), 10175 \
+[UPDATE], Return=OK, 522 
