@@ -14,7 +14,7 @@
 [Info  | miralis::virt] > Average measure : 5655 Statistics : Statistics { mean: 5652, min: 5622, max: 6175, p25: 5644, p50: 5652, p75: 5662, p95: 5666, p99: 5670 } \
 [Info  | miralis::virt] > Average measure : 5653 Statistics : Statistics { mean: 5657, min: 5624, max: 8838, p25: 5646, p50: 5656, p75: 5664, p95: 5669, p99: 5686 } 
 
-#### Coremark pro -- visionfive 2 board - default policy
+#### Coremark pro -- visionfive 2 board - miralis - default policy
 
 | Workload Name            | MultiCore (iter/s) | SingleCore (iter/s) | Scaling |
 |--------------------------|--------------------|----------------------|---------|
@@ -32,4 +32,57 @@
 |--------------------------|-------------------|----------------------|---------|
 | CoreMark-PRO             | 2717.72          | 796.81               | 3.41    |
 
+
+#### Yahoo benchmark - memcached - visionfive2board - miralis - default policy - client located on the visionfive2 board
+
+
+##### Overall Metrics
+
+| Metric                  | Value                  |
+|-------------------------|------------------------|
+| RunTime (ms)           | 7622                  |
+| Throughput (ops/sec)   | 131.19916032537392    |
+
+##### Garbage Collection Metrics
+
+| GC Type                 | Count | Time (ms) | Time (%)          |
+|-------------------------|-------|-----------|-------------------|
+| Copy                   | 6     | 57        | 0.7478352138546313 |
+| MarkSweepCompact       | 0     | 0         | 0.0               |
+| **Total**              | 6     | 57        | 0.7478352138546313 |
+
+#####  READ Operation Metrics
+
+| Metric                  | Value      |
+|-------------------------|------------|
+| Operations             | 511        |
+| Average Latency (us)   | 6910.51    |
+| Min Latency (us)       | 3026       |
+| Max Latency (us)       | 100415     |
+| 95th Percentile (us)   | 10967      |
+| 99th Percentile (us)   | 11751      |
+| Return=OK             | 511        |
+
+#####  CLEANUP Operation Metrics
+
+| Metric                  | Value      |
+|-------------------------|------------|
+| Operations             | 1          |
+| Average Latency (us)   | 17608.0    |
+| Min Latency (us)       | 17600      |
+| Max Latency (us)       | 17615      |
+| 95th Percentile (us)   | 17615      |
+| 99th Percentile (us)   | 17615      |
+
+##### UPDATE Operation Metrics
+
+| Metric                  | Value      |
+|-------------------------|------------|
+| Operations             | 489        |
+| Average Latency (us)   | 5382.12    |
+| Min Latency (us)       | 2920       |
+| Max Latency (us)       | 403199     |
+| 95th Percentile (us)   | 6935       |
+| 99th Percentile (us)   | 7895       |
+| Return=OK             | 489        |
 
