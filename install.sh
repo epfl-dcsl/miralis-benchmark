@@ -3,10 +3,10 @@ sudo apt-get update
 
 # Install make
 sudo apt-get install make
+sudo apt-get install gcc
 
 # Install coremark-pro
 git clone https://github.com/eembc/coremark-pro
-
 
 # Build and run
 cd coremark-pro
