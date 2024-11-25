@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Todo: Replace the ips here
+BOARD_IP="user@128.178.116.207"
+MIRALIS_IP="user@128.178.116.248"
+PROTECT_PAYLOAD_IP="user@128.178.116.115"
+
+function create_folder_if_not_exists() {
+    local folder="$1" 
+    if [ ! -d "$folder" ]; then
+        echo "Folder '$folder' does not exist. Creating..."
+        mkdir "$folder"
+    fi
+}
+
+function RemoteExec() {
+    sshpass -p 'starfive' ssh -oStrictHostKeyChecking=no -p 22 "$1" "cd miralis-benchmark;$2";
+}
+
+function setup() {
+    if [ "$#" -ne 1 ]; then
+        echo "Usage: $0 <arg1>"
+        echo "Error: Please provide the benchmark type as argument, options are [board|miralis|protect]"
+        exit 1
+    fi
+
+    # We only allow three kind of benchmark types
+    if ! [[ "$1" == "board" || "$1" == "miralis" || "$1" == "protect" ]]; then
+        echo "Error: Invalid argument. Allowed values are 'board', 'miralis', or 'protect'."
+        exit 1
+    fi
+
+    echo "Benchmark type: $1"
+
+    # Determine ADDRESS based on VALUE
+    if [[ "$1" == "board" ]]; then
+        ADDRESS=$BOARD_IP
+    elif [[ "$1" == "miralis" ]]; then
+        ADDRESS=$MIRALIS_IP
+    elif [[ "$1" == "protect" ]]; then
+        ADDRESS=$PROTECT_PAYLOAD_IP
+    else
+        echo "Unknown value: $VALUE"
+        exit 1
+    fi
+
+    create_folder_if_not_exists "results"
+}
+
+function clear_stats_entries() {
+    echo "" > "results/$1_miralis_stats.txt"
+    echo "" > "results/$1_miralis_stats_linux.txt"
+}
+
+function add_miralis_stat_entry() {
+    RemoteExec $ADDRESS "taskset 1 cat /proc/miralis && dmesg | tail -n 1" >> "results/$1_miralis_stats.txt"
+    RemoteExec $ADDRESS "taskset 1 cat /proc/interrupts" >> "results/$1_miralis_stats_linux.txt"
+}
