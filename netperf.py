@@ -45,7 +45,7 @@ def process_values(df):
 if __name__ == "__main__":
     values = []
     names = []
-    folder_path = Path("results/iozone")
+    folder_path = Path("results")
 
     for file_path in folder_path.rglob('*'):  # Recursively search all files
         if file_path.is_file():
@@ -53,8 +53,11 @@ if __name__ == "__main__":
             df = parse_iozone_output(file_path)
             print("Data parsed successfully.")
 
-            names.append(file_path.split('/')[2])
-            values.append(process_values(df))
+            name = file_path.split('_')[0]
+            name = name.split('/')[1]
+
+            names.append(name)
+            values.append(process_values(df, name))
 
     width = 0.25 
     multiplier = 0
