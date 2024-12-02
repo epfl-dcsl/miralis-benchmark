@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import re
+from pathlib import Path
+import numpy as np
 
 # Function to parse Iozone output
 def parse_iozone_output(file_path):
@@ -27,57 +29,51 @@ def parse_iozone_output(file_path):
 
     return pd.DataFrame(data, columns=headers)
 
-# Function to plot metrics
-def plot_metrics(df,benchmark_name, title, save_path=None):
-    plt.figure(figsize=(10, 6))
-    for metric in df.columns: 
-            plt.plot(df["kB"], df[metric], label="{}_{}".format(benchmark_name, metric))
-
-    plt.title(title)
-    plt.xlabel("File Size (kB)")
-    plt.ylabel("Throughput (kBytes/sec)")
-    plt.legend()
-    plt.grid(True)
-    if save_path:
-        plt.savefig(save_path)
-    plt.show()
-
-if __name__ == "__main__":
-    file_path = 'miralis_iozone.txt'
-
-    try:
-        df = parse_iozone_output(file_path)
-        print("Data parsed successfully.")
-
-        name = file_path.split('_')[0]
-
-        print(df)
-
-        # Tmp filter reclen == 4
-        df = df[df["reclen"] == 8]
-
+def process_values(df, name):
         df.columns.values[6] = "random read"
         df.columns.values[7] = "random write"
         df.columns.values[8] = "bkwd read"
         df.columns.values[9] = "record rewrite"
         df.columns.values[10] = "stride read"
 
+        # Useless columns
+        df = df.drop(['kB', 'reclen'], axis=1)
+
         # Calculate the mean for each column
-        average_values = df.mean()
+        return df.mean()
 
-        # Plot the average values as a bar chart
-        plt.figure(figsize=(10, 6))
-        average_values.plot(kind='bar', color='skyblue')
-        plt.title('Average of Each Column')
-        plt.xlabel('Column Names')
-        plt.ylabel('Average Throuput')
-        plt.xticks(rotation=90)  # Rotate the x-axis labels to make them more readable
-        plt.tight_layout()
-        plt.show()
+if __name__ == "__main__":
+    values = []
+    names = []
+    folder_path = Path("results")
 
-        exit(0)
+    for file_path in folder_path.rglob('*'):  # Recursively search all files
+        if file_path.is_file():
+            file_path = str(file_path)
+            df = parse_iozone_output(file_path)
+            print("Data parsed successfully.")
 
+            name = file_path.split('_')[0]
+            name = name.split('/')[1]
 
-        plot_metrics(df,name, "Performance Metrics")
-    except Exception as e:
-        print(f"Error: {e}")
+            names.append(name)
+            values.append(process_values(df, name))
+
+    width = 0.25 
+    multiplier = 0
+    indices = np.array(values[0].index)
+
+    x = np.arange(len(indices))
+    fig, ax = plt.subplots(layout='constrained')
+
+    for i in range(len(values)):
+        offset = width * multiplier
+        rec = ax.bar(x + offset, values[i].values,width,  label = names[i])
+        multiplier += 1
+
+    ax.set_xticks(x + width / 2, indices)
+
+    ax.set_title('IOzone microbenchmark - throuput in [KB/s] (averaged by r/w size from 64kb to 512mb)')
+    ax.legend(loc='upper left', ncols=len(indices))
+
+    plt.show()
