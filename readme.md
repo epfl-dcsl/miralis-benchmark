@@ -1,3 +1,14 @@
+## Benchmarks that works on the board
+
+- Yahoo with memcached
+- Yahoo with redis
+- Coremark pro
+- Iozone
+- Compiling redis
+- Compiling gcc
+- Compiling linux kernel
+
+
 ## Intermediate results - useful for a first approximation
 
 #### Trap Miralis <--> Virtual firmmware - visionfive 2 board - default policy
@@ -256,3 +267,13 @@ Iozone: Performance Test of File I/O
           524288    4096   250997   637592   817600   768535   809866   646042   809701    690158    792510   649975   645056   364706   364083
           524288    8192   248872   649418   807274   762301   812378   653292   811739    678649    799049   655202   640527   371450   376272
           524288   16384   251923   670611   824218   779333   824568   671999   813139    706301    808074   669247   670287   378948   380668
+
+
+#### Netperf result- - TCP configuration -  visionfive2board - miralis - default policy
+
+Recv   Send    Send                          
+Socket Socket  Message  Elapsed              
+Size   Size    Size     Time     Throughput  
+bytes  bytes   bytes    secs.    10^6bits/sec  
+
+131072  16384  16384    10.00    2940.29   
