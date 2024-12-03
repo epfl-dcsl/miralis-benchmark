@@ -3,6 +3,7 @@ import pandas as pd
 import re
 from pathlib import Path
 import numpy as np
+from plot import *
 
 # Function to parse Iozone output
 def parse_iozone_output(file_path):
@@ -56,21 +57,9 @@ if __name__ == "__main__":
             names.append(file_path.split('/')[2])
             values.append(process_values(df))
 
-    width = 0.25 
-    multiplier = 0
     indices = np.array(values[0].index)
+    values = list(map(lambda x: x.values, values))
 
-    x = np.arange(len(indices))
-    fig, ax = plt.subplots(layout='constrained')
+    title = 'IOzone microbenchmark - throuput in [KB/s] (averaged by r/w size from 64kb to 512mb)'
 
-    for i in range(len(values)):
-        offset = width * multiplier
-        rec = ax.bar(x + offset, values[i].values,width,  label = names[i])
-        multiplier += 1
-    print(x + width)
-    ax.set_xticks(x + width / 2, indices)
-
-    ax.set_title('IOzone microbenchmark - throuput in [KB/s] (averaged by r/w size from 64kb to 512mb)')
-    ax.legend(loc='upper left', ncols=len(indices))
-
-    plt.show()
+    generate_plot(values, names, indices, title)

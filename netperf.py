@@ -3,6 +3,7 @@ import pandas as pd
 import re
 from pathlib import Path
 import numpy as np
+from plot import *
 
 # Function to parse Iozone output
 def extract_number(file_path):
