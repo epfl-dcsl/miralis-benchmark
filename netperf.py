@@ -5,75 +5,67 @@ from pathlib import Path
 import numpy as np
 
 # Function to parse Iozone output
-def parse_iozone_output(file_path):
+def extract_number(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
 
-    # Find the header line and the data section
-    header_line = None
-    data_lines = []
     for line in lines:
-        if "reclen" in line and header_line is None:
-            header_line = line
-        elif re.match(r"^\s*\d+", line):
-            data_lines.append(line.strip())
-
-    # Parse header and data
-    if not header_line or not data_lines:
-        raise ValueError("Invalid Iozone output format")
-
-    headers = header_line.split()
-    data = []
-    for line in data_lines:
-        data.append([float(val) for val in line.split()])
-
-    return pd.DataFrame(data, columns=headers)
-
-def process_values(df):
-        df.columns.values[6] = "random read"
-        df.columns.values[7] = "random write"
-        df.columns.values[8] = "bkwd read"
-        df.columns.values[9] = "record rewrite"
-        df.columns.values[10] = "stride read"
-
-        # Useless columns
-        df = df.drop(['kB', 'reclen'], axis=1)
-
-        # Calculate the mean for each column
-        return df.mean()
+        if re.match(r'^\d.*', line):
+            tmp = line.strip()
+            return float(tmp.split(' ')[-1])
 
 if __name__ == "__main__":
     values = []
     names = []
-    folder_path = Path("results")
+    workload = []
+    folder_path = Path("results/netperf")
 
     for file_path in folder_path.rglob('*'):  # Recursively search all files
         if file_path.is_file():
             file_path = str(file_path)
-            df = parse_iozone_output(file_path)
+            df = extract_number(file_path)
             print("Data parsed successfully.")
 
-            name = file_path.split('_')[0]
-            name = name.split('/')[1]
+            name = file_path.split('/')[2]
+            names.append(name.split('_')[0])
+            values.append(df)
+            workload.append(name.split('_')[1])
 
-            names.append(name)
-            values.append(process_values(df, name))
+    dico1 = {}
+    dico2 = {}
+
+    for i in range(len(values)):
+        if names[i] not in dico1:
+            dico1[names[i]] = []
+            dico2[names[i]] = []
+
+        dico1[names[i]].append(values[i])
+        dico2[names[i]].append(workload[i])
+    
+
+    print(dico1)
+    print(dico2)
+
+
+
+    size = 2
 
     width = 0.25 
     multiplier = 0
-    indices = np.array(values[0].index)
+    indices = np.array(size)
 
-    x = np.arange(len(indices))
+    x = np.arange(2)
     fig, ax = plt.subplots(layout='constrained')
 
-    for i in range(len(values)):
+    tmp = ""
+    for key in dico1:
         offset = width * multiplier
-        rec = ax.bar(x + offset, values[i].values,width,  label = names[i])
+        rec = ax.bar(x + offset, dico1[key],width,  label = key)
         multiplier += 1
+        tmp = dico2[key]
 
-    ax.set_xticks(x + width / 2, indices)
-
-    ax.set_title('IOzone microbenchmark - throuput in [KB/s] (averaged by r/w size from 64kb to 512mb)')
-    ax.legend(loc='upper left', ncols=len(indices))
+    ax.set_xticks(x + width, tmp)
+    ax.set_title('Netperf microbenchmark - throuput in [KB/s] - currently test running both machines on localhost')
+    ax.legend(loc='upper left', ncols=2)
 
     plt.show()

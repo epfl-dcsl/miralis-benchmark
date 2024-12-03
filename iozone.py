@@ -65,9 +65,12 @@ if __name__ == "__main__":
 
     for i in range(len(values)):
         offset = width * multiplier
+        print("===============")
+        print(values[i].values)
+        print(names[i])
         rec = ax.bar(x + offset, values[i].values,width,  label = names[i])
         multiplier += 1
-
+    print(x + width)
     ax.set_xticks(x + width / 2, indices)
 
     ax.set_title('IOzone microbenchmark - throuput in [KB/s] (averaged by r/w size from 64kb to 512mb)')
