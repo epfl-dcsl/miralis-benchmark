@@ -65,9 +65,6 @@ if __name__ == "__main__":
 
     for i in range(len(values)):
         offset = width * multiplier
-        print("===============")
-        print(values[i].values)
-        print(names[i])
         rec = ax.bar(x + offset, values[i].values,width,  label = names[i])
         multiplier += 1
     print(x + width)
