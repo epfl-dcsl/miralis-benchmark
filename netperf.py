@@ -42,12 +42,19 @@ if __name__ == "__main__":
 
         dico1[names[i]].append(values[i])
         dico2[names[i]].append(workload[i])
-    
-
-    print(dico1)
-    print(dico2)
 
 
+    # TODO: Wip here, this is not working corretly at the moment
+    title = 'Netperf microbenchmark - throuput in [KB/s] - currently test running both machines on localhost'
+
+
+    names = list(dico1.keys())
+    values = list(dico1.values())
+    indices = list(dico2.values())
+
+    generate_plot(values, names, indices, title)    
+
+    exit(0)
 
     size = 2
 
