@@ -1,3 +1,13 @@
+#!/bin/bash
+
+create_folder_if_not_exists() {
+    local folder="$1" 
+    if [ ! -d "$folder" ]; then
+        echo "Folder '$folder' does not exist. Creating..."
+        mkdir "$folder"
+    fi
+}
+
 ########################
 # Parse input argument
 ########################
@@ -15,6 +25,11 @@ if ! [[ "$1" == "board" || "$1" == "miralis" || "$1" == "prote" ]]; then
 fi
 
 echo "Benchmark type: $1"
+
+create_folder_if_not_exists "results"
+create_folder_if_not_exists "results/coremarkpro"
+create_folder_if_not_exists "results/iozone"
+create_folder_if_not_exists "results/netperf"
 
 ########################
 # CPU Microbenchmark
