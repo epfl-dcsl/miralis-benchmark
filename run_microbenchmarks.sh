@@ -50,7 +50,7 @@ echo "Done with CPU microbenchmark"
 # filesystem Microbenchmark
 ########################
 
-cho "Running filesystem microbenchmark [Filesystem]"
+echo "Running filesystem microbenchmark [Filesystem]"
 
 cd keystone-iozone
 # ../iozone -a > "../results/iozone/$1.txt"
