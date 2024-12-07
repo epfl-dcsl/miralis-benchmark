@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Move the previous folder - todo: remove this in the future
+cd ..
+
 create_folder_if_not_exists() {
     local folder="$1" 
     if [ ! -d "$folder" ]; then
