@@ -20,26 +20,26 @@ sudo apt-get install gcc -y
 # make TARGET=linux64 build
 # cd ..
 # 
-# ########################
-# # Filesystem Microbenchmark
-# ########################
-# 
-# 
-# git clone https://github.com/keystone-enclave/keystone-iozone
-# cd keystone-iozone
-# 
-# git clone https://github.com/richfelker/musl-cross-make
-# cd musl-cross-make
-# 
-# make -j$(nproc) TARGET=riscv64-linux-musl
-# make install TARGET=riscv64-linux-musl
-# 
-# cd ..
-# 
-# git checkout 1378a4fb920e8177a2293c4600ab494ab51de6b8
-# CCRV=musl-cross-make/output/bin/riscv64-linux-musl-gcc make keystone
-# 
-# cd ..
+########################
+# Filesystem Microbenchmark
+########################
+
+
+git clone https://github.com/keystone-enclave/keystone-iozone
+cd keystone-iozone
+
+git clone https://github.com/richfelker/musl-cross-make
+cd musl-cross-make
+
+make -j$(nproc) TARGET=riscv64-linux-musl
+make install TARGET=riscv64-linux-musl
+
+cd ..
+
+git checkout 1378a4fb920e8177a2293c4600ab494ab51de6b8
+CCRV=musl-cross-make/output/bin/riscv64-linux-musl-gcc make keystone
+
+cd ..
 
 ########################
 # Network Microbenchmark
