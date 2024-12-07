@@ -44,7 +44,7 @@ cd ..;
 ########################
 
 cd keystone-iozone
-iozone -a > "results/iozone/$1.txt"
+./iozone -a > "results/iozone/$1.txt"
 cd ..
 
 ########################
