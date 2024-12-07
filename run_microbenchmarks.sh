@@ -62,7 +62,7 @@ echo "Done with disk microbenchmark"
 # Network Microbenchmark
 ########################
 
-cho "Running network microbenchmark [netperf]"
+echo "Running network microbenchmark [netperf]"
 
 cd netperf
 # Start the server 
