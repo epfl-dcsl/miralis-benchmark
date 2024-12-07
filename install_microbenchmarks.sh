@@ -45,11 +45,11 @@ sudo apt-get install gcc -y
 # Network Microbenchmark
 ########################
 
-#git clone https://github.com/HewlettPackard/netperf/
+git clone https://github.com/HewlettPackard/netperf/
 cd netperf
 
 # Replace confiuration files - files are too old for riscv
-#rm config.guess
+rm config.guess
 rm config.sub
 wget -O config.guess http://git.savannah.gnu.org/cgit/config.git/plain/config.guess
 wget -O config.sub http://git.savannah.gnu.org/cgit/config.git/plain/config.sub
