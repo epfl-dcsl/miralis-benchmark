@@ -36,7 +36,7 @@ create_folder_if_not_exists "results/netperf"
 ########################
 
 cd coremark-pro
-make TARGET=linux64 XCMD='-c4' certify-all > "results/coremarkpro/$1.txt"
+make TARGET=linux64 XCMD='-c4' certify-all > "../results/coremarkpro/$1.txt"
 cd ..;
 
 ########################
@@ -44,7 +44,7 @@ cd ..;
 ########################
 
 cd keystone-iozone
-./iozone -a > "results/iozone/$1.txt"
+./iozone -a > "../results/iozone/$1.txt"
 cd ..
 
 ########################
