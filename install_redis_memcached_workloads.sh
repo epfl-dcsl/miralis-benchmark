@@ -1,3 +1,7 @@
+#!/bin/bash
+set -e 
+set -o pipefail
+
 # Install dependencies
 sudo apt-get install maven -y
 

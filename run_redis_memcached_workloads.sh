@@ -1,3 +1,7 @@
+#!/bin/bash
+set -e 
+set -o pipefail
+
 # Run the mcached benchmark
 mvn -pl site.ycsb:memcached-binding -am clean package
 ./bin/ycsb load memcached -s -P workloads/workloada -p "memcached.hosts=127.0.0.1" > /dev/null

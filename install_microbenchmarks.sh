@@ -1,6 +1,6 @@
-# Exit the script if any command fails
+#!/bin/bash
 set -e 
-
+set -o pipefail
 
 ########################
 # CPU Microbenchmark

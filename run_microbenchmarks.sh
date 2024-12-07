@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e 
+set -o pipefail
 
 # Move the previous folder - todo: remove this in the future
 cd ..
