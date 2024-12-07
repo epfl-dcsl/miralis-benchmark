@@ -13,17 +13,16 @@ sudo apt-get update -y
 sudo apt-get install make -y
 sudo apt-get install gcc -y
 
-# # CPU Microbenchmark
-# git clone https://github.com/eembc/coremark-pro
-# 
-# cd coremark-pro
-# make TARGET=linux64 build
-# cd ..
-# 
+# CPU Microbenchmark
+git clone https://github.com/eembc/coremark-pro
+
+cd coremark-pro
+make TARGET=linux64 build
+cd ..
+
 ########################
 # Filesystem Microbenchmark
 ########################
-
 
 git clone https://github.com/keystone-enclave/keystone-iozone
 cd keystone-iozone
