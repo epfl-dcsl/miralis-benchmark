@@ -41,7 +41,7 @@ create_folder_if_not_exists "results/netperf"
 echo "Running CPU Microbenchmark [Coremarkpro]"
 
 cd coremark-pro
-# make TARGET=linux64 XCMD='-c4' certify-all > "../results/coremarkpro/$1.txt"
+make TARGET=linux64 XCMD='-c4' certify-all > "../results/coremarkpro/$1.txt"
 cd ..;
 
 echo "Done with CPU microbenchmark"
@@ -53,7 +53,7 @@ echo "Done with CPU microbenchmark"
 echo "Running filesystem microbenchmark [Filesystem]"
 
 cd keystone-iozone
-# ../iozone -a > "../results/iozone/$1.txt"
+../iozone -a > "../results/iozone/$1.txt"
 cd ..
 
 echo "Done with disk microbenchmark"
@@ -68,8 +68,11 @@ cd netperf
 # Start the server 
 netserver
 # Benchmark the server
+echo "TCP microbenchmark"
 netperf -H 127.0.0.1 -t TCP_STREAM  > "../results/netperf/$1_tcp.txt"
+echo "UDP microbenchmark"
 netperf -H 127.0.0.1 -t UDP_STREAM  > "../results/netperf/$1_udp.txt"
+echo "RTT microbenchmark"
 netperf -H 127.0.0.1 -t TCP_RR      > "../results/netperf/$1_rtt.txt"
 cd ..
 
