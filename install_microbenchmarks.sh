@@ -14,7 +14,7 @@ sudo apt-get install make -y
 sudo apt-get install gcc -y
 
 # CPU Microbenchmark
-#git clone https://github.com/eembc/coremark-pro
+git clone https://github.com/eembc/coremark-pro
 
 cd coremark-pro
 make TARGET=linux64 build
@@ -25,10 +25,10 @@ cd ..
 ########################
 
 
-#git clone https://github.com/keystone-enclave/keystone-iozone
+git clone https://github.com/keystone-enclave/keystone-iozone
 cd keystone-iozone
 
-#git clone https://github.com/richfelker/musl-cross-make
+git clone https://github.com/richfelker/musl-cross-make
 cd musl-cross-make
 
 make -j$(nproc) TARGET=riscv64-linux-musl
