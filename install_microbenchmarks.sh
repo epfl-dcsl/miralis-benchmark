@@ -45,7 +45,7 @@ sudo apt-get install gcc -y
 # Network Microbenchmark
 ########################
 
-sudo apt install automake autoconf -y
+sudo apt install automake autoconf texinfo -y
 
 git clone https://github.com/HewlettPackard/netperf/
 cd netperf
