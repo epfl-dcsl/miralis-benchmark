@@ -1,13 +1,17 @@
+# Exit the script if any command fails
+set -e 
+
+
 ########################
 # CPU Microbenchmark
 ########################
 
 # Update
-sudo apt-get update
+sudo apt-get update -y
 
 # Install make
-sudo apt-get install make
-sudo apt-get install gcc
+sudo apt-get install make -y
+sudo apt-get install gcc -y
 
 # CPU Microbenchmark
 git clone https://github.com/eembc/coremark-pro
