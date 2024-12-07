@@ -45,6 +45,8 @@ sudo apt-get install gcc -y
 # Network Microbenchmark
 ########################
 
+sudo apt install automake autoconf -y
+
 git clone https://github.com/HewlettPackard/netperf/
 cd netperf
 
@@ -55,6 +57,8 @@ wget -O config.guess http://git.savannah.gnu.org/cgit/config.git/plain/config.gu
 wget -O config.sub http://git.savannah.gnu.org/cgit/config.git/plain/config.sub
 
 # Install
+./autogen.sh
+./configure
 make CFLAGS="-fcommon"
 sudo make install
 
