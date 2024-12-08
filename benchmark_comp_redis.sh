@@ -12,22 +12,20 @@ function install_redis() {
     rm -rf redis
 
     # Clone the Redis repository
-    git clone https://github.com/redis/redis > /dev/null
+    # git clone https://github.com/redis/redis > /dev/null
 
     # Navigate to the Redis directory
-    cd redis
+    # cd redis
 
     # Run 'make' and capture its timing and output in 'output.txt'
     (time ls) 2>> "../$1"
 
-    cd ..
+    # cd ..
 }
 
 echo "" > $1
 
-for i in {0..1} 
+for i in {0..5} 
 do
     install_redis $1
 done
-
-python3 redis.py
