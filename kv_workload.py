@@ -1,32 +1,37 @@
 import re
 
 def parse_latency_data(filename):
-    # Define the regex patterns for reading latency data
-    read_pattern = r"\[READ\], AverageLatency\(us\), (\d+\.\d+).*95thPercentileLatency\(us\), (\d+).*99thPercentileLatency\(us\), (\d+)"
-    update_pattern = r"\[UPDATE\], AverageLatency\(us\), (\d+\.\d+).*95thPercentileLatency\(us\), (\d+).*99thPercentileLatency\(us\), (\d+)"
-
     # Initialize the data to store results
     latencies = {'READ': {}, 'UPDATE': {}}
 
     # Open the text file for reading
     with open(filename, 'r') as file:
-        content = file.read()
+        content = file.readlines()
 
-        # Search for read data
-        read_match = re.search(read_pattern, content, re.DOTALL)
-        if read_match:
-            latencies['READ']['AverageLatency'] = float(read_match.group(1))
-            latencies['READ']['95thPercentileLatency'] = int(read_match.group(2))
-            latencies['READ']['99thPercentileLatency'] = int(read_match.group(3))
+        # Iterate through each line in the file
+        for line in content:
+            # Check if the line starts with "READ" and contains "AverageLatency" for reading latency data
+            if line.startswith("[READ]"):
+                
+                if "AverageLatency(us)" in line:
+                    latencies['READ']['AverageLatency'] = float(line.split(',')[2].strip())
 
-        # Search for update data
-        update_match = re.search(update_pattern, content, re.DOTALL)
-        if update_match:
-            latencies['UPDATE']['AverageLatency'] = float(update_match.group(1))
-            latencies['UPDATE']['95thPercentileLatency'] = int(update_match.group(2))
-            latencies['UPDATE']['99thPercentileLatency'] = int(update_match.group(3))
+                if "95thPercentileLatency(us)" in line:
+                    latencies['READ']['95thPercentileLatency'] = int(line.split(',')[2].strip())
+
+                if "99thPercentileLatency(us)" in line:
+                    latencies['READ']['99thPercentileLatency'] = int(line.split(',')[2].strip())
+
+            elif line.startswith("[UPDATE]"):
+                if "AverageLatency(us)" in line:
+                    latencies['UPDATE']['AverageLatency'] = float(line.split(',')[2].strip())
+                if "95thPercentileLatency(us)" in line:
+                    latencies['UPDATE']['95thPercentileLatency'] = int(line.split(',')[2].strip())
+                if "99thPercentileLatency(us)" in line:
+                    latencies['UPDATE']['99thPercentileLatency'] = int(line.split(',')[2].strip())
 
     return latencies
+
 
 # Example usage
 filename = 'workload_redis_board.txt'  # Correct file name

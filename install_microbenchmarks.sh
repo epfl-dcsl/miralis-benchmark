@@ -10,7 +10,7 @@ set -o pipefail
 sudo apt-get update -y
 
 # Install dependencies
-sudo apt-get install make texinfo gcc xz-utils bzip2 -y
+sudo apt-get install make texinfo gcc g++ xz-utils bzip2 -y
 
 # CPU Microbenchmark
 git clone https://github.com/eembc/coremark-pro
