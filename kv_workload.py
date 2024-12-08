@@ -35,9 +35,12 @@ def parse_latency_data(filename):
 
 
 
-data = [parse_latency_data('results/workload_redis_board.txt'), parse_latency_data('results/workload_redis_miralis.txt')]
+
 workloads = ['board', 'miralis']
 values = ['read mean', 'read p95', 'read p99', 'write mean', ' write p95', 'write p99']
 
+data = [parse_latency_data('results/workload_redis_board.txt'), parse_latency_data('results/workload_redis_miralis.txt')]
+generate_plot(data, workloads, values, "Redis benchmark YCSB", "redis_kv_workload")
 
-generate_plot(data, workloads, values, "Redis benchmark YCSB")
+data = [parse_latency_data('results/workload_memcached_board.txt'), parse_latency_data('results/workload_memcached_miralis.txt')]
+generate_plot(data, workloads, values, "Memcached benchmark YCSB", "memcached_kv_workload")

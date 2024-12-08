@@ -62,4 +62,4 @@ if __name__ == "__main__":
 
     title = 'IOzone microbenchmark - throuput in [KB/s] (averaged by r/w size from 64kb to 512mb)'
 
-    generate_plot(values, names, indices, title)
+    generate_plot(values, names, indices, title, "iozone")

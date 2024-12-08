@@ -46,4 +46,4 @@ if __name__ == "__main__":
 
     title = 'Coremarkpro microbenchmark - [iterations/s] - multicore'
 
-    generate_plot(values, names, indices, title)
+    generate_plot(values, names, indices, title, "coremarkpro")

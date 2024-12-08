@@ -51,28 +51,4 @@ if __name__ == "__main__":
     values = list(dico1.values())
     indices = list(dico2.values())
 
-    generate_plot(values, names, indices, title)    
-
-    exit(0)
-
-    size = 2
-
-    width = 0.25 
-    multiplier = 0
-    indices = np.array(size)
-
-    x = np.arange(2)
-    fig, ax = plt.subplots(layout='constrained')
-
-    tmp = ""
-    for key in dico1:
-        offset = width * multiplier
-        rec = ax.bar(x + offset, dico1[key],width,  label = key)
-        multiplier += 1
-        tmp = dico2[key]
-
-    ax.set_xticks(x + width, tmp)
-    ax.set_title('Netperf microbenchmark - throuput in [KB/s] - currently test running both machines on localhost')
-    ax.legend(loc='upper left', ncols=2)
-
-    plt.show()
+    generate_plot(values, names, indices, title, "netperf")    
