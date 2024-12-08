@@ -2,3 +2,4 @@ redis-stable/
 redis-stable*
 YCSB/
 plots/
+results/
