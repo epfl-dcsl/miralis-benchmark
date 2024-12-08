@@ -1,8 +1,9 @@
 import re
+from plot import *
 
 def parse_latency_data(filename):
     # Initialize the data to store results
-    latencies = {'READ': {}, 'UPDATE': {}}
+    latencies = []
 
     # Open the text file for reading
     with open(filename, 'r') as file:
@@ -14,35 +15,29 @@ def parse_latency_data(filename):
             if line.startswith("[READ]"):
                 
                 if "AverageLatency(us)" in line:
-                    latencies['READ']['AverageLatency'] = float(line.split(',')[2].strip())
+                    latencies.append(float(line.split(',')[2].strip()))
 
                 if "95thPercentileLatency(us)" in line:
-                    latencies['READ']['95thPercentileLatency'] = int(line.split(',')[2].strip())
+                    latencies.append(int(line.split(',')[2].strip()))
 
                 if "99thPercentileLatency(us)" in line:
-                    latencies['READ']['99thPercentileLatency'] = int(line.split(',')[2].strip())
+                    latencies.append(int(line.split(',')[2].strip()))
 
             elif line.startswith("[UPDATE]"):
                 if "AverageLatency(us)" in line:
-                    latencies['UPDATE']['AverageLatency'] = float(line.split(',')[2].strip())
+                    latencies.append(float(line.split(',')[2].strip()))
                 if "95thPercentileLatency(us)" in line:
-                    latencies['UPDATE']['95thPercentileLatency'] = int(line.split(',')[2].strip())
+                    latencies.append(int(line.split(',')[2].strip()))
                 if "99thPercentileLatency(us)" in line:
-                    latencies['UPDATE']['99thPercentileLatency'] = int(line.split(',')[2].strip())
+                    latencies.append(int(line.split(',')[2].strip()))
 
     return latencies
 
 
-# Example usage
-filename = 'workload_redis_board.txt'  # Correct file name
-latencies = parse_latency_data(filename)
 
-print(type(latencies))
-print(latencies)
+data = [parse_latency_data('workload_redis_board.txt'), parse_latency_data('workload_redis_miralis.txt')]
+workloads = ['board', 'miralis']
+values = ['read mean', 'read p95', 'read p99', 'write mean', ' write p95', 'write p99']
 
-# Print the results
-for operation in ['READ', 'UPDATE']:
-    print(f"{operation} Latencies:")
-    print(f"  Average Latency (us): {latencies[operation]['AverageLatency']}")
-    print(f"  95th Percentile Latency (us): {latencies[operation]['95thPercentileLatency']}")
-    print(f"  99th Percentile Latency (us): {latencies[operation]['99thPercentileLatency']}")
+
+generate_plot(data, workloads, values, "Redis benchmark YCSB")

@@ -13,7 +13,6 @@ def generate_plot(values, names, indices,title):
         offset = width * multiplier
         rec = ax.bar(x + offset, values[i],width,  label = names[i])
         multiplier += 1
-    print(x + width)
     ax.set_xticks(x + width / 2, indices)
 
     ax.set_title(title)
