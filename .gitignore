@@ -3,3 +3,5 @@ redis-stable*
 YCSB/
 plots/
 results/
+__pycache__/
+.DS_Store

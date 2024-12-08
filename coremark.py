@@ -36,7 +36,7 @@ if __name__ == "__main__":
             file_path = str(file_path)
             df = parse_iozone_output(file_path)
             print(file_path.split('/')[1])
-            names.append(file_path.split('/')[1])
+            names.append(file_path.split('/')[1].split('.')[0].split('_')[1])
 
             values.append(df.set_index("Workload Name")["MultiCore (iter/s)"].astype(float))
 

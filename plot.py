@@ -29,6 +29,9 @@ def generate_plot(values, names, indices, title, filename):
 
     plt.xticks(rotation=45, ha='right')
 
+    # Enable the grid
+    plt.grid(True)
+
 
     plt.savefig(folder + "/" + filename)
 

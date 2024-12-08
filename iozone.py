@@ -54,7 +54,7 @@ if __name__ == "__main__":
             df = parse_iozone_output(file_path)
             print("Data parsed successfully.")
 
-            names.append(file_path.split('/')[1])
+            names.append(file_path.split('/')[1].split('.')[0].split('_')[1])
             values.append(process_values(df))
 
     indices = np.array(values[0].index)
