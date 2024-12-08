@@ -1,8 +1,12 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# source myenv/bin/activate 
 
 def generate_plot(values, names, indices,title):
+    print(values)
+    print(names)
+    print(indices)
     width = 0.25 
     multiplier = 0
 
@@ -74,34 +78,4 @@ def parse_times(filename):
                 # If we can't find a full block (real, user, sys), just move to the next non-empty line
                 i += 1
 
-    return real_times, user_times, sys_times
-
-
-def generate_plot_time_output(filepath, title, output_path):
-    # Parse times from the file
-    real_times, user_times, sys_times = parse_times(filepath)
-
-    # Labels for the bars
-    labels = ['real', 'user', 'sys']
-
-    # Calculate the sum of each category (sum of all entries for real, user, sys)
-    sum_real = sum(real_times)
-    sum_user = sum(user_times)
-    sum_sys = sum(sys_times)
-
-    # Creating the histogram
-    plt.bar(labels, [sum_real, sum_user, sum_sys], color=['blue', 'green', 'red'])
-
-    # Adding title and labels
-    plt.title('Histogram of Real, User, and Sys Times')
-    plt.xlabel(title)
-    plt.ylabel('Sum of Times (in seconds)')
-
-    # Save the plot to a file
-    plt.savefig(output_path)  # You can change the file format to .jpg, .pdf, etc.
-
-    # Optionally, you can also specify the DPI (resolution) of the saved image
-    # plt.savefig('histogram.png', dpi=300)
-
-    # Close the plot after saving (to free up memory)
-    plt.close()
+    return np.array([np.mean(real_times), np.mean(user_times), np.mean(sys_times)])
