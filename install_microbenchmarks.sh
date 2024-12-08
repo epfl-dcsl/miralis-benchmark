@@ -10,7 +10,7 @@ set -o pipefail
 sudo apt-get update -y
 
 # Install make
-sudo apt-get install make gcc xz-utils -y
+sudo apt-get install make gcc xz-utils bzip2 -y
 sudo apt-get install gcc -y
 
 # CPU Microbenchmark
