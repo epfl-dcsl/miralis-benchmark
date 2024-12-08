@@ -29,8 +29,8 @@ cd keystone-iozone
 git clone https://github.com/richfelker/musl-cross-make
 cd musl-cross-make
 
-make -j$(nproc) TARGET=riscv64-linux-musl
-make install TARGET=riscv64-linux-musl
+TARGET=riscv64-linux-musl make -j$(nproc) 
+TARGET=riscv64-linux-musl make install 
 
 cd ..
 
