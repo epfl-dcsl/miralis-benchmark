@@ -9,9 +9,8 @@ set -o pipefail
 # Update
 sudo apt-get update -y
 
-# Install make
+# Install dependencies
 sudo apt-get install make gcc xz-utils bzip2 -y
-sudo apt-get install gcc -y
 
 # CPU Microbenchmark
 git clone https://github.com/eembc/coremark-pro
