@@ -35,7 +35,7 @@ def parse_latency_data(filename):
 
 
 
-data = [parse_latency_data('workload_redis_board.txt'), parse_latency_data('workload_redis_miralis.txt')]
+data = [parse_latency_data('results/workload_redis_board.txt'), parse_latency_data('results/workload_redis_miralis.txt')]
 workloads = ['board', 'miralis']
 values = ['read mean', 'read p95', 'read p99', 'write mean', ' write p95', 'write p99']
 

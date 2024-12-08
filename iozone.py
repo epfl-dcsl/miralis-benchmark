@@ -46,15 +46,15 @@ def process_values(df):
 if __name__ == "__main__":
     values = []
     names = []
-    folder_path = Path("results/iozone")
+    folder_path = Path("results")
 
     for file_path in folder_path.rglob('*'):  # Recursively search all files
-        if file_path.is_file():
+        if is_workload(file_path, "iozone"):
             file_path = str(file_path)
             df = parse_iozone_output(file_path)
             print("Data parsed successfully.")
 
-            names.append(file_path.split('/')[2])
+            names.append(file_path.split('/')[1])
             values.append(process_values(df))
 
     indices = np.array(values[0].index)

@@ -19,18 +19,18 @@ if __name__ == "__main__":
     values = []
     names = []
     workload = []
-    folder_path = Path("results/netperf")
+    folder_path = Path("results")
 
     for file_path in folder_path.rglob('*'):  # Recursively search all files
-        if file_path.is_file():
+        if is_workload(file_path, "netperf"):
             file_path = str(file_path)
             df = extract_number(file_path)
             print("Data parsed successfully.")
 
-            name = file_path.split('/')[2]
-            names.append(name.split('_')[0])
+            name = file_path.split('/')[1]
+            names.append(name.split('_')[1])
             values.append(df)
-            workload.append(name.split('_')[1])
+            workload.append(name.split('_')[2])
 
     dico1 = {}
     dico2 = {}
@@ -46,7 +46,6 @@ if __name__ == "__main__":
 
     # TODO: Wip here, this is not working corretly at the moment
     title = 'Netperf microbenchmark - throuput in [KB/s] - currently test running both machines on localhost'
-
 
     names = list(dico1.keys())
     values = list(dico1.values())

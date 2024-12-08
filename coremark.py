@@ -29,14 +29,14 @@ def parse_iozone_output(file_path):
 if __name__ == "__main__":
     values = []
     names = []
-    folder_path = Path("results/coremarkpro")
+    folder_path = Path("results")
 
-    for file_path in folder_path.rglob('*'):  # Recursively search all files
-        if file_path.is_file():
+    for file_path in folder_path.rglob('*'): 
+        if is_workload(file_path, "coremarkpro"):
             file_path = str(file_path)
             df = parse_iozone_output(file_path)
-            print(file_path.split('/')[2])
-            names.append(file_path.split('/')[2])
+            print(file_path.split('/')[1])
+            names.append(file_path.split('/')[1])
 
             values.append(df.set_index("Workload Name")["MultiCore (iter/s)"].astype(float))
 
