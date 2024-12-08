@@ -2,7 +2,7 @@
 set -e 
 set -o pipefail
 
-mkdir plots/
+mkdir -p plots/
 
 echo "Plotting CPU Microbenchmark"
 python3 coremark.py
@@ -14,7 +14,7 @@ echo "Plotting Network Microbenchmark"
 python3 netperf.py
 
 echo "Plotting redis and memcached workloads"
-python3 ky_workload.py
+python3 kv_workload.py
 
 
 
