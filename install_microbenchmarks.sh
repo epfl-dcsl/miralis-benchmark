@@ -14,11 +14,11 @@ sudo apt-get install make -y
 sudo apt-get install gcc -y
 
 # CPU Microbenchmark
-git clone https://github.com/eembc/coremark-pro
-
-cd coremark-pro
-make TARGET=linux64 build
-cd ..
+# git clone https://github.com/eembc/coremark-pro
+# 
+# cd coremark-pro
+# make TARGET=linux64 build
+# cd ..
 
 ########################
 # Filesystem Microbenchmark
