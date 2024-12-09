@@ -10,7 +10,6 @@ sudo apt-get install memcached -y
 
 sudo systemctl start memcached
 sudo systemctl enable memcached
-systemctl status memcached
 
 # Install redis
 wget https://download.redis.io/redis-stable.tar.gz
