@@ -40,7 +40,7 @@ create_folder_if_not_exists "results"
 echo "Running CPU Microbenchmark [Coremarkpro]"
 
 cd coremark-pro
-make TARGET=linux64 XCMD='-c4' certify-all > "../results/coremarkpro_$1.txt"
+# make TARGET=linux64 XCMD='-c4' certify-all > "../results/coremarkpro_$1.txt"
 cd ..;
 
 echo "Done with CPU microbenchmark"
@@ -52,7 +52,7 @@ echo "Done with CPU microbenchmark"
 echo "Running filesystem microbenchmark [Filesystem]"
 
 cd keystone-iozone
-../iozone -a > "../results/iozone_$1.txt"
+./iozone -a > "../results/iozone_$1.txt"
 cd ..
 
 echo "Done with disk microbenchmark"
