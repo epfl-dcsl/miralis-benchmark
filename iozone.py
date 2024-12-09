@@ -52,7 +52,6 @@ if __name__ == "__main__":
         if is_workload(file_path, "iozone"):
             file_path = str(file_path)
             df = parse_iozone_output(file_path)
-            print("Data parsed successfully.")
 
             names.append(file_path.split('/')[1].split('.')[0].split('_')[1])
             values.append(process_values(df))

@@ -8,9 +8,6 @@ def is_workload(file_path, name):
     return file_path.is_file() and name in str(file_path)
 
 def generate_plot(values, names, indices, title, filename):
-    print(values)
-    print(names)
-    print(indices)
     width = 0.25 
     multiplier = 0
 

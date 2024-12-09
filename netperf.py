@@ -25,30 +25,34 @@ if __name__ == "__main__":
         if is_workload(file_path, "netperf"):
             file_path = str(file_path)
             df = extract_number(file_path)
-            print("Data parsed successfully.")
-
             name = file_path.split('/')[1]
             names.append(name.split('_')[1])
             values.append(df)
-            workload.append(name.split('_')[2])
+            workload.append(name.split('_')[2].split('.')[0])
 
-    dico1 = {}
-    dico2 = {}
+    dico = {}
+
 
     for i in range(len(values)):
-        if names[i] not in dico1:
-            dico1[names[i]] = []
-            dico2[names[i]] = []
+        if names[i] not in dico:
+            dico[names[i]] = []
 
-        dico1[names[i]].append(values[i])
-        dico2[names[i]].append(workload[i])
+        dico[names[i]].append((values[i], workload[i]))
 
+    
+    for key in dico.keys():
+        dico[key] = sorted(dico[key])
 
-    # TODO: Wip here, this is not working corretly at the moment
     title = 'Netperf microbenchmark - throuput in [KB/s] - currently test running both machines on localhost'
 
-    names = list(dico1.keys())
-    values = list(dico1.values())
-    indices = list(dico2.values())
+    names = []
+    values = []
+    for key in dico.keys():
+        names.append(key)
+        list1, list2 = zip(*dico[key])
+        values.append(list(list1))
+        indices = list(list2)
+
+
 
     generate_plot(values, names, indices, title, "netperf")    
