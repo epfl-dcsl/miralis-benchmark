@@ -31,7 +31,7 @@ function install_redis() {
 
 echo "" > "results/redis_compilation_$1.txt"
 
-for i in {0..5} 
+for i in {0..0} 
 do
     install_redis $1
 done
