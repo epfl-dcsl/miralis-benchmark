@@ -6,9 +6,6 @@ set -o pipefail
 # CPU Microbenchmark
 ########################
 
-# Update
-sudo apt-get update -y
-
 # Install dependencies
 sudo apt-get install make texinfo gcc g++ xz-utils bzip2 -y
 
