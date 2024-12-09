@@ -68,11 +68,11 @@ cd netperf
 netserver
 # Benchmark the server
 echo "TCP microbenchmark"
-netperf -H 127.0.0.1 -t TCP_STREAM  > "../results/netperf/results_$1_tcp.txt"
+netperf -H 127.0.0.1 -t TCP_STREAM  > "../results/netperf_$1_tcp.txt"
 echo "UDP microbenchmark"
-netperf -H 127.0.0.1 -t UDP_STREAM  > "../results/netperf/results_$1_udp.txt"
+netperf -H 127.0.0.1 -t UDP_STREAM  > "../results/netperf_$1_udp.txt"
 echo "RTT microbenchmark"
-netperf -H 127.0.0.1 -t TCP_RR      > "../results/netperf/results_$1_rtt.txt"
+netperf -H 127.0.0.1 -t TCP_RR      > "../results/netperf_$1_rtt.txt"
 cd ..
 
 echo "Done with network microbenchmark"
