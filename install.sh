@@ -97,9 +97,14 @@ cd ..
 # Install the sampler
 git clone http://github.com/brianfrankcooper/YCSB.git
 
-
-
-# Finally give the access right to the other scripts
+# Finally give the access right to the other scripts for ssh measurements
 chmod 777 microbenchmark_cpu.sh
 chmod 777 microbenchmark_fs.sh
 chmod 777 microbenchmark_network.sh
+chmod 777 benchmark_redis.sh
+chmod 777 benchmark_memcached.sh
+
+# Allow redis
+# TODO: Allow netperf
+sudo ufw allow 6379
+sudo ufw allow 12865
