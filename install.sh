@@ -26,6 +26,7 @@ cd ..
 
 # TODO: implement this
 
+mkdir keystone-iozone
 cd keystone-iozone
 wget https://polybox.ethz.ch/index.php/s/MwscmB3UjHHWqa0
 cd ..
