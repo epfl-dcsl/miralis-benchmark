@@ -26,6 +26,10 @@ cd ..
 
 # TODO: implement this
 
+cd keystone-iozone
+wget https://polybox.ethz.ch/index.php/s/MwscmB3UjHHWqa0
+cd ..
+
 # git clone https://github.com/keystone-enclave/keystone-iozone
 # cd keystone-iozone
 # 
