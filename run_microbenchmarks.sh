@@ -2,6 +2,10 @@
 set -e 
 set -o pipefail
 
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
+
+source $DIR/common.sh
+
 create_folder_if_not_exists() {
     local folder="$1" 
     if [ ! -d "$folder" ]; then
@@ -27,6 +31,21 @@ if ! [[ "$1" == "board" || "$1" == "miralis" || "$1" == "protect" ]]; then
 fi
 
 echo "Benchmark type: $1"
+
+# Determine ADDRESS based on VALUE
+if [[ "$1" == "board" ]]; then
+    ADDRESS=BOARD_IP
+elif [[ "$1" == "miralis" ]]; then
+    ADDRESS=MIRALIS_IP
+elif [[ "$1" == "protect" ]]; then
+    ADDRESS=PROTECT_PAYLOAD_IP
+else
+    echo "Unknown value: $VALUE"
+    exit 1
+fi
+
+# Output the result
+echo "CurrentIP=$ADDRESS"
 
 create_folder_if_not_exists "results"
 
