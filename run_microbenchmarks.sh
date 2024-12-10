@@ -59,12 +59,12 @@ echo "Done with disk microbenchmark"
 echo "Running network microbenchmark [netperf]"
 
 # Start network server
-RemoteExec $ADDRESS "./microbenchmark_network $1"
+RemoteExec $ADDRESS "./microbenchmark_network.sh $1"
 
 # Launch remote benchmarks
-netperf -H $ADDRESS -t TCP_STREAM  > "results/netperf_$1_tcp.txt"
-netperf -H $ADDRESS -t UDP_STREAM  > "results/netperf_$1_udp.txt"
-netperf -H $ADDRESS -t TCP_RR      > "results/netperf_$1_rtt.txt"
+netperf -H $(echo "$ADDRESS" | cut -d'@' -f2-) -t TCP_STREAM  > "results/netperf_$1_tcp.txt"
+netperf -H $(echo "$ADDRESS" | cut -d'@' -f2-) -t UDP_STREAM  > "results/netperf_$1_udp.txt"
+netperf -H $(echo "$ADDRESS" | cut -d'@' -f2-) -t TCP_RR      > "results/netperf_$1_rtt.txt"
 
 echo "Done with network microbenchmark"
 

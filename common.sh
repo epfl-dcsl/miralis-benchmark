@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Todo: Replace the ips here
-BOARD_IP="user@128.178.116.99"
+BOARD_IP="user@128.178.116.143"
 MIRALIS_IP="user@128.178.116.99"
 PROTECT_PAYLOAD_IP="user@128.178.116.99"
 

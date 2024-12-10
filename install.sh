@@ -71,28 +71,35 @@ sudo make install
 
 cd ..
 
-# # Install the ssh client for the experiments
-# sudo apt install openssh-server
-# sudo systemctl enable ssh
-# sudo systemctl start ssh
-# sudo ufw allow ssh
-# 
-# # Install dependencies
-# sudo apt-get install maven -y
-# 
-# # Install mcached
-# sudo apt-get install memcached -y
-# 
-# sudo systemctl start memcached
-# sudo systemctl enable memcached
-# 
-# # Install redis
-# wget https://download.redis.io/redis-stable.tar.gz
-# tar -xzvf redis-stable.tar.gz
-# cd redis-stable 
-# make 
-# sudo make install
-# cd ..
-# 
-# # Install the sampler
-# git clone http://github.com/brianfrankcooper/YCSB.git
+# Install the ssh client for the experiments
+sudo apt install openssh-server
+sudo systemctl enable ssh
+sudo systemctl start ssh
+sudo ufw allow ssh
+
+# Install dependencies
+sudo apt-get install maven -y
+
+# Install mcached
+sudo apt-get install memcached -y
+
+sudo systemctl start memcached
+sudo systemctl enable memcached
+
+# Install redis
+wget https://download.redis.io/redis-stable.tar.gz
+tar -xzvf redis-stable.tar.gz
+cd redis-stable 
+make 
+sudo make install
+cd ..
+
+# Install the sampler
+git clone http://github.com/brianfrankcooper/YCSB.git
+
+
+
+# Finally give the access right to the other scripts
+chmod 777 microbenchmark_cpu.sh
+chmod 777 microbenchmark_fs.sh
+chmod 777 microbenchmark_network.sh
