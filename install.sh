@@ -28,7 +28,8 @@ cd ..
 
 mkdir keystone-iozone
 cd keystone-iozone
-wget https://polybox.ethz.ch/index.php/s/MwscmB3UjHHWqa0
+wget -O iozone https://polybox.ethz.ch/index.php/s/MwscmB3UjHHWqa0/download
+chmod 777 iozone
 cd ..
 
 # git clone https://github.com/keystone-enclave/keystone-iozone
