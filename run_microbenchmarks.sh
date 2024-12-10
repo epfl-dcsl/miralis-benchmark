@@ -3,7 +3,6 @@ set -e
 set -o pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
-
 source $DIR/common.sh
 
 create_folder_if_not_exists() {
@@ -104,6 +103,6 @@ function network_microbenchmark() {
 }
 
 # Run benchmarks
-cpu_microbenchmark $1
-fs_microbenchmark $1
-network_microbenchmark $1
+RemoteExec $ADDRESS "cpu_microbenchmark $1"
+RemoteExec $ADDRESS "fs_microbenchmark $1"
+RemoteExec $ADDRESS "network_microbenchmark $1"
