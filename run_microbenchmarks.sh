@@ -34,42 +34,57 @@ create_folder_if_not_exists "results"
 # CPU Microbenchmark
 ########################
 
-echo "Running CPU Microbenchmark [Coremarkpro]"
+function cpu_microbenchmark() {
+    echo "Running CPU Microbenchmark [Coremarkpro]"
 
-cd coremark-pro
-make TARGET=linux64 XCMD='-c4' certify-all > "../results/coremarkpro_$1.txt"
-cd ..;
+    cd coremark-pro
+    make TARGET=linux64 XCMD='-c4' certify-all > "../results/coremarkpro_$1.txt"
+    cd ..;
 
-echo "Done with CPU microbenchmark"
+    echo "Done with CPU microbenchmark"
+}
+
+
 
 ########################
 # filesystem Microbenchmark
 ########################
 
-echo "Running filesystem microbenchmark [Filesystem]"
+function fs_microbenchmark() {
+    echo "Running filesystem microbenchmark [Filesystem]"
 
-cd keystone-iozone
-./iozone -a > "../results/iozone_$1.txt"
-cd ..
+    cd keystone-iozone
+    ./iozone -a > "../results/iozone_$1.txt"
+    cd ..
 
-echo "Done with disk microbenchmark"
+    echo "Done with disk microbenchmark"
+}
+
+
 
 ########################
 # Network Microbenchmark
 ########################
 
-echo "Running network microbenchmark [netperf]"
+function network_microbenchmark() {
+    echo "Running network microbenchmark [netperf]"
 
-cd netperf
-# Start the server 
-netserver
-# Benchmark the server
-echo "TCP microbenchmark"
-netperf -H 127.0.0.1 -t TCP_STREAM  > "../results/netperf_$1_tcp.txt"
-echo "UDP microbenchmark"
-netperf -H 127.0.0.1 -t UDP_STREAM  > "../results/netperf_$1_udp.txt"
-echo "RTT microbenchmark"
-netperf -H 127.0.0.1 -t TCP_RR      > "../results/netperf_$1_rtt.txt"
-cd ..
+    cd netperf
+    # Start the server 
+    netserver
+    # Benchmark the server
+    echo "TCP microbenchmark"
+    netperf -H 127.0.0.1 -t TCP_STREAM  > "../results/netperf_$1_tcp.txt"
+    echo "UDP microbenchmark"
+    netperf -H 127.0.0.1 -t UDP_STREAM  > "../results/netperf_$1_udp.txt"
+    echo "RTT microbenchmark"
+    netperf -H 127.0.0.1 -t TCP_RR      > "../results/netperf_$1_rtt.txt"
+    cd ..
 
-echo "Done with network microbenchmark"
+    echo "Done with network microbenchmark"
+}
+
+# Run benchmarks
+cpu_microbenchmark $1
+fs_microbenchmark $1
+network_microbenchmark $1
