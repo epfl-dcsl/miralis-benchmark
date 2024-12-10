@@ -45,18 +45,26 @@ fi
 
 # Output the result
 echo "CurrentIP=$ADDRESS"
+create_folder_if_not_exists "results"
 
-RemoteExec $ADDRESS "create_folder_if_not_exists \"results\""
 # Run benchmarks
-
 echo "Running CPU Microbenchmark [Coremarkpro]"
-RemoteExec $ADDRESS "./microbenchmark_cpu" > "result_coremarkpro_$1.txt"
+RemoteExec $ADDRESS "./microbenchmark_cpu.sh" > "results/coremarkpro_$1.txt"
 echo "Done with CPU microbenchmark"
 
 echo "Running filesystem microbenchmark [Filesystem]"
-RemoteExec $ADDRESS "./microbenchmark_fs" > "result_iozone_$1.txt"
+RemoteExec $ADDRESS "./microbenchmark_fs.sh" > "results/iozone_$1.txt"
 echo "Done with disk microbenchmark"
 
 echo "Running network microbenchmark [netperf]"
-# RemoteExec $ADDRESS "./microbenchmark_network $1"
+
+# Start network server
+RemoteExec $ADDRESS "./microbenchmark_network $1"
+
+# Launch remote benchmarks
+netperf -H $ADDRESS -t TCP_STREAM  > "results/netperf_$1_tcp.txt"
+netperf -H $ADDRESS -t UDP_STREAM  > "results/netperf_$1_udp.txt"
+netperf -H $ADDRESS -t TCP_RR      > "results/netperf_$1_rtt.txt"
+
 echo "Done with network microbenchmark"
+
