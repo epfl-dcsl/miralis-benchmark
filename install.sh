@@ -20,21 +20,27 @@ cd ..
 # Filesystem Microbenchmark
 ########################
 
-git clone https://github.com/keystone-enclave/keystone-iozone
-cd keystone-iozone
 
-git clone https://github.com/richfelker/musl-cross-make
-cd musl-cross-make
+# Installing iozone on the board is really slow:
+# Therefore we download the cross compiled program from a remove destination
 
-TARGET=riscv64-linux-musl make -j$(nproc) 
-TARGET=riscv64-linux-musl make install 
+# TODO: implement this
 
-cd ..
-
-git checkout 1378a4fb920e8177a2293c4600ab494ab51de6b8
-CCRV=musl-cross-make/output/bin/riscv64-linux-musl-gcc make keystone
-
-cd ..
+# git clone https://github.com/keystone-enclave/keystone-iozone
+# cd keystone-iozone
+# 
+# git clone https://github.com/richfelker/musl-cross-make
+# cd musl-cross-make
+# 
+# TARGET=riscv64-linux-musl make -j$(nproc) 
+# TARGET=riscv64-linux-musl make install 
+# 
+# cd ..
+# 
+# git checkout 1378a4fb920e8177a2293c4600ab494ab51de6b8
+# CCRV=musl-cross-make/output/bin/riscv64-linux-musl-gcc make keystone
+# 
+# cd ..
 
 ########################
 # Network Microbenchmark

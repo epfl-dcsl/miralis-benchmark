@@ -62,8 +62,6 @@ function cpu_microbenchmark() {
     echo "Done with CPU microbenchmark"
 }
 
-
-
 ########################
 # filesystem Microbenchmark
 ########################
