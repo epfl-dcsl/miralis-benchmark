@@ -5,7 +5,7 @@ set -o pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 source $DIR/common.sh
 
-create_folder_if_not_exists() {
+function create_folder_if_not_exists() {
     local folder="$1" 
     if [ ! -d "$folder" ]; then
         echo "Folder '$folder' does not exist. Creating..."
@@ -33,11 +33,11 @@ echo "Benchmark type: $1"
 
 # Determine ADDRESS based on VALUE
 if [[ "$1" == "board" ]]; then
-    ADDRESS=BOARD_IP
+    ADDRESS=$BOARD_IP
 elif [[ "$1" == "miralis" ]]; then
-    ADDRESS=MIRALIS_IP
+    ADDRESS=$MIRALIS_IP
 elif [[ "$1" == "protect" ]]; then
-    ADDRESS=PROTECT_PAYLOAD_IP
+    ADDRESS=$PROTECT_PAYLOAD_IP
 else
     echo "Unknown value: $VALUE"
     exit 1
@@ -46,61 +46,17 @@ fi
 # Output the result
 echo "CurrentIP=$ADDRESS"
 
-create_folder_if_not_exists "results"
-
-########################
-# CPU Microbenchmark
-########################
-
-function cpu_microbenchmark() {
-    echo "Running CPU Microbenchmark [Coremarkpro]"
-
-    cd coremark-pro
-    make TARGET=linux64 XCMD='-c4' certify-all > "../results/coremarkpro_$1.txt"
-    cd ..;
-
-    echo "Done with CPU microbenchmark"
-}
-
-########################
-# filesystem Microbenchmark
-########################
-
-function fs_microbenchmark() {
-    echo "Running filesystem microbenchmark [Filesystem]"
-
-    cd keystone-iozone
-    ./iozone -a > "../results/iozone_$1.txt"
-    cd ..
-
-    echo "Done with disk microbenchmark"
-}
-
-
-
-########################
-# Network Microbenchmark
-########################
-
-function network_microbenchmark() {
-    echo "Running network microbenchmark [netperf]"
-
-    cd netperf
-    # Start the server 
-    netserver
-    # Benchmark the server
-    echo "TCP microbenchmark"
-    netperf -H 127.0.0.1 -t TCP_STREAM  > "../results/netperf_$1_tcp.txt"
-    echo "UDP microbenchmark"
-    netperf -H 127.0.0.1 -t UDP_STREAM  > "../results/netperf_$1_udp.txt"
-    echo "RTT microbenchmark"
-    netperf -H 127.0.0.1 -t TCP_RR      > "../results/netperf_$1_rtt.txt"
-    cd ..
-
-    echo "Done with network microbenchmark"
-}
-
+RemoteExec $ADDRESS "create_folder_if_not_exists \"results\""
 # Run benchmarks
-RemoteExec $ADDRESS "cpu_microbenchmark $1"
-RemoteExec $ADDRESS "fs_microbenchmark $1"
-RemoteExec $ADDRESS "network_microbenchmark $1"
+
+echo "Running CPU Microbenchmark [Coremarkpro]"
+RemoteExec $ADDRESS "./microbenchmark_cpu" > "result_coremarkpro_$1.txt"
+echo "Done with CPU microbenchmark"
+
+echo "Running filesystem microbenchmark [Filesystem]"
+RemoteExec $ADDRESS "./microbenchmark_fs" > "result_iozone_$1.txt"
+echo "Done with disk microbenchmark"
+
+echo "Running network microbenchmark [netperf]"
+# RemoteExec $ADDRESS "./microbenchmark_network $1"
+echo "Done with network microbenchmark"

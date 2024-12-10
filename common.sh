@@ -1,13 +1,15 @@
 #!/bin/bash
 
 # Todo: Replace the ips here
-BOARD_IP="Francois@pc841.emulab.net"
-MIRALIS_IP="Francois@pc790.emulab.net"
-PROTECT_PAYLOAD_IP="Francois@pc738.emulab.net"
+BOARD_IP="user@128.178.116.99"
+MIRALIS_IP="user@128.178.116.99"
+PROTECT_PAYLOAD_IP="user@128.178.116.99"
 
 function RemoteExec() {
-    ssh -oStrictHostKeyChecking=no -p 22 "$1" "$2";
+    ssh "$1" "cd miralis-benchmark;ls;$2";
 }
+
+# -oStrictHostKeyChecking=no -p 22 
 
 # Syntax to use the command
 # RemoteExec $1 "sudo docker stop \$(sudo docker ps -aq)"
