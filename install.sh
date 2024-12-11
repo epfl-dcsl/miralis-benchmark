@@ -86,7 +86,7 @@ sudo systemctl enable memcached
 wget https://download.redis.io/redis-stable.tar.gz
 tar -xzvf redis-stable.tar.gz
 cd redis-stable 
-make 
+make -j$(nproc)
 sudo make install
 cd ..
 
@@ -97,21 +97,6 @@ git clone http://github.com/brianfrankcooper/YCSB.git
 chmod 777 microbenchmark_cpu.sh
 chmod 777 microbenchmark_fs.sh
 chmod 777 microbenchmark_network.sh
-chmod 777 benchmark_redis.sh
-chmod 777 benchmark_memcached.sh
-
-# Allow redis
-# TODO: Allow memcached
-
-sudo apt install ufw -y
-sudo systemctl enable ufw   
-sudo systemctl start ufw  
-
-sudo ufw allow ssh
-sudo ufw allow 6379
-sudo ufw allow 12865
-sudo ufw allow 3306
-sudo systemctl restart ufw
 
 # Install mysql
 sudo apt install mysql-server -y
@@ -131,3 +116,17 @@ sudo mysql -e "CREATE DATABASE sbtest;"
 # Restart mysql (now ready for the benchmarks)
 sudo systemctl restart mysql
 
+sudo apt install ufw -y
+sudo systemctl enable ufw   
+sudo systemctl start ufw  
+
+sudo ufw allow ssh
+# Redis
+sudo ufw allow 6379
+# Netperf
+sudo ufw allow 12865
+# Mysql
+sudo ufw allow 3306
+# Memcached
+sudo ufw allow 11211
+sudo systemctl restart ufw

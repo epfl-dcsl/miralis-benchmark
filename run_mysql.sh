@@ -44,16 +44,14 @@ else
 fi
 
 # Load the benchmark data
-sysbench \
-    --db-driver=mysql   --mysql-host=128.178.116.143   --mysql-port=3306 \
-    --mysql-user=user   --mysql-password=user   --mysql-db=sbtest \
-    --tables=10   --table-size=100000   oltp_read_write   prepare
-
-
+# sysbench \
+#     --db-driver=mysql   --mysql-host=$(echo "$ADDRESS" | cut -d'@' -f2-)   --mysql-port=3306 \
+#     --mysql-user=user   --mysql-password=user   --mysql-db=sbtest \
+#     --tables=10   --table-size=100000   oltp_read_write   prepare
 
 sysbench \
-  --db-driver=mysql --mysql-host=128.178.116.143 --mysql-port=3306 \
+  --db-driver=mysql --mysql-host=$(echo "$ADDRESS" | cut -d'@' -f2-) --mysql-port=3306 \
   --mysql-user=user --mysql-password=user --mysql-db=sbtest \
-  --tables=10 --table-size=100000 --threads=2 \
+  --tables=10 --table-size=100000 --threads=8 \
   --time=60 --report-interval=10 oltp_read_write \
-  run
+  run > "results/mysql_$1.txt"
