@@ -7,7 +7,7 @@ set -o pipefail
 ########################
 
 # Install dependencies
-sudo apt-get install make texinfo gcc g++ xz-utils bzip2 build-essential tcl libjemalloc-dev -y
+sudo apt-get install make texinfo gcc g++ xz-utils bzip2 build-essential tcl libjemalloc-dev maven -y
 
 # CPU Microbenchmark
 git clone https://github.com/eembc/coremark-pro
@@ -68,19 +68,28 @@ sudo make install
 
 cd ..
 
+########################
+# SSH server
+########################
+
 # Install the ssh client for the experiments
 sudo apt-get install openssh-server -y
 sudo systemctl enable ssh
 sudo systemctl start ssh
 
-# Install dependencies
-sudo apt-get install maven -y
+########################
+# Memcached
+########################
 
-# Install mcached
+# Install memcached
 sudo apt-get install memcached -y
 
 sudo systemctl start memcached
 sudo systemctl enable memcached
+
+########################
+# Redis
+########################
 
 # Install redis
 wget https://download.redis.io/redis-stable.tar.gz
@@ -97,6 +106,10 @@ git clone http://github.com/brianfrankcooper/YCSB.git
 chmod 777 microbenchmark_cpu.sh
 chmod 777 microbenchmark_fs.sh
 chmod 777 microbenchmark_network.sh
+
+########################
+# Mysql
+########################
 
 # Install mysql
 sudo apt install mysql-server -y
@@ -115,6 +128,10 @@ sudo mysql -e "CREATE DATABASE sbtest;"
 
 # Restart mysql (now ready for the benchmarks)
 sudo systemctl restart mysql
+
+########################
+# Firewall
+########################
 
 sudo apt install ufw -y
 sudo systemctl enable ufw   

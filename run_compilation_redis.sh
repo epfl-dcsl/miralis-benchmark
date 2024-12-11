@@ -51,7 +51,7 @@ function install_redis() {
     RemoteExec $ADDRESS "git clone https://github.com/redis/redis"
 
     # Navigate to the Redis directory
-    RemoteExec $ADDRESS "cd redis; (make -j$(nproc))" 2&1>> "./results/redis_compilation_$1.txt"
+    RemoteExec $ADDRESS "cd redis; (make -j$(nproc))" #2&1>> "./results/redis_compilation_$1.txt"
 }
 
 echo "" > "results/redis_compilation_$1.txt"
