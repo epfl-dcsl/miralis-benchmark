@@ -84,6 +84,9 @@ sudo systemctl start ssh
 # Install memcached
 sudo apt-get install memcached -y
 
+# Change configuration to receive connections from the outside world
+sudo sed -i 's/^-l\s*.*/-l 0.0.0.0/' /etc/memcached.conf
+
 sudo systemctl start memcached
 sudo systemctl enable memcached
 
@@ -98,6 +101,9 @@ cd redis-stable
 make -j$(nproc)
 sudo make install
 cd ..
+
+# Remove the protected mode
+redis-cli CONFIG SET protected-mode no
 
 # Install the sampler
 git clone http://github.com/brianfrankcooper/YCSB.git
