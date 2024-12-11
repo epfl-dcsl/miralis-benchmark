@@ -24,7 +24,7 @@ function install_redis() {
     cd redis
 
     # Run 'make' and capture its timing and output in 'output.txt'
-    (make) 2>> "../results/redis_compilation_$1.txt"
+    (make -j$(nproc)) 2>> "../results/redis_compilation_$1.txt"
 
     cd ..
 }

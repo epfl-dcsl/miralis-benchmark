@@ -7,7 +7,7 @@ set -o pipefail
 ########################
 
 # Install dependencies
-sudo apt-get install make texinfo gcc g++ xz-utils bzip2 -y
+sudo apt-get install make texinfo gcc g++ xz-utils bzip2 build-essential tcl libjemalloc-dev -y
 
 # CPU Microbenchmark
 git clone https://github.com/eembc/coremark-pro
@@ -20,11 +20,8 @@ cd ..
 # Filesystem Microbenchmark
 ########################
 
-
 # Installing iozone on the board is really slow:
 # Therefore we download the cross compiled program from a remove destination
-
-# TODO: implement this
 
 mkdir keystone-iozone
 cd keystone-iozone
@@ -72,10 +69,9 @@ sudo make install
 cd ..
 
 # Install the ssh client for the experiments
-sudo apt install openssh-server
+sudo apt-get install openssh-server -y
 sudo systemctl enable ssh
 sudo systemctl start ssh
-sudo ufw allow ssh
 
 # Install dependencies
 sudo apt-get install maven -y
@@ -105,6 +101,33 @@ chmod 777 benchmark_redis.sh
 chmod 777 benchmark_memcached.sh
 
 # Allow redis
-# TODO: Allow netperf
+# TODO: Allow memcached
+
+sudo apt install ufw -y
+sudo systemctl enable ufw   
+sudo systemctl start ufw  
+
+sudo ufw allow ssh
 sudo ufw allow 6379
 sudo ufw allow 12865
+sudo ufw allow 3306
+sudo systemctl restart ufw
+
+# Install mysql
+sudo apt install mysql-server -y
+sudo systemctl start mysql
+sudo systemctl enable mysql
+
+# Alter the configuration file to receive connections from the outside world
+sudo sed -i 's/^bind-address\s*=.*/bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo sed -i 's/^mysqlx-bind-address\s*=.*/mysqlx-bind-address = 0.0.0.0/' /etc/mysql/mysql.conf.d/mysqld.cnf
+
+# Setup new user and database in mysql
+sudo mysql -e "CREATE USER 'user'@'%' IDENTIFIED BY 'user';"
+sudo mysql -e "GRANT ALL PRIVILEGES ON *.* TO 'user'@'%';"
+sudo mysql -e "FLUSH PRIVILEGES;"
+sudo mysql -e "CREATE DATABASE sbtest;"
+
+# Restart mysql (now ready for the benchmarks)
+sudo systemctl restart mysql
+

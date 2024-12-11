@@ -27,7 +27,7 @@ git clone http://github.com/brianfrankcooper/YCSB.git
 cd YCSB
 
 
-./bin/ycsb load redis -s -P workloads/workloada -p "redis.host=128.178.116.143" -p "redis.port=6379"
+./bin/ycsb load redis -s -P workloads/workloada -p "redis.host=128.178.116.143" -p "redis.port=6379" 
 
 cd ..
 
