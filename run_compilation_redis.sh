@@ -39,14 +39,13 @@ fi
 
 function install_redis() {
     # First delete the repository
-    rm -rf redis
-
+    RemoteExec $ADDRESS "rm -rf redis"
+    
     # Clone the Redis repository
-     ## git clone https://github.com/redis/redis
-
+    RemoteExec $ADDRESS "git clone https://github.com/redis/redis"
     
     # Navigate to the Redis directory
-    (time (ls)) 2>> "results/redis_compilation_$1.txt"
+    (time (RemoteExec $ADDRESS "cd redis; (make -j$(nproc))")) 2>> "results/redis_compilation_$1.txt"
 }
 
 echo "" > "results/redis_compilation_$1.txt"
