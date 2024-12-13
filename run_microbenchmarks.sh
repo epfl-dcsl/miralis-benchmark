@@ -5,13 +5,7 @@ set -o pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 source $DIR/common.sh
 
-function create_folder_if_not_exists() {
-    local folder="$1" 
-    if [ ! -d "$folder" ]; then
-        echo "Folder '$folder' does not exist. Creating..."
-        mkdir "$folder"
-    fi
-}
+setup
 
 ########################
 # Parse input argument
@@ -42,10 +36,6 @@ else
     echo "Unknown value: $VALUE"
     exit 1
 fi
-
-# Output the result
-echo "CurrentIP=$ADDRESS"
-create_folder_if_not_exists "results"
 
 # Run benchmarks
 echo "Running CPU Microbenchmark [Coremarkpro]"

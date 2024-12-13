@@ -5,13 +5,7 @@ set -o pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 source $DIR/common.sh
 
-function create_folder_if_not_exists() {
-    local folder="$1" 
-    if [ ! -d "$folder" ]; then
-        echo "Folder '$folder' does not exist. Creating..."
-        mkdir "$folder"
-    fi
-}
+setup
 
 ########################
 # Parse input argument
@@ -45,13 +39,14 @@ fi
 
 function install_redis() {
     # First delete the repository
-    RemoteExec $ADDRESS "rm -rf redis"
+    rm -rf redis
 
     # Clone the Redis repository
-    RemoteExec $ADDRESS "git clone https://github.com/redis/redis"
+     git clone https://github.com/redis/redis
 
+    
     # Navigate to the Redis directory
-    RemoteExec $ADDRESS "cd redis; (make -j$(nproc))" #2&1>> "./results/redis_compilation_$1.txt"
+    (time ( cd redis; (make -j$(nproc)))) 2>> "results/redis_compilation_$1.txt"
 }
 
 echo "" > "results/redis_compilation_$1.txt"
