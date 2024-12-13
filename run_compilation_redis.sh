@@ -42,16 +42,16 @@ function install_redis() {
     rm -rf redis
 
     # Clone the Redis repository
-     git clone https://github.com/redis/redis
+     ## git clone https://github.com/redis/redis
 
     
     # Navigate to the Redis directory
-    (time ( cd redis; (make -j$(nproc)))) 2>> "results/redis_compilation_$1.txt"
+    (time (ls)) 2>> "results/redis_compilation_$1.txt"
 }
 
 echo "" > "results/redis_compilation_$1.txt"
 
-for i in {0..0} 
+for i in {0..5} 
 do
     install_redis $1
 done

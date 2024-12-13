@@ -16,6 +16,9 @@ python3 netperf.py
 # echo "Plotting redis and memcached workloads"
 # python3 kv_workload.py
 
+echo "Plotting compilation time for redis"
+python3 redis.py
+
 # echo "Plotting world switch cost"
 # python3 world_switch.py
 
