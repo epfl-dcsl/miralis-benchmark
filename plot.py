@@ -65,13 +65,8 @@ def parse_times(filename):
 
         i = 0  # Index for line processing
         while i < len(lines):
-            # Skip empty lines
-            if lines[i].strip() == "":
-                i += 1
-                continue
-
             # Process the next 3 non-empty lines
-            if i + 2 < len(lines) and lines[i+1].strip() != "" and lines[i+2].strip() != "":
+            if i + 2 < len(lines) and lines[i].strip().startswith("real"):
                 real_line = lines[i].strip()
                 user_line = lines[i+1].strip()
                 sys_line = lines[i+2].strip()

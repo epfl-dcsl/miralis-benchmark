@@ -7,7 +7,7 @@ set -o pipefail
 ########################
 
 # Install dependencies
-sudo apt-get install make texinfo gcc g++ xz-utils bzip2 build-essential tcl libjemalloc-dev maven -y
+sudo apt-get install make texinfo gcc g++ xz-utils bzip2 build-essential tcl libjemalloc-dev maven htop -y
 
 # CPU Microbenchmark
 git clone https://github.com/eembc/coremark-pro
