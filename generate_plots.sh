@@ -14,7 +14,7 @@ echo "Plotting Network Microbenchmark"
 python3 netperf.py
 
 echo "Plotting redis, memcached and mysql workloads"
-python3 kv_workload.py
+python3 databases.py
 
 echo "Plotting compilation time for redis"
 python3 redis.py
