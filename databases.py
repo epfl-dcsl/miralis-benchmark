@@ -59,7 +59,6 @@ values  = ['mean', 'p95']
 data = [parse_latency_data_sysbench("results/mysql_board.txt"),parse_latency_data_sysbench("results/mysql_miralis.txt"),parse_latency_data_sysbench("results/mysql_protect.txt")]
 generate_plot(data, workloads, values, "MySQL benchmark with Sysbench", "mysql_workload")
 
-exit(0)
 
 ### KV workload ###
 
