@@ -2,8 +2,8 @@
 
 # Todo: Replace the ips here
 BOARD_IP="user@128.178.116.143"
-MIRALIS_IP="user@128.178.116.99"
-PROTECT_PAYLOAD_IP="user@128.178.116.99"
+MIRALIS_IP="user@128.178.116.42"
+PROTECT_PAYLOAD_IP="user@128.178.116.126"
 
 function create_folder_if_not_exists() {
     local folder="$1" 

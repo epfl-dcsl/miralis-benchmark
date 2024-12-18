@@ -38,10 +38,10 @@ else
 fi
 
 # Load the benchmark data
-sysbench \
-     --db-driver=mysql   --mysql-host=$(echo "$ADDRESS" | cut -d'@' -f2-)   --mysql-port=3306 \
-     --mysql-user=user   --mysql-password=user   --mysql-db=sbtest \
-     --tables=10   --table-size=100000   oltp_read_write   prepare
+# sysbench \
+#      --db-driver=mysql   --mysql-host=$(echo "$ADDRESS" | cut -d'@' -f2-)   --mysql-port=3306 \
+#      --mysql-user=user   --mysql-password=user   --mysql-db=sbtest \
+#      --tables=10   --table-size=100000   oltp_read_write   prepare
 
 sysbench \
   --db-driver=mysql --mysql-host=$(echo "$ADDRESS" | cut -d'@' -f2-) --mysql-port=3306 \

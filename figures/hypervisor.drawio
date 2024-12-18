@@ -1,0 +1,52 @@
+<mxfile host="65bd71144e">
+    <diagram name="Page-1" id="k1XoCFzSUp3hNCgttzV-">
+        <mxGraphModel dx="602" dy="501" grid="1" gridSize="5" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="5A2wAWtOq1hYCc6agXHZ-4" value="Miralis" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#000000;" parent="1" vertex="1">
+                    <mxGeometry x="245" y="260" width="420" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="5A2wAWtOq1hYCc6agXHZ-7" value="Firmware" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#33001A;" parent="1" vertex="1">
+                    <mxGeometry x="595" y="200" width="70" height="55" as="geometry"/>
+                </mxCell>
+                <mxCell id="5A2wAWtOq1hYCc6agXHZ-8" value="Guest OS" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="245" y="220" width="210" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="5A2wAWtOq1hYCc6agXHZ-9" value="Hypervisor" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=default;" parent="1" vertex="1">
+                    <mxGeometry x="245" y="240" width="340" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="5A2wAWtOq1hYCc6agXHZ-10" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" parent="1" edge="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="590" y="260" as="sourcePoint"/>
+                        <mxPoint x="590" y="200" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="5A2wAWtOq1hYCc6agXHZ-11" value="M-mode" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="260" width="55" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="5A2wAWtOq1hYCc6agXHZ-12" value="S-mode" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="240" width="55" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="5A2wAWtOq1hYCc6agXHZ-13" value="U-mode" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+                    <mxGeometry x="180" y="210" width="55" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="2" value="Guest Userspace" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=default;" vertex="1" parent="1">
+                    <mxGeometry x="245" y="200" width="210" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Host user space" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=default;" vertex="1" parent="1">
+                    <mxGeometry x="465" y="200" width="120" height="35" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="VM Mode" style="rounded=0;whiteSpace=wrap;html=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+                    <mxGeometry x="680" y="220" width="55" height="15" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="" style="endArrow=none;dashed=1;html=1;rounded=0;" edge="1" parent="1">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="460" y="240" as="sourcePoint"/>
+                        <mxPoint x="460" y="200" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
