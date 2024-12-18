@@ -13,8 +13,8 @@ python3 iozone.py
 echo "Plotting Network Microbenchmark"
 python3 netperf.py
 
-# echo "Plotting redis and memcached workloads"
-# python3 kv_workload.py
+echo "Plotting redis, memcached and mysql workloads"
+python3 kv_workload.py
 
 echo "Plotting compilation time for redis"
 python3 redis.py
