@@ -1,5 +1,6 @@
 import re
 from plot import *
+import os
 
 def parse_latency_data_ycsb(filename):
     # Initialize the data to store results
@@ -50,13 +51,24 @@ def parse_latency_data_sysbench(filename):
     # Return the results
     return [average_latency, percentile_95_latency]
 
-workloads = ['board', 'miralis', 'protect_payload']
+def parse_workloads(name):
+    folder_path = "results"
+    files = [f for f in os.listdir(folder_path) if os.path.isfile(os.path.join(folder_path, f))]
+    files = [f for f in files if f.startswith(name)]
+    files = [f.split('_')[1] for f in files]
+    files = [f for f in files if "txt" not in f]
+    files = [f for f in files if "compilation" not in f]
+    return list(set(files))
+
+
 
 ### MySQL workload ###
 
 values  = ['mean', 'p95']
+workloads = parse_workloads("mysql")
 
-data = [parse_latency_data_sysbench("results/mysql_board.txt"),parse_latency_data_sysbench("results/mysql_miralis.txt"),parse_latency_data_sysbench("results/mysql_protect.txt")]
+data = [parse_latency_data_sysbench(f"results/mysql_{e}.txt") for e in workloads]
+
 generate_plot(data, workloads, values, "MySQL benchmark with Sysbench", "mysql_workload")
 
 
@@ -64,8 +76,12 @@ generate_plot(data, workloads, values, "MySQL benchmark with Sysbench", "mysql_w
 
 values = ['overall throughput', 'read mean', 'read p95', 'read p99', 'write mean', ' write p95', 'write p99']
 
-data = [parse_latency_data_ycsb('results/workload_redis_board.txt'), parse_latency_data_ycsb('results/workload_redis_miralis.txt'), parse_latency_data_ycsb('results/workload_redis_protect.txt')]
+workloads = parse_workloads("redis")
+
+print(workloads)
+data = [parse_latency_data_ycsb(f"results/workload_redis_{e}.txt") for e in workloads]
 generate_plot(data, workloads, values, "Redis benchmark with YCSB", "redis_kv_workload")
 
-data = [parse_latency_data_ycsb('results/workload_memcached_board.txt'), parse_latency_data_ycsb('results/workload_memcached_miralis.txt'), parse_latency_data_ycsb('results/workload_memcached_protect.txt')]
+workloads = parse_workloads("memcached")
+data = [parse_latency_data_ycsb(f"results/workload_memcached_{e}.txt") for e in workloads]
 generate_plot(data, workloads, values, "Memcached benchmark with YCSB", "memcached_kv_workload")
