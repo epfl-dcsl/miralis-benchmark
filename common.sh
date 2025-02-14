@@ -25,8 +25,8 @@ function setup() {
     fi
 
     # We only allow three kind of benchmark types
-    if ! [[ "$1" == "board" || "$1" == "miralis" || "$1" == "protect" ]]; then
-        echo "Error: Invalid argument. Allowed values are 'board', 'miralis', or 'protect'."
+    if ! [[ "$1" == "board" || "$1" == "miralis" || "$1" == "protect" || "$1" == "offload" ]]; then
+        echo "Error: Invalid argument. Allowed values are 'board', 'miralis', 'offload' or 'protect'."
         exit 1
     fi
 
@@ -39,6 +39,8 @@ function setup() {
         ADDRESS=$MIRALIS_IP
     elif [[ "$1" == "protect" ]]; then
         ADDRESS=$PROTECT_PAYLOAD_IP
+    elif [[ "$1" == "offload" ]]; then
+        ADDRESS=$OFFLOAD_IP
     else
         echo "Unknown value: $VALUE"
         exit 1
