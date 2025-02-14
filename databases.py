@@ -50,13 +50,31 @@ def parse_latency_data_sysbench(filename):
     # Return the results
     return [average_latency, percentile_95_latency]
 
+def extract_kv_workloads(typ):
+    values = []
+    for file_path in os.listdir("results"):
+        if file_path.startswith(f"workload_{typ}"):
+            values.append(file_path.split('_')[2].split('.')[0])
+
+
+
+    return list(set(values))
+
+def extract_mysql_workloads(): 
+    values = []
+    for file_path in os.listdir("results"):
+        if file_path.startswith(f"mysql_"):
+            values.append(file_path.split('_')[1].split('.')[0])
+
+    return list(set(values))
+
 workloads = ['board', 'miralis', 'protect_payload']
 
 ### MySQL workload ###
 
 values  = ['mean', 'p95']
 
-data = [parse_latency_data_sysbench("results/mysql_board.txt"),parse_latency_data_sysbench("results/mysql_miralis.txt"),parse_latency_data_sysbench("results/mysql_protect.txt")]
+data = [parse_latency_data_ycsb(f"results/mysqsl_{w}.txt") for w in extract_mysql_workloads()]
 generate_plot(data, workloads, values, "MySQL benchmark with Sysbench", "mysql_workload")
 
 
@@ -64,8 +82,8 @@ generate_plot(data, workloads, values, "MySQL benchmark with Sysbench", "mysql_w
 
 values = ['overall throughput', 'read mean', 'read p95', 'read p99', 'write mean', ' write p95', 'write p99']
 
-data = [parse_latency_data_ycsb('results/workload_redis_board.txt'), parse_latency_data_ycsb('results/workload_redis_miralis.txt'), parse_latency_data_ycsb('results/workload_redis_protect.txt')]
+data = [parse_latency_data_ycsb(f"results/workload_redis_{w}.txt") for w in extract_kv_workloads("redis")]
 generate_plot(data, workloads, values, "Redis benchmark with YCSB", "redis_kv_workload")
 
-data = [parse_latency_data_ycsb('results/workload_memcached_board.txt'), parse_latency_data_ycsb('results/workload_memcached_miralis.txt'), parse_latency_data_ycsb('results/workload_memcached_protect.txt')]
+data = [parse_latency_data_ycsb(f"results/workload_redis_{w}.txt") for w in extract_kv_workloads("memcached")]
 generate_plot(data, workloads, values, "Memcached benchmark with YCSB", "memcached_kv_workload")
