@@ -11,16 +11,16 @@ setup "$1"
 # Coremark pro
 ###############
 
-echo "Running CPU Microbenchmark [Coremarkpro]"
-
-# Clear previous file
-clear_stats_entries "coremarkpro_$1"
-
-add_miralis_stat_entry "coremarkpro_$1"
-RemoteExec $ADDRESS "./microbenchmark_cpu.sh" > "results/coremarkpro_$1.txt"
-add_miralis_stat_entry "coremarkpro_$1"
-
-echo "Done with CPU microbenchmark"
+# echo "Running CPU Microbenchmark [Coremarkpro]"
+# 
+# # Clear previous file
+# clear_stats_entries "coremarkpro_$1"
+# 
+# add_miralis_stat_entry "coremarkpro_$1"
+# RemoteExec $ADDRESS "./microbenchmark_cpu.sh" > "results/coremarkpro_$1.txt"
+# add_miralis_stat_entry "coremarkpro_$1"
+# 
+# echo "Done with CPU microbenchmark"
 
 ###############
 # Iozone
