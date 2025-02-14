@@ -1,9 +1,17 @@
 import matplotlib.pyplot as plt
 from plot import *
+import os
 
-# Display redis workloads
-values = [parse_times("results/redis_compilation_board.txt"), parse_times("results/redis_compilation_miralis.txt"), parse_times("results/redis_compilation_protect.txt")]
-workload = ["Board", "Miralis", "Protect"]
+def extract_values():
+    values = []
+    for file_path in os.listdir("results"):
+        if file_path.startswith("redis_compilation"):
+            values.append(file_path.split('_')[2].split('.')[0])
+
+    return list(set(values))
+
+workloads = extract_values()
+values = [parse_times(f"results/redis_compilation_{w}.txt") for w in workloads]
 labels = ["real", "user", "sys"]
 
-generate_plot(values, workload, labels, "Redis compilation time in seconds using -j($ncores)", "redis_compilation")
+generate_plot(values, workloads, labels, "Redis compilation time in seconds using -j($ncores)", "redis_compilation")
