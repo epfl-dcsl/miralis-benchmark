@@ -56,5 +56,6 @@ function clear_stats_entries() {
 
 function add_miralis_stat_entry() {
     RemoteExec $ADDRESS "taskset 1 cat /proc/miralis && dmesg | tail -n 1" >> "results/$1_miralis_stats.txt"
+    RemoteExec $ADDRESS "taskset 1 cat /proc/miralis_all_cores && dmesg | tail -n 1" >> "results/$1_miralis_stats_all_cores.txt"
     RemoteExec $ADDRESS "taskset 1 cat /proc/interrupts" >> "results/$1_miralis_stats_linux.txt"
 }
