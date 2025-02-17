@@ -4,6 +4,7 @@
 BOARD_IP="user@128.178.116.207"
 MIRALIS_IP="user@128.178.116.248"
 PROTECT_PAYLOAD_IP="user@128.178.116.115"
+OFFLOAD_IP="user@128.178.116.115"
 
 function create_folder_if_not_exists() {
     local folder="$1" 
@@ -47,15 +48,19 @@ function setup() {
     fi
 
     create_folder_if_not_exists "results"
+    create_folder_if_not_exists "results_exceptions"
 }
 
 function clear_stats_entries() {
-    echo "" > "results/$1_miralis_stats.txt"
-    echo "" > "results/$1_miralis_stats_linux.txt"
+    echo "" > "results_exceptions/$1_core_1.txt"
+    echo "" > "results_exceptions/$1_core_2.txt"
+    echo "" > "results_exceptions/$1_core_3.txt"
+    echo "" > "results_exceptions/$1_core_4.txt"
 }
 
 function add_miralis_stat_entry() {
-    RemoteExec $ADDRESS "taskset 1 cat /proc/miralis && dmesg | tail -n 1" >> "results/$1_miralis_stats.txt"
-    RemoteExec $ADDRESS "taskset 1 cat /proc/miralis_all_cores && dmesg | tail -n 1" >> "results/$1_miralis_stats_all_cores.txt"
-    RemoteExec $ADDRESS "taskset 1 cat /proc/interrupts" >> "results/$1_miralis_stats_linux.txt"
+    RemoteExec $ADDRESS "taskset 1 cat /proc/miralis && dmesg | tail -n 1" >> "results_exceptions/$1_core_1.txt"
+    RemoteExec $ADDRESS "taskset 2 cat /proc/miralis && dmesg | tail -n 1" >> "results_exceptions/$1_core_2.txt"
+    RemoteExec $ADDRESS "taskset 3 cat /proc/miralis && dmesg | tail -n 1" >> "results_exceptions/$1_core_3.txt"
+    RemoteExec $ADDRESS "taskset 4 cat /proc/miralis && dmesg | tail -n 1" >> "results_exceptions/$1_core_4.txt"
 }

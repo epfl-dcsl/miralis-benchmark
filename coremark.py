@@ -41,6 +41,10 @@ def parse_iozone_output(file_path):
 
 
 if __name__ == "__main__":
+
+    print("adapt script to new naming convention")
+    exit(1)
+
     values = []
     names = []
     indices = []

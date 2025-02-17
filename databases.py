@@ -68,22 +68,27 @@ def extract_mysql_workloads():
 
     return list(set(values))
 
-workloads = ['board', 'miralis', 'protect_payload']
 
-### MySQL workload ###
+print("adapt script to new naming convention")
+exit(1)
 
-values  = ['mean', 'p95']
+if __name__ == "__main__":
+    workloads = ['board', 'miralis', 'protect_payload']
 
-data = [parse_latency_data_ycsb(f"results/mysqsl_{w}.txt") for w in extract_mysql_workloads()]
-generate_plot(data, workloads, values, "MySQL benchmark with Sysbench", "mysql_workload")
+    ### MySQL workload ###
+
+    values  = ['mean', 'p95']
+
+    data = [parse_latency_data_ycsb(f"results/mysqsl_{w}.txt") for w in extract_mysql_workloads()]
+    generate_plot(data, workloads, values, "MySQL benchmark with Sysbench", "mysql_workload")
 
 
-### KV workload ###
+    ### KV workload ###
 
-values = ['overall throughput', 'read mean', 'read p95', 'read p99', 'write mean', ' write p95', 'write p99']
+    values = ['overall throughput', 'read mean', 'read p95', 'read p99', 'write mean', ' write p95', 'write p99']
 
-data = [parse_latency_data_ycsb(f"results/workload_redis_{w}.txt") for w in extract_kv_workloads("redis")]
-generate_plot(data, workloads, values, "Redis benchmark with YCSB", "redis_kv_workload")
+    data = [parse_latency_data_ycsb(f"results/workload_redis_{w}.txt") for w in extract_kv_workloads("redis")]
+    generate_plot(data, workloads, values, "Redis benchmark with YCSB", "redis_kv_workload")
 
-data = [parse_latency_data_ycsb(f"results/workload_redis_{w}.txt") for w in extract_kv_workloads("memcached")]
-generate_plot(data, workloads, values, "Memcached benchmark with YCSB", "memcached_kv_workload")
+    data = [parse_latency_data_ycsb(f"results/workload_redis_{w}.txt") for w in extract_kv_workloads("memcached")]
+    generate_plot(data, workloads, values, "Memcached benchmark with YCSB", "memcached_kv_workload")
