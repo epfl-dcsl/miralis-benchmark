@@ -57,6 +57,10 @@ COST_WORLD_SWITCH = 2000
 
 if __name__ == "__main__":
 
+    print("Adapt this script to the new naming convention")
+
+    exit(1)
+
     for file_name in os.listdir("results"):
         file_path = os.path.join("results", file_name)
         if os.path.isfile(file_path) and "stats" in file_path:

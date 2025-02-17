@@ -5,8 +5,8 @@ import os
 def extract_values():
     values = []
     for file_path in os.listdir("results"):
-        if file_path.startswith("redis_compilation"):
-            values.append(file_path.split('_')[2].split('.')[0])
+        if file_path.startswith("redis-compilation"):
+            values.append(file_path.split('_')[1].split('.')[0])
 
     return list(set(values))
 

@@ -7,6 +7,7 @@ source $DIR/common.sh
 
 setup "$1"
 
+WORKLOAD_NAME="linux-compilation"
 
 function install_linux() {
     # First delete the repository
@@ -16,12 +17,12 @@ function install_linux() {
     RemoteExec $ADDRESS "git clone --depth 1 https://github.com/starfive-tech/linux"
     
     # Navigate to the Linux directory
-    (time (RemoteExec $ADDRESS "cd linux && make defconfig && make -j4")) 2>> "results/linux_compilation_$1.txt"
+    (time (RemoteExec $ADDRESS "cd linux && make defconfig && make -j4")) 2>> "results/${WORKLOAD_NAME}_$1.txt"
 }
 
-clear_stats_entries "linux_compilation_$1"
+clear_stats_entries "${WORKLOAD_NAME}_$1"
 
-add_miralis_stat_entry  "linux_compilation_$1"
+add_miralis_stat_entry  "${WORKLOAD_NAME}_$1"
 
 # Currently we run it a single time
 for i in {0..0} 
@@ -29,4 +30,4 @@ do
     install_linux $1
 done
 
-add_miralis_stat_entry "linux_compilation_$1"
+add_miralis_stat_entry "${WORKLOAD_NAME}_$1"

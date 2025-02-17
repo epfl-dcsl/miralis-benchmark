@@ -21,6 +21,9 @@ if __name__ == "__main__":
     workload = []
     folder_path = Path("results")
 
+    print("adapt script to new naming convention")
+    exit(1)
+
     for file_path in folder_path.rglob('*'):  # Recursively search all files
         if is_workload(file_path, "netperf"):
             file_path = str(file_path)

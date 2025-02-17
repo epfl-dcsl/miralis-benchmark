@@ -7,18 +7,22 @@ source $DIR/common.sh
 
 setup "$1"
 
+
+WORKLOAD_NAME="llm"
+
+
 ###############
 # LLM Benchmark
 ###############
 
 echo "Running llm benchmark"
 
-clear_stats_entries "llm_$1"
+clear_stats_entries "${WORKLOAD_NAME}_$1"
 
-add_miralis_stat_entry "llm_$1"
+add_miralis_stat_entry "${WORKLOAD_NAME}_$1"
 
-RemoteExec $ADDRESS "./llama.cpp/build/bin/llama-bench -m model.gguf" > "results/llm_$1.txt"
+RemoteExec $ADDRESS "./llama.cpp/build/bin/llama-bench -m model.gguf" > "results/${WORKLOAD_NAME}_$1.txt"
 
-add_miralis_stat_entry "llm_$1"
+add_miralis_stat_entry "${WORKLOAD_NAME}_$1"
 
 echo "Done with llm benchmark"
