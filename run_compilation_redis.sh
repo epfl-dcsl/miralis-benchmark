@@ -11,23 +11,26 @@ WORKLOAD_NAME="redis-compilation"
 
 function install_redis() {
     # First delete the repository
-    RemoteExec $ADDRESS "rm -rf redis"
+    RemoteExec $ADDRESS "rm -rf redis" > /dev/null
     
     # Clone the Redis repository
     RemoteExec $ADDRESS "git clone https://github.com/redis/redis"
-    
+
     # Navigate to the Redis directory
-    (time (RemoteExec $ADDRESS "cd redis; (make -j$(nproc))")) 2>> "results/${WORKLOAD_NAME}_$1.txt"
+    (time (RemoteExec $ADDRESS "cd redis; (make -j$(nproc))")) 2>> "results/${WORKLOAD_NAME}_$1_$2.txt"
 }
 
-clear_stats_entries "${WORKLOAD_NAME}_$1"
 
-add_miralis_stat_entry  "${WORKLOAD_NAME}_$1"
 
 # Currently we run it a single time
-for i in {0..0} 
+for i in {0..4} 
 do
-    install_redis $1
+    clear_stats_entries "${WORKLOAD_NAME}_$1_$i"
+
+    add_miralis_stat_entry  "${WORKLOAD_NAME}_$1_$i"
+
+    install_redis $1 $i
+
+    add_miralis_stat_entry "${WORKLOAD_NAME}_$1_$i"
 done
 
-add_miralis_stat_entry "${WORKLOAD_NAME}_$1"
