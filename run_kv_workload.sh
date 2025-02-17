@@ -26,14 +26,14 @@ add_miralis_stat_entry "${WORKLOAD_NAME}_$1"
 
 WORKLOAD_NAME="memcached-kv"
 
-# # Run the mcached benchmark
-# ./bin/ycsb load memcached -s -P workloads/workloada -p "memcached.hosts=$(echo "$ADDRESS" | cut -d'@' -f2-)"
-# 
-# clear_stats_entries "${WORKLOAD_NAME}_$1"
-# 
-# add_miralis_stat_entry  "${WORKLOAD_NAME}_$1"
-# ./bin/ycsb run memcached -s -threads 64 -P workloads/workloada -p operationcount=10000000 -p "memcached.hosts=$(echo "$ADDRESS" | cut -d'@' -f2-)" > results/${WORKLOAD_NAME}_$1.txt
-# add_miralis_stat_entry  "${WORKLOAD_NAME}_$1"
+# Run the mcached benchmark
+./bin/ycsb load memcached -s -P workloads/workloada -p "memcached.hosts=$(echo "$ADDRESS" | cut -d'@' -f2-)"
+
+clear_stats_entries "${WORKLOAD_NAME}_$1"
+
+add_miralis_stat_entry  "${WORKLOAD_NAME}_$1"
+./bin/ycsb run memcached -s -threads 32 -P workloads/workloada -p operationcount=10000000 -p "memcached.hosts=$(echo "$ADDRESS" | cut -d'@' -f2-)" > results/${WORKLOAD_NAME}_$1.txt
+add_miralis_stat_entry  "${WORKLOAD_NAME}_$1"
 
 cd ..
 
