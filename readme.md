@@ -5,5 +5,5 @@ The official repository to measure the performance of the Miralis security monit
 #### Output format of workload
 
 ```bash
-workloadname_benchmarktype.txt
+workloadname_benchmarktype_runnumber.txt
 ```
