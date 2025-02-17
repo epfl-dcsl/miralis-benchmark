@@ -48,19 +48,19 @@ function setup() {
     fi
 
     create_folder_if_not_exists "results"
-    create_folder_if_not_exists "results_exceptions"
+    create_folder_if_not_exists "results/stats"
 }
 
 function clear_stats_entries() {
-    echo "" > "results_exceptions/$1_core_1.txt"
-    echo "" > "results_exceptions/$1_core_2.txt"
-    echo "" > "results_exceptions/$1_core_3.txt"
-    echo "" > "results_exceptions/$1_core_4.txt"
+    echo "" > "results/stats/$1_core_1.txt"
+    echo "" > "results/stats/$1_core_2.txt"
+    echo "" > "results/stats/$1_core_3.txt"
+    echo "" > "results/stats/$1_core_4.txt"
 }
 
 function add_miralis_stat_entry() {
-    RemoteExec $ADDRESS "taskset 1 cat /proc/miralis && dmesg | tail -n 1" >> "results_exceptions/$1_core_1.txt"
-    RemoteExec $ADDRESS "taskset 2 cat /proc/miralis && dmesg | tail -n 1" >> "results_exceptions/$1_core_2.txt"
-    RemoteExec $ADDRESS "taskset 3 cat /proc/miralis && dmesg | tail -n 1" >> "results_exceptions/$1_core_3.txt"
-    RemoteExec $ADDRESS "taskset 4 cat /proc/miralis && dmesg | tail -n 1" >> "results_exceptions/$1_core_4.txt"
+    RemoteExec $ADDRESS "taskset 1 cat /proc/miralis && dmesg | tail -n 1" >> "results/stats/$1_core_1.txt"
+    RemoteExec $ADDRESS "taskset 2 cat /proc/miralis && dmesg | tail -n 1" >> "results/stats/$1_core_2.txt"
+    RemoteExec $ADDRESS "taskset 3 cat /proc/miralis && dmesg | tail -n 1" >> "results/stats/$1_core_3.txt"
+    RemoteExec $ADDRESS "taskset 4 cat /proc/miralis && dmesg | tail -n 1" >> "results/stats/$1_core_4.txt"
 }
