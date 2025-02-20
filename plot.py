@@ -40,6 +40,7 @@ def generate_plot(values, names, indices, title, filename):
     # Enable the grid
     plt.grid(True)
 
+    plt.savefig(folder + "/" + filename)
     plt.close()
 
 def time_to_seconds(time_str):
