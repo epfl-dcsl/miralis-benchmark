@@ -48,4 +48,4 @@ if __name__ == "__main__":
 
     title = 'IOzone throughput in [KB/s]'
 
-    extract_and_plot("iozone", parse_iozone_output, indices, title, "iozone")
+    extract_and_plot("iozone", parse_iozone_output, indices, title)

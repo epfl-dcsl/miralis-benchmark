@@ -58,13 +58,9 @@ def parse_latency_data_sysbench(filename):
 
 if __name__ == "__main__":
     ### MySQL workload ###
-    extract_and_plot("mysql", parse_latency_data_sysbench, ['mean', 'p95'], "MySQL benchmark with Sysbench", "mysql_workload")
-
+    extract_and_plot("mysql", parse_latency_data_sysbench, ['mean', 'p95'], "MySQL benchmark with Sysbench")
 
     ### KV workloads ###
     values = ['overall throughput', 'read mean', 'read p95', 'read p99', 'write mean', ' write p95', 'write p99']
-    extract_and_plot("redis-kv", parse_latency_data_ycsb, values, "Redis benchmark with YCSB",
-                     "redis_kv_workload")
-
-    extract_and_plot("memcached-kv", parse_latency_data_ycsb, values, "Memcached benchmark with YCSB",
-                     "memcached_kv_workload")
+    extract_and_plot("redis-kv", parse_latency_data_ycsb, values, "Redis benchmark with YCSB")
+    extract_and_plot("memcached-kv", parse_latency_data_ycsb, values, "Memcached benchmark with YCSB")
