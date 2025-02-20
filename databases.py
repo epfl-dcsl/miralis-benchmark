@@ -1,5 +1,11 @@
 import re
 from plot import *
+import matplotlib.pyplot as plt
+import pandas as pd
+import re
+from pathlib import Path
+import numpy as np
+from plot import *
 
 def parse_latency_data_ycsb(filename):
     # Initialize the data to store results
@@ -50,45 +56,33 @@ def parse_latency_data_sysbench(filename):
     # Return the results
     return [average_latency, percentile_95_latency]
 
-def extract_kv_workloads(typ):
-    values = []
-    for file_path in os.listdir("results"):
-        if file_path.startswith(f"workload_{typ}"):
-            values.append(file_path.split('_')[2].split('.')[0])
+def extract_and_plot(key, extractor, values, title, filename):
+    data = []
+    workloads = []
+    iteration = []
+    folder_path = Path("results")
+
+    for file_path in sorted(folder_path.rglob('*')):
+        # Recursively search all files
+        if is_workload(file_path, key) and extract_iteration(file_path) == 0:
+            workloads.append(extract_workload(file_path))
+            iteration.append(extract_iteration(file_path))
+            print(key)
+            print(extractor(file_path))
+            data.append(extractor(file_path))
 
 
-
-    return list(set(values))
-
-def extract_mysql_workloads(): 
-    values = []
-    for file_path in os.listdir("results"):
-        if file_path.startswith(f"mysql_"):
-            values.append(file_path.split('_')[1].split('.')[0])
-
-    return list(set(values))
-
-
-print("adapt script to new naming convention")
-exit(1)
+    generate_plot(data, workloads, values, title, filename)
 
 if __name__ == "__main__":
-    workloads = ['board', 'miralis', 'protect_payload']
-
     ### MySQL workload ###
-
-    values  = ['mean', 'p95']
-
-    data = [parse_latency_data_ycsb(f"results/mysqsl_{w}.txt") for w in extract_mysql_workloads()]
-    generate_plot(data, workloads, values, "MySQL benchmark with Sysbench", "mysql_workload")
+    extract_and_plot("mysql", parse_latency_data_sysbench, ['mean', 'p95'], "MySQL benchmark with Sysbench", "mysql_workload")
 
 
-    ### KV workload ###
-
+    ### KV workloads ###
     values = ['overall throughput', 'read mean', 'read p95', 'read p99', 'write mean', ' write p95', 'write p99']
+    extract_and_plot("redis-kv", parse_latency_data_ycsb, values, "Redis benchmark with YCSB",
+                     "redis_kv_workload")
 
-    data = [parse_latency_data_ycsb(f"results/workload_redis_{w}.txt") for w in extract_kv_workloads("redis")]
-    generate_plot(data, workloads, values, "Redis benchmark with YCSB", "redis_kv_workload")
-
-    data = [parse_latency_data_ycsb(f"results/workload_redis_{w}.txt") for w in extract_kv_workloads("memcached")]
-    generate_plot(data, workloads, values, "Memcached benchmark with YCSB", "memcached_kv_workload")
+    extract_and_plot("memcached-kv", parse_latency_data_ycsb, values, "Memcached benchmark with YCSB",
+                     "memcached_kv_workload")
