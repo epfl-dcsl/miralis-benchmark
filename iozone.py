@@ -28,39 +28,24 @@ def parse_iozone_output(file_path):
     for line in data_lines:
         data.append([float(val) for val in line.split()])
 
-    return pd.DataFrame(data, columns=headers)
+    df = pd.DataFrame(data, columns=headers)
 
-def process_values(df):
-        df.columns.values[6] = "random read"
-        df.columns.values[7] = "random write"
-        df.columns.values[8] = "bkwd read"
-        df.columns.values[9] = "record rewrite"
-        df.columns.values[10] = "stride read"
+    df.columns.values[6] = "random read"
+    df.columns.values[7] = "random write"
+    df.columns.values[8] = "bkwd read"
+    df.columns.values[9] = "record rewrite"
+    df.columns.values[10] = "stride read"
 
-        # Useless columns
-        df = df.drop(['kB', 'reclen'], axis=1)
+    # Useless columns
+    df = df.drop(['kB', 'reclen'], axis=1)
 
-        # Calculate the mean for each column
-        return df.mean()
+    # Calculate the mean for each column
+    return df.mean().values
+
 
 if __name__ == "__main__":
-    values = []
-    names = []
-    iteration = []
-    folder_path = Path("results")
-
-    for file_path in sorted(folder_path.rglob('*')):
-        # Recursively search all files
-        if is_workload(file_path, "iozone") and extract_iteration(file_path) == 0:
-            df = parse_iozone_output(file_path)
-
-            names.append(extract_workload(file_path))
-            iteration.append(extract_iteration(file_path))
-            values.append(process_values(df))
-
-    indices = np.array(values[0].index)
-    values = list(map(lambda x: x.values, values))
+    indices = ['write' ,'rewrite', 'read' ,'reread' ,'random read', 'random write', 'bkwd read', 'record rewrite', 'stride read']
 
     title = 'IOzone throughput in [KB/s]'
 
-    generate_plot(values, names, indices, title, "iozone")
+    extract_and_plot("iozone", parse_iozone_output, indices, title)

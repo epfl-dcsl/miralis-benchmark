@@ -1,8 +1,25 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from pathlib import Path
 
 # source myenv/bin/activate
+
+def extract_and_plot(key, extractor, values, title):
+    data = []
+    workloads = []
+    iteration = []
+    folder_path = Path("results")
+
+    for file_path in sorted(folder_path.rglob('*')):
+        # Recursively search all files
+        if is_workload(file_path, key) and extract_iteration(file_path) == 0:
+            workloads.append(extract_workload(file_path))
+            iteration.append(extract_iteration(file_path))
+            data.append(extractor(file_path))
+
+
+    generate_plot(data, workloads, values, title, key)
 
 def extract_workload(file_path):
     return str(file_path).split('/')[-1].split('_')[1]
