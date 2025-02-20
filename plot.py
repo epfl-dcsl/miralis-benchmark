@@ -31,6 +31,10 @@ def generate_plot(values, names, indices, title, filename):
     ax.set_title(title)
     ax.legend(loc='upper left', ncols=len(indices))
 
+
+    plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
+    plt.tight_layout()
+
     folder = 'plots'
     if not os.path.exists(folder):
         os.makedirs(folder)
