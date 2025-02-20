@@ -4,22 +4,28 @@ import os
 
 # source myenv/bin/activate
 
+def extract_workload(file_path):
+    return str(file_path).split('/')[-1].split('_')[1]
+
+def extract_iteration(file_path):
+    return int(str(file_path).split('/')[-1].split('_')[2].split('.')[0])
+
 def is_workload(file_path, name):
-    return file_path.is_file() and name in str(file_path) and "stats" not in str(file_path)
+    return str(file_path).split('/')[-1].startswith(f"{name}_") and "stats" not in str(file_path)
 
 def generate_plot(values, names, indices, title, filename):
     width = 0.25 
     multiplier = 0
 
     x = np.arange(len(indices))
-    _, ax = plt.subplots(layout='constrained')
+    _, ax = plt.subplots()
 
     for i in range(len(values)):
         offset = width * multiplier
         rec = ax.bar(x + offset, values[i], width, label=names[i])
         multiplier += 1
 
-    ax.set_xticks(x + width / 2)
+    ax.set_xticks(x + 1.5*width)
     ax.set_xticklabels(indices)
 
     ax.set_title(title)
@@ -34,9 +40,7 @@ def generate_plot(values, names, indices, title, filename):
     # Enable the grid
     plt.grid(True)
 
-
     plt.savefig(folder + "/" + filename)
-
     plt.close()
 
 def time_to_seconds(time_str):

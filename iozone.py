@@ -46,25 +46,21 @@ def process_values(df):
 if __name__ == "__main__":
     values = []
     names = []
+    iteration = []
     folder_path = Path("results")
 
-    print("adapt script to new naming convention")
-    exit(1)
-
-    for file_path in folder_path.rglob('*'):  # Recursively search all files
-        if is_workload(file_path, "iozone"):
-            file_path = str(file_path)
+    for file_path in sorted(folder_path.rglob('*')):
+        # Recursively search all files
+        if is_workload(file_path, "iozone") and extract_iteration(file_path) == 0:
             df = parse_iozone_output(file_path)
 
-            names.append(file_path.split('/')[1].split('.')[0].split('_')[1])
+            names.append(extract_workload(file_path))
+            iteration.append(extract_iteration(file_path))
             values.append(process_values(df))
 
     indices = np.array(values[0].index)
     values = list(map(lambda x: x.values, values))
 
-    print(names)
-    print(values)
-
-    title = 'IOzone microbenchmark - throuput in [KB/s] (averaged by r/w size from 64kb to 512mb)'
+    title = 'IOzone throughput in [KB/s]'
 
     generate_plot(values, names, indices, title, "iozone")
