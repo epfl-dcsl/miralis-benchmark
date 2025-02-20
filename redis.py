@@ -1,17 +1,36 @@
 import matplotlib.pyplot as plt
 from plot import *
 import os
+import matplotlib.pyplot as plt
+import pandas as pd
+import re
+from pathlib import Path
+import numpy as np
+from plot import *
 
-def extract_values():
+
+if __name__ == "__main__":
     values = []
-    for file_path in os.listdir("results"):
-        if file_path.startswith("redis-compilation"):
-            values.append(file_path.split('_')[1].split('.')[0])
+    names = []
+    iteration = []
+    folder_path = Path("results")
 
-    return list(set(values))
+    workloads = []
 
-workloads = extract_values()
-values = [parse_times(f"results/redis_compilation_{w}.txt") for w in workloads]
-labels = ["real", "user", "sys"]
+    for file_path in sorted(folder_path.rglob('*')):
+        # Recursively search all files
+        if is_workload(file_path, "redis-compilation") and extract_iteration(file_path) == 0:
+            value = parse_times(file_path)
+            values.append(value)
+            workloads.append(extract_workload(file_path))
+            iteration.append(extract_iteration(file_path))
 
-generate_plot(values, workloads, labels, "Redis compilation time in seconds using -j($ncores)", "redis_compilation")
+    print("coucou")
+
+    title = 'Redis compilation multicore, in seconds'
+
+    labels = ["real", "user", "sys"]
+
+    generate_plot(values, workloads, labels, title, "redis_compilation")
+
+
