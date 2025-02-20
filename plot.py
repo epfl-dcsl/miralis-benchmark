@@ -13,11 +13,16 @@ def extract_and_plot(key, extractor, values, title):
 
     for file_path in sorted(folder_path.rglob('*')):
         # Recursively search all files
-        if is_workload(file_path, key) and extract_iteration(file_path) == 0:
-            workloads.append(extract_workload(file_path))
-            iteration.append(extract_iteration(file_path))
-            data.append(extractor(file_path))
-
+        if is_workload(file_path, key):
+            if extract_iteration(file_path) == 0:
+                workloads.append(extract_workload(file_path))
+                iteration.append(extract_iteration(file_path))
+                data.append(extractor(file_path))
+            else:
+                it = extract_iteration(file_path)
+                value = extractor(file_path)
+                for i in range(len(data[len(data) - 1])):
+                    data[len(data)-1][i] = it / (it + 1) * data[len(data)-1][i] + 1 / (it + 1) * value[i]
 
     generate_plot(data, workloads, values, title, key)
 
