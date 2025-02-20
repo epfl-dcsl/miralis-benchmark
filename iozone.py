@@ -61,6 +61,6 @@ if __name__ == "__main__":
     indices = np.array(values[0].index)
     values = list(map(lambda x: x.values, values))
 
-    title = 'IOzone microbenchmark - throuput in [KB/s] (averaged by r/w size from 64kb to 512mb)'
+    title = 'IOzone throughput in [KB/s]'
 
     generate_plot(values, names, indices, title, "iozone")

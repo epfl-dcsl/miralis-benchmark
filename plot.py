@@ -18,14 +18,14 @@ def generate_plot(values, names, indices, title, filename):
     multiplier = 0
 
     x = np.arange(len(indices))
-    _, ax = plt.subplots(layout='constrained')
+    _, ax = plt.subplots()
 
     for i in range(len(values)):
         offset = width * multiplier
         rec = ax.bar(x + offset, values[i], width, label=names[i])
         multiplier += 1
 
-    ax.set_xticks(x + width / 2)
+    ax.set_xticks(x + 1.5*width)
     ax.set_xticklabels(indices)
 
     ax.set_title(title)
@@ -39,9 +39,6 @@ def generate_plot(values, names, indices, title, filename):
 
     # Enable the grid
     plt.grid(True)
-
-
-    plt.savefig(folder + "/" + filename)
 
     plt.close()
 
