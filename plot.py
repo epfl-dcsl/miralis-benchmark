@@ -4,8 +4,14 @@ import os
 
 # source myenv/bin/activate
 
+def extract_workload(file_path):
+    return str(file_path).split('/')[-1].split('_')[1]
+
+def extract_iteration(file_path):
+    return int(str(file_path).split('/')[-1].split('_')[2].split('.')[0])
+
 def is_workload(file_path, name):
-    return file_path.is_file() and name in str(file_path) and "stats" not in str(file_path)
+    return str(file_path).split('/')[-1].startswith(f"{name}_") and "stats" not in str(file_path)
 
 def generate_plot(values, names, indices, title, filename):
     width = 0.25 
