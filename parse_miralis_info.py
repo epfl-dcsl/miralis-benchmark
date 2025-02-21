@@ -57,16 +57,12 @@ COST_WORLD_SWITCH = 2000
 
 if __name__ == "__main__":
 
-    print("Adapt this script to the new naming convention")
-
-    exit(1)
-
-    for file_name in os.listdir("results"):
-        file_path = os.path.join("results", file_name)
-        if os.path.isfile(file_path) and "stats" in file_path:
+    for file_name in os.listdir("results/stats"):
+        file_path = os.path.join("results/stats", file_name)
+        if os.path.isfile(file_path) and "stats" in file_path and "board" not in file_path and "1_core_1" in file_path and "offload" in file_path:
             if "stats_linux" in file_path:
                 continue
-            workload_name = file_path.split('.')[0].split('/')[1]
+            workload_name = file_path.split('/')[2].split("_")[0:2]
             for value in compute_deltas(file_path):
                 percentage = (value.firmware_trap_second() * COST_FIRMWARE_TRAP + value.world_switches_second() * COST_WORLD_SWITCH) / NB_CYCLES * 100
                 print(f"Current workload: {workload_name} | Duration in second: {value.delta} | Firmware traps per second: {value.firmware_trap_second():.2f} | World switches per second: {value.world_switches_second():.2f} | Estimated overhead percentage: {percentage:.2f}") 
