@@ -17,11 +17,7 @@ def parse_latency_data_ycsb(filename):
 
         # Iterate through each line in the file
         for line in content:
-            if line.startswith("[OVERALL]"):
-                if "Throughput(ops/sec)" in line:
-                    latencies.append(float(line.split(',')[2].strip()))
-
-            elif line.startswith("[READ]"):
+            if line.startswith("[READ]"):
                 if "AverageLatency(us)" in line:
                     latencies.append(float(line.split(',')[2].strip()))
                 if "95thPercentileLatency(us)" in line:
@@ -38,6 +34,23 @@ def parse_latency_data_ycsb(filename):
                     latencies.append(int(line.split(',')[2].strip()))
 
     return latencies
+
+def parse_latency_data_ycsb_tp(filename):
+    # Initialize the data to store results
+    latencies = []
+
+    # Open the text file for reading
+    with open(filename, 'r') as file:
+        content = file.readlines()
+
+        # Iterate through each line in the file
+        for line in content:
+            if line.startswith("[OVERALL]"):
+                if "Throughput(ops/sec)" in line:
+                    latencies.append(float(line.split(',')[2].strip()))
+
+    return latencies
+
 
 def parse_latency_data_sysbench(filename):
 
@@ -61,6 +74,10 @@ if __name__ == "__main__":
     extract_and_plot("mysql", parse_latency_data_sysbench, ['mean', 'p95'], "MySQL benchmark with Sysbench")
 
     ### KV workloads ###
-    values = ['overall throughput', 'read mean', 'read p95', 'read p99', 'write mean', ' write p95', 'write p99']
-    extract_and_plot("redis-kv", parse_latency_data_ycsb, values, "Redis benchmark with YCSB")
-    extract_and_plot("memcached-kv", parse_latency_data_ycsb, values, "Memcached benchmark with YCSB")
+    values = ['read mean', 'read p95', 'read p99', 'write mean', ' write p95', 'write p99']
+    extract_and_plot("redis-kv", parse_latency_data_ycsb, values, "Redis YCSB - [microseconds]")
+    extract_and_plot("memcached-kv", parse_latency_data_ycsb, values, "Memcached YCSB - [microseconds]")
+
+    values = ['overall throughput'] 
+    extract_and_plot("redis-kv", parse_latency_data_ycsb_tp, values, "Redis YCSB - [op/s]", "redis-kv-tp")
+    extract_and_plot("memcached-kv", parse_latency_data_ycsb_tp, values, "Memcached YCSB - [op/s]", "memcached-kv-tp")

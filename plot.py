@@ -5,7 +5,12 @@ from pathlib import Path
 
 # source myenv/bin/activate
 
-def extract_and_plot(key, extractor, values, title):
+def extract_and_plot(key, extractor, values, title, output_path = ""):
+
+    if output_path == "":
+        output_path = key
+
+    # Output overhead if possible
     data = []
     workloads = []
     iteration = []
@@ -24,7 +29,15 @@ def extract_and_plot(key, extractor, values, title):
                 for i in range(len(data[len(data) - 1])):
                     data[len(data)-1][i] = it / (it + 1) * data[len(data)-1][i] + 1 / (it + 1) * value[i]
 
-    generate_plot(data, workloads, values, title, key)
+    if 'board' in workloads and 'protect' in workloads:
+        with open("overhead.txt", "a") as file:
+            avg = np.mean(list(map(lambda x, y: y / x, data[0], data[2])))
+            if "iozone" in key or "tp" in output_path:
+                avg = np.mean(list(map(lambda x, y: x / y, data[0], data[2])))
+            file.write(f"{key}:{avg}\n")
+
+
+    generate_plot(data, workloads, values, title, output_path)
 
 def extract_workload(file_path):
     return str(file_path).split('/')[-1].split('_')[1]
@@ -50,18 +63,23 @@ def generate_plot(values, names, indices, title, filename):
     ax.set_xticks(x + 1.5*width)
     ax.set_xticklabels(indices)
 
-    ax.set_title(title)
-    ax.legend(loc='upper left', ncols=len(indices))
-
+    ax.set_title(title, fontsize=18)
+    ax.legend(loc='upper left', ncols=len(indices), fontsize=18)
 
     plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
-    plt.tight_layout()
+
 
     folder = 'plots'
     if not os.path.exists(folder):
         os.makedirs(folder)
 
     plt.xticks(rotation=45, ha='right')
+
+
+    # Adjust tick label size
+    ax.tick_params(axis='both', labelsize=15)
+
+    plt.tight_layout()
 
     # Enable the grid
     plt.grid(True)
