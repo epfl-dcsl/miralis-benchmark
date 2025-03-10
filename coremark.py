@@ -5,6 +5,7 @@ from pathlib import Path
 import numpy as np
 import io
 from plot import *
+import csv
 
 def extract_iterations_per_second(file_path):
     extensions = ["core", "fft", "gaussian", "jpeg", "livermore", "neuralnetwork", "sha", "xml", "zip"]
@@ -21,13 +22,29 @@ def extract_iterations_per_second_jpeg(file_path):
 if __name__ == "__main__":
     title = 'Coremarkpro - [iterations/s] - multicore'
 
-    extract_and_plot("coremarkpro-core", extract_iterations_per_second, ["core"], title)
-    # TODO: Inspect this workload, there is variance
-    # extract_and_plot("coremarkpro-fft", extract_iterations_per_second, ["single entry"], title)
-    extract_and_plot("coremarkpro-gaussian", extract_iterations_per_second, ["gaussian"], title)
-    extract_and_plot("coremarkpro-jpeg", extract_iterations_per_second_jpeg, ["jpeg"], title)
-    extract_and_plot("coremarkpro-livermore", extract_iterations_per_second, ["livermore"], title)
-    extract_and_plot("coremarkpro-neuralnetwork", extract_iterations_per_second, ["neural network"], title)
-    extract_and_plot("coremarkpro-sha", extract_iterations_per_second, ["sha"], title)
-    extract_and_plot("coremarkpro-xml", extract_iterations_per_second, ["xml"], title)
-    extract_and_plot("coremarkpro-zip", extract_iterations_per_second, ["zip"], title)
+    workloads = ["core", "gaussian","jpeg", "livermore", "neuralnetwork", "sha", "xml", "zip"]
+    output = []
+    for w in workloads:
+        if w == "jpeg":
+            output.append(extract(f"coremarkpro-{w}", extract_iterations_per_second_jpeg))
+        else:
+            output.append(extract(f"coremarkpro-{w}", extract_iterations_per_second))
+
+    values = []
+    for i in range(len(workloads)):
+        current = list(map(lambda x: x[1][0], output[i]))
+        values.append(np.array(current))
+
+    values = np.array(values).T
+
+    normal = np.mean(values[0:5], axis=0)
+ 
+    board = np.mean(values[0:5], axis=0) / normal
+    offload = np.mean(values[5:10], axis=0) / normal
+    protect = np.mean(values[10:15], axis=0) / normal
+
+    plot_bar("Coremark pro", workloads, {
+        'Board': board,
+        'Offload': offload,
+        'Protect': protect,
+    }, 'Relative speedup')

@@ -5,39 +5,37 @@ from pathlib import Path
 
 # source myenv/bin/activate
 
-def extract_and_plot(key, extractor, values, title, output_path = ""):
+import numpy as np
+import matplotlib.pyplot as plt
 
-    if output_path == "":
-        output_path = key
+colors = {
+    'Board': (0.12156862745098039, 0.4666666666666667, 0.7058823529411765), 
+    'Offload': (1.0, 0.4980392156862745, 0.054901960784313725), 
+    'Protect': (0.17254901960784313, 0.6274509803921569, 0.17254901960784313),
+    'Keystone':  (0.8392156862745098, 0.15294117647058825, 0.1568627450980392),
+}
 
-    # Output overhead if possible
-    data = []
-    workloads = []
-    iteration = []
-    folder_path = Path("results")
+def plot_bar(title, x_ticks, data, y_label):
+    x = np.arange(len(x_ticks))  # the label locations
+    width = 0.25  # the width of the bars
+    multiplier = 0
 
-    for file_path in sorted(folder_path.rglob('*')):
-        # Recursively search all files
-        if is_workload(file_path, key):
-            if extract_iteration(file_path) == 0:
-                workloads.append(extract_workload(file_path))
-                iteration.append(extract_iteration(file_path))
-                data.append(extractor(file_path))
-            else:
-                it = extract_iteration(file_path)
-                value = extractor(file_path)
-                for i in range(len(data[len(data) - 1])):
-                    data[len(data)-1][i] = it / (it + 1) * data[len(data)-1][i] + 1 / (it + 1) * value[i]
+    fig, ax = plt.subplots(layout='constrained')
 
-    if 'board' in workloads and 'protect' in workloads:
-        with open("overhead.txt", "a") as file:
-            avg = np.mean(list(map(lambda x, y: y / x, data[0], data[2])))
-            if "iozone" in key or "tp" in output_path:
-                avg = np.mean(list(map(lambda x, y: x / y, data[0], data[2])))
-            file.write(f"{key}:{avg}\n")
+    for i, (attribute, measurement) in enumerate(data.items()):
+        offset = width * multiplier
+        rects = ax.bar(x + offset, measurement, width, label=attribute, color=colors[attribute])
+        multiplier += 1
 
+    # Add labels, title, and legend
+    ax.set_ylabel(y_label)
+    ax.set_title(title)
+    ax.set_xticks(x + width, x_ticks)
+    ax.legend(loc='upper right', ncols=3)
+    ax.set_ylim(0, 1.3)
 
-    generate_plot(data, workloads, values, title, output_path)
+    plt.show()
+
 
 def extract_workload(file_path):
     return str(file_path).split('/')[-1].split('_')[1]
@@ -48,91 +46,14 @@ def extract_iteration(file_path):
 def is_workload(file_path, name):
     return str(file_path).split('/')[-1].startswith(f"{name}_") and "stats" not in str(file_path)
 
-def generate_plot(values, names, indices, title, filename):
-    width = 0.25 
-    multiplier = 0
+def extract(key, extractor, path="results"):
+    folder_path = Path(path)
 
-    x = np.arange(len(indices))
-    _, ax = plt.subplots()
+    output = []
 
-    for i in range(len(values)):
-        offset = width * multiplier
-        rec = ax.bar(x + offset, values[i], width, label=names[i])
-        multiplier += 1
+    for file_path in sorted(folder_path.rglob('*')):
+        # Recursively search all files
+        if is_workload(file_path, key):
+            output.append((extract_workload(file_path),extractor(file_path)))
 
-    ax.set_xticks(x + 1.5*width)
-    ax.set_xticklabels(indices)
-
-    ax.set_title(title, fontsize=18)
-    ax.legend(loc='upper left', ncols=len(indices), fontsize=18)
-
-    plt.legend(loc="upper left", bbox_to_anchor=(1, 1))
-
-
-    folder = 'plots'
-    if not os.path.exists(folder):
-        os.makedirs(folder)
-
-    plt.xticks(rotation=45, ha='right')
-
-
-    # Adjust tick label size
-    ax.tick_params(axis='both', labelsize=15)
-
-    plt.tight_layout()
-
-    # Enable the grid
-    plt.grid(True)
-
-    plt.savefig(folder + "/" + filename)
-    plt.close()
-
-def time_to_seconds(time_str):
-    # Split the string at 'm' to separate minutes and seconds
-    minutes, seconds = time_str.split('m')
-
-    # Remove the 's' from the seconds part and convert both parts to float
-    seconds = float(seconds.replace('s', ''))
-
-    # Convert minutes to seconds and return the total
-    return float(minutes) * 60 + seconds
-
-# Function to parse time values from the input text file
-def parse_times(filename):
-    real_times = []
-    user_times = []
-    sys_times = []
-
-    # Open and read the file
-    with open(filename, 'r') as f:
-        real_times = []
-        user_times = []
-        sys_times = []
-
-        lines = f.readlines()  # Read all lines from the file
-
-        i = 0  # Index for line processing
-        while i < len(lines):
-            # Process the next 3 non-empty lines
-            if i + 2 < len(lines) and lines[i].strip().startswith("real"):
-                real_line = lines[i].strip()
-                user_line = lines[i+1].strip()
-                sys_line = lines[i+2].strip()
-
-                # Extract time values (ignoring 'm' and 's' part)
-                real_time = time_to_seconds(real_line.split()[1])  # e.g., 0.002
-                user_time = time_to_seconds(user_line.split()[1])  # e.g., 0.000
-                sys_time = time_to_seconds(sys_line.split()[1])    # e.g., 0.001
-
-                # Append the times to the respective lists
-                real_times.append(real_time)
-                user_times.append(user_time)
-                sys_times.append(sys_time)
-
-                # Skip the next two lines since we've already processed them
-                i += 3
-            else:
-                # If we can't find a full block (real, user, sys), just move to the next non-empty line
-                i += 1
-
-    return np.array([np.mean(real_times), np.mean(user_times), np.mean(sys_times)])
+    return output
