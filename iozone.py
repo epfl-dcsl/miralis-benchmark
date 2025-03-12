@@ -24,72 +24,72 @@ def parse_iozone_output(file_path):
     if not header_line or not data_lines:
         raise ValueError("Invalid Iozone output format")
 
-
-    headers = header_line.split()[:6] # Ignore 'fwrite', 'frewrite', 'fread', 'freread' 
+    headers = header_line.split()[:6]  # Ignore 'fwrite', 'frewrite', 'fread', 'freread' 
     data = []
     for line in data_lines:
         data.append([float(val) for val in line.split()])
 
     df = pd.DataFrame(data, columns=headers)
 
-
     df = df[df['reclen'] == 128.0][['kB', 'write', 'read']]
 
     return df
 
+
+def process_values(arr):
+    return np.mean(np.sort(arr, axis=0)[3:22], axis=0).astype(float), np.var(np.sort(arr, axis=0)[3:22], axis=0).astype(float)
+
+
 if __name__ == "__main__":
-    indices = ['write' ,'rewrite', 'read' ,'reread' ,'random read', 'random write', 'bkwd read', 'record rewrite', 'stride read']
+    indices = ['write', 'rewrite', 'read', 'reread', 'random read', 'random write', 'bkwd read', 'record rewrite', 'stride read']
 
     title = 'IOzone throughput in [KB/s]'
 
     values = extract("iozone", parse_iozone_output)
     values = list(map(lambda x: x[1], values))
 
-    values_read = np.array(list(map(lambda x: np.array(x['read']), values)))
-    values_write = np.array(list(map(lambda x: np.array(x['write']), values)))
+    values_read = np.array(list(map(lambda x: np.array(x['read']), values))) / 1000
+    values_write = np.array(list(map(lambda x: np.array(x['write']), values))) / 1000
     values_len = np.array(list(map(lambda x: np.array(x['kB']), values))[0])
-    values_len = list(map(lambda x: str(x),values_len))
+    values_len = list(map(lambda x: str(x), values_len))
 
-    def process_values(arr):
-        return np.median(arr, axis=0).astype(float)
+    # Process values to get both the mean and variance
+    values_read_board, var_read_board = process_values(values_read[:25])
+    values_read_offload, var_read_offload = process_values(values_read[25:50])
+    values_read_protect, var_read_protect = process_values(values_read[50:75])
 
-    values_read_board = process_values(values_read[:25])
-    values_read_offload = process_values(values_read[25:50])
-    values_read_protect = process_values(values_read[50:75])
+    values_write_board, var_write_board = process_values(values_write[:25])
+    values_write_offload, var_write_offload = process_values(values_write[25:50])
+    values_write_protect, var_write_protect = process_values(values_write[50:75])
 
-    values_write_board = process_values(values_write[:25])
-    values_write_offload = process_values(values_write[25:50])
-    values_write_protect = process_values(values_write[50:75])
-
-    print(values_len)
-
-    values_len = ['128 K', '256 K','512 K','1 M','2 M','4 M','8 M','16 M','32 M','64 M','128 M']
-
+    values_len = ['128 K', '256 K', '512 K', '1 M', '2 M', '4 M', '8 M', '16 M', '32 M', '64 M', '128 M']
 
     fig, axes = plt.subplots(2, 1, num=1)  # Create subplots in a single figure
-    #fig.suptitle("Iozone")  # Overall title
 
-    # First subplot (Read performance)
-    axes[0].plot(values_len, values_read_board, label="Read Board")
-    axes[0].plot(values_len, values_read_offload, label="Read Offload")
-    axes[0].plot(values_len, values_read_protect, label="Read Protect")
-    axes[0].set_ylabel("Read (MiB/s)")  # Label for the y-axis
-    #axes[0].legend()  # Show legend
-    axes[0].set_title("Read Performance")  # Subplot title
-    #axes[0].set_xticks(values_len)  # Set x-ticks
-    axes[0].set_ylim(10000,22000)
+    # First subplot (Read performance with variance)
+    axes[0].plot(values_len, values_read_board, label="Read Board", marker=markers['Board'])
+    axes[0].plot(values_len, values_read_offload, label="Read Offload", marker=markers['Offload'],linestyle=':')
+    axes[0].plot(values_len, values_read_protect, label="Read Protect", marker=markers['Protect'])
+    axes[0].fill_between(values_len, values_read_board - np.sqrt(var_read_board), values_read_board + np.sqrt(var_read_board), alpha=0.2)
+    axes[0].fill_between(values_len, values_read_offload - np.sqrt(var_read_offload), values_read_offload + np.sqrt(var_read_offload), alpha=0.2)
+    axes[0].fill_between(values_len, values_read_protect - np.sqrt(var_read_protect), values_read_protect + np.sqrt(var_read_protect), alpha=0.2)
+    axes[0].set_ylabel("Read (MiB/s)")  
+    axes[0].set_title("Read Performance") 
+    axes[0].set_ylim(10, 22)
 
-    # Second subplot (Write performance)
-    axes[1].plot(values_len, values_write_board, label=names['Board'])
-    axes[1].plot(values_len, values_write_offload, label=names['Offload'])
-    axes[1].plot(values_len, values_write_protect, label=names['Protect'])
-    axes[1].set_ylabel("Write (MiB/s)")  # Label for the y-axis
-    axes[1].set_xlabel("Record len")  # Label for the x-axis
-    axes[1].legend()  # Show legend
-    axes[1].set_title("Write Performance")  # Subplot title
-    axes[1].set_xticks(values_len)  # Set x-ticks
-    axes[1].set_ylim(10000,17000)
+    # Second subplot (Write performance with variance)
+    axes[1].plot(values_len, values_write_board, label="Write Board")
+    axes[1].plot(values_len, values_write_offload, label="Write Offload")
+    axes[1].plot(values_len, values_write_protect, label="Write Protect")
+    axes[1].fill_between(values_len, values_write_board - np.sqrt(var_write_board), values_write_board + np.sqrt(var_write_board), alpha=0.2)
+    axes[1].fill_between(values_len, values_write_offload - np.sqrt(var_write_offload), values_write_offload + np.sqrt(var_write_offload), alpha=0.2)
+    axes[1].fill_between(values_len, values_write_protect - np.sqrt(var_write_protect), values_write_protect + np.sqrt(var_write_protect), alpha=0.2)
+    axes[1].set_ylabel("Write (MiB/s)")  
+    axes[1].set_xlabel("File size")  
+    axes[1].legend()
+    axes[1].set_title("Write Performance")
+    axes[1].set_xticks(values_len)  
+    axes[1].set_ylim(10, 17)
 
-    plt.tight_layout(rect=[0, 0, 1, 1])  # Adjust layout to fit title
-    plt.savefig("plots/iozone")
-
+    plt.tight_layout(rect=[0, 0, 1, 1]) 
+    plt.savefig("plots/iozone.png", dpi=500)

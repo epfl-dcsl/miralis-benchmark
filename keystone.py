@@ -36,13 +36,16 @@ if __name__ == "__main__":
     output_board = extract_keystone(f"keystone/board")
     output_keystone = extract_keystone(f"keystone/keystone")
 
+    native = output_board.copy() / 1000 / 1000
+    native = list(map(lambda x: "{} s".format(round(x,2)), native))
+
     output_keystone = output_board / output_keystone
     output_board /= output_board
 
-    plot_bar('Keystone', workloads, {
-        'Board': output_board,
+    plot_bar(workloads, {
+        'Protect': output_board,
         'Keystone': output_keystone,
-    }, 'keystone')
+    }, 'keystone', native,1.03,  1.1)
 
 
 

@@ -39,7 +39,7 @@ def sysbench_tp(filename):
     percentile_95_latency = float(percentile_95_latency.group(1)) if percentile_95_latency else None
 
     # Return the results
-    return average_latency
+    return average_latency / 300
 
 def time_to_seconds(time_str):
     # Split the string at 'm' to separate minutes and seconds
@@ -89,7 +89,8 @@ def parse_times(filename):
                 # If we can't find a full block (real, user, sys), just move to the next non-empty line
                 i += 1
 
-    return 1 / float(np.mean(real_times))
+    val = float(np.mean(real_times)) / 60 / 60
+    return 1 / val
 
 
 if __name__ == "__main__":
@@ -108,13 +109,21 @@ if __name__ == "__main__":
     values = np.array(values).T
 
     normal = np.mean(values[0:5], axis=0)
+    
+    native = list(map(lambda x: "{:.3f}".format(x), normal))
+
+    native[0] = "{:.0f} op/s".format(float(native[0]))
+    native[1] = "{:.0f} op/s".format(float(native[1]))
+    native[2] = "{:.0f} op/s".format(float(native[2]))
+    native[3] += " builds/h"
+    # native[4] += " build/min"
  
     board = np.mean(values[0:5], axis=0) / normal
     offload = np.mean(values[5:10], axis=0) / normal
     protect = np.mean(values[10:15], axis=0) / normal
 
-    plot_bar('Performance on benchmarks', workloads, {
+    plot_bar(workloads, {
         'Board': board,
         'Offload': offload,
         'Protect': protect,
-    }, 'throughput')
+    }, 'throughput', native, 1.09, 1.15)

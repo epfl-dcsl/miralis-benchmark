@@ -12,17 +12,15 @@ echo "Plotting Disk Microbenchmark"
 python3 iozone.py
 
 echo "Plotting Network Microbenchmark"
-python3 netperf.py
+python3 cdf.py
 
-echo "Plotting redis, memcached and mysql workloads"
-python3 databases.py
+echo "Plotting Benchmarks"
+python3 throughput.py
 
-echo "Plotting compilation time for redis"
-python3 compilation.py
+echo "Plotting Keystone"
+python3 keystone.py
 
-python3 parse_miralis_info.py
 
-python3 stats.py
 
 # echo "Generating boot"
 # python3 boot.py

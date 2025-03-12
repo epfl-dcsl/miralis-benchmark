@@ -63,10 +63,11 @@ if __name__ == "__main__":
         axes[idx].set_title(v2[idx])  # Subplot title
         #axes[idx].set_xticks(percentile_board)  # Set x-ticks
         axes[idx].set_ylim(0,50)
+        axes[idx].set_xlim(10,100)
 
         idx += 1
 
     plt.tight_layout(rect=[0, 0, 1, 0.96])  # Adjust layout to fit title
-    plt.savefig("plots/cdf")
+    plt.savefig("plots/cdf", dpi=500)
 
 

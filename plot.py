@@ -22,26 +22,67 @@ names = {
     'Keystone' : 'Keystone enclave in Miralis'
 }
 
-def plot_bar(title, x_ticks, data, path):
+hatches = {
+    'Board' : '\\',
+    'Protect' : '+',
+    'Offload' : '-',
+    'Keystone' : '.'
+}
+
+markers = {
+    'Board' : 'o',
+    'Protect' : 's',
+    'Offload' : 'h',
+    'Keystone' : '+'
+}
+
+
+def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
     x = np.arange(len(x_ticks))  # the label locations
     width = 0.25  # the width of the bars
     multiplier = 0
+    
+    if len(data) == 2:
+        width = 0.33
 
     fig, ax = plt.subplots(layout='constrained')
 
     for i, (attribute, measurement) in enumerate(data.items()):
         offset = width * multiplier
-        rects = ax.bar(x + offset, measurement, width, label=names[attribute], color=colors[attribute])
+        rects = ax.bar(x + offset, measurement, width, hatch=hatches[attribute], label=names[attribute], color=colors[attribute])
         multiplier += 1
 
     # Add labels, title, and legend
-    ax.set_ylabel('Speedup')
-    ax.set_title(title)
+    ax.set_ylabel('Performance relative to native')
     ax.set_xticks(x + width, x_ticks)
-    ax.legend(loc='upper right', ncols=3)
     ax.set_ylim(0, 1.3)
 
-    plt.savefig("plots/{}".format(path))
+    ax.axhline(y=1, color='black', linestyle='--')
+    ax.set_ylim(0, untily)
+
+    ax.legend(loc='lower right')
+
+    if len(data) == 2:
+        width /= 2
+
+    # Add another set of x_ticks on top
+    ax.set_xticks(x + width, x_ticks)
+
+    ax.set_xticklabels(x_ticks)  # This will add the regular x_ticks below
+
+    # Annotate "test" for each x-tick on top
+    for i, xtick in enumerate(x_ticks):
+        ax.annotate(
+            native_performance[i], 
+            xy=(x[i] + width, offset_unit),  # Shift the annotation a little to the right
+            ha='center', 
+            va='bottom', 
+            fontsize=10, 
+            color='black'
+        )
+
+    plt.savefig(f"plots/{path}", dpi=500)
+
 
 
 def extract_workload(file_path):
