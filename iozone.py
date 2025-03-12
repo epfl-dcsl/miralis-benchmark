@@ -50,38 +50,46 @@ if __name__ == "__main__":
     values_len = np.array(list(map(lambda x: np.array(x['kB']), values))[0])
     values_len = list(map(lambda x: str(x),values_len))
 
-    values_read_board = np.mean(values_read[0:25], axis=0).astype(float)
-    values_read_offload =  np.mean(values_read[25:50], axis=0).astype(float)
-    values_read_protect =  np.mean(values_read[50:75], axis=0).astype(float)
+    def process_values(arr):
+        return np.median(arr, axis=0).astype(float)
 
-    values_write_board = np.mean(values_write[0:25], axis=0).astype(float)
-    values_write_offload =  np.mean(values_write[25:50], axis=0).astype(float)
-    values_write_protect =  np.mean(values_write[50:75], axis=0).astype(float)
+    values_read_board = process_values(values_read[:25])
+    values_read_offload = process_values(values_read[25:50])
+    values_read_protect = process_values(values_read[50:75])
+
+    values_write_board = process_values(values_write[:25])
+    values_write_offload = process_values(values_write[25:50])
+    values_write_protect = process_values(values_write[50:75])
+
+    print(values_len)
+
+    values_len = ['128 K', '256 K','512 K','1 M','2 M','4 M','8 M','16 M','32 M','64 M','128 M']
+
 
     fig, axes = plt.subplots(2, 1, num=1)  # Create subplots in a single figure
-    fig.suptitle("Iozone")  # Overall title
+    #fig.suptitle("Iozone")  # Overall title
 
     # First subplot (Read performance)
     axes[0].plot(values_len, values_read_board, label="Read Board")
     axes[0].plot(values_len, values_read_offload, label="Read Offload")
     axes[0].plot(values_len, values_read_protect, label="Read Protect")
-    axes[0].set_ylabel("Read Speed [KB/s]")  # Label for the y-axis
-    axes[0].legend()  # Show legend
+    axes[0].set_ylabel("Read (MiB/s)")  # Label for the y-axis
+    #axes[0].legend()  # Show legend
     axes[0].set_title("Read Performance")  # Subplot title
-    axes[0].set_xticks(values_len)  # Set x-ticks
+    #axes[0].set_xticks(values_len)  # Set x-ticks
     axes[0].set_ylim(10000,22000)
 
     # Second subplot (Write performance)
-    axes[1].plot(values_len, values_write_board, label="Write Board")
-    axes[1].plot(values_len, values_write_offload, label="Write Offload")
-    axes[1].plot(values_len, values_write_protect, label="Write Protect")
-    axes[1].set_ylabel("Write Speed [KB/s]")  # Label for the y-axis
-    axes[1].set_xlabel("Block Size")  # Label for the x-axis
+    axes[1].plot(values_len, values_write_board, label=names['Board'])
+    axes[1].plot(values_len, values_write_offload, label=names['Offload'])
+    axes[1].plot(values_len, values_write_protect, label=names['Protect'])
+    axes[1].set_ylabel("Write (MiB/s)")  # Label for the y-axis
+    axes[1].set_xlabel("Record len")  # Label for the x-axis
     axes[1].legend()  # Show legend
     axes[1].set_title("Write Performance")  # Subplot title
     axes[1].set_xticks(values_len)  # Set x-ticks
     axes[1].set_ylim(10000,17000)
 
-    plt.tight_layout(rect=[0, 0, 1, 0.96])  # Adjust layout to fit title
-    plt.show()
+    plt.tight_layout(rect=[0, 0, 1, 1])  # Adjust layout to fit title
+    plt.savefig("plots/iozone")
 

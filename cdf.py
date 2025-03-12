@@ -34,9 +34,9 @@ if __name__ == "__main__":
     title = 'Network latency'
 
     fig, axes = plt.subplots(2, 1, num=1)  # Create subplots in a single figure
-    fig.suptitle("Iozone")  # Overall title
 
     v = [extract_get, extract_set]
+    v2 = ['GET', 'SET']
 
     idx = 0
     for e in v:
@@ -52,19 +52,21 @@ if __name__ == "__main__":
         percentile_protect = list(map(lambda x:float(x[1]), output[2][1]))
 
         # First subplot (Read performance)
-        axes[idx].plot(percentile_protect, protect_values, label="Protect payload")
-        axes[idx].plot(percentile_offload, offload_values, label="Offload")
-        axes[idx].plot(percentile_board, board_values, label="Board")
-        axes[idx].set_ylabel("Latency [Milliseconds]")  # Label for the y-axis
-        axes[idx].set_xlabel("Percentile")  # Label for the y-axis
-        axes[idx].legend()  # Show legend
-        axes[idx].set_title("Read Performance")  # Subplot title
-        axes[idx].set_xticks(percentile_board)  # Set x-ticks
+        axes[idx].plot(percentile_protect, protect_values, label=names['Protect'])
+        axes[idx].plot(percentile_offload, offload_values, label=names['Offload'])
+        axes[idx].plot(percentile_board, board_values, label=names['Board'])
+        axes[idx].set_ylabel("Latency (Ms)")  # Label for the y-axis
+         # Label for the y-axis
+        if idx == 1:
+            axes[idx].legend()  # Show legend
+            axes[idx].set_xlabel("Percentile")
+        axes[idx].set_title(v2[idx])  # Subplot title
+        #axes[idx].set_xticks(percentile_board)  # Set x-ticks
         axes[idx].set_ylim(0,50)
 
         idx += 1
 
     plt.tight_layout(rect=[0, 0, 1, 0.96])  # Adjust layout to fit title
-    plt.show()
+    plt.savefig("plots/cdf")
 
 

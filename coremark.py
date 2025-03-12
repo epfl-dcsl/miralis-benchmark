@@ -43,8 +43,10 @@ if __name__ == "__main__":
     offload = np.mean(values[5:10], axis=0) / normal
     protect = np.mean(values[10:15], axis=0) / normal
 
+    workloads[4] = 'nn'
+
     plot_bar("Coremark pro", workloads, {
         'Board': board,
         'Offload': offload,
         'Protect': protect,
-    }, 'Relative speedup')
+    }, 'coremark')

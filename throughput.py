@@ -117,4 +117,4 @@ if __name__ == "__main__":
         'Board': board,
         'Offload': offload,
         'Protect': protect,
-    }, 'Relative speedup')
+    }, 'throughput')

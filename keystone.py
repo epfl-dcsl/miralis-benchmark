@@ -42,7 +42,7 @@ if __name__ == "__main__":
     plot_bar('Keystone', workloads, {
         'Board': output_board,
         'Keystone': output_keystone,
-    }, 'Speedup')
+    }, 'keystone')
 
 
 

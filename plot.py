@@ -15,7 +15,14 @@ colors = {
     'Keystone':  (0.8392156862745098, 0.15294117647058825, 0.1568627450980392),
 }
 
-def plot_bar(title, x_ticks, data, y_label):
+names = {
+    'Board' : 'VisionFive2 board',
+    'Protect' : 'Miralis',
+    'Offload' : 'Miralis + hardware emulation',
+    'Keystone' : 'Keystone enclave in Miralis'
+}
+
+def plot_bar(title, x_ticks, data, path):
     x = np.arange(len(x_ticks))  # the label locations
     width = 0.25  # the width of the bars
     multiplier = 0
@@ -24,17 +31,17 @@ def plot_bar(title, x_ticks, data, y_label):
 
     for i, (attribute, measurement) in enumerate(data.items()):
         offset = width * multiplier
-        rects = ax.bar(x + offset, measurement, width, label=attribute, color=colors[attribute])
+        rects = ax.bar(x + offset, measurement, width, label=names[attribute], color=colors[attribute])
         multiplier += 1
 
     # Add labels, title, and legend
-    ax.set_ylabel(y_label)
+    ax.set_ylabel('Speedup')
     ax.set_title(title)
     ax.set_xticks(x + width, x_ticks)
     ax.legend(loc='upper right', ncols=3)
     ax.set_ylim(0, 1.3)
 
-    plt.show()
+    plt.savefig("plots/{}".format(path))
 
 
 def extract_workload(file_path):
