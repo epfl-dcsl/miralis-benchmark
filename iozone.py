@@ -78,9 +78,9 @@ if __name__ == "__main__":
     axes[0].set_ylim(10, 22)
 
     # Second subplot (Write performance with variance)
-    axes[1].plot(values_len, values_write_board, label="Write Board")
-    axes[1].plot(values_len, values_write_offload, label="Write Offload")
-    axes[1].plot(values_len, values_write_protect, label="Write Protect")
+    axes[1].plot(values_len, values_write_board, label="Write Board", marker=markers['Board'])
+    axes[1].plot(values_len, values_write_offload, label="Write Offload", marker=markers['Offload'])
+    axes[1].plot(values_len, values_write_protect, label="Write Protect", marker=markers['Protect'])
     axes[1].fill_between(values_len, values_write_board - np.sqrt(var_write_board), values_write_board + np.sqrt(var_write_board), alpha=0.2)
     axes[1].fill_between(values_len, values_write_offload - np.sqrt(var_write_offload), values_write_offload + np.sqrt(var_write_offload), alpha=0.2)
     axes[1].fill_between(values_len, values_write_protect - np.sqrt(var_write_protect), values_write_protect + np.sqrt(var_write_protect), alpha=0.2)

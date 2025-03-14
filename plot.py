@@ -30,9 +30,9 @@ hatches = {
 }
 
 markers = {
-    'Board' : 'o',
+    'Board' : 'D',
     'Protect' : 's',
-    'Offload' : 'h',
+    'Offload' : 'o',
     'Keystone' : '+'
 }
 
