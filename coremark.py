@@ -48,6 +48,9 @@ if __name__ == "__main__":
 
     workloads[4] = 'nn'
 
+    print("Offload: ", np.sort(offload))
+    print("Protect: ", np.sort(protect))
+
     plot_bar(workloads, {
         'Board': board,
         'Offload': offload,

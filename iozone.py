@@ -53,6 +53,7 @@ if __name__ == "__main__":
     values_len = np.array(list(map(lambda x: np.array(x['kB']), values))[0])
     values_len = list(map(lambda x: str(x), values_len))
 
+
     # Process values to get both the mean and variance
     values_read_board, var_read_board = process_values(values_read[:25])
     values_read_offload, var_read_offload = process_values(values_read[25:50])
@@ -61,6 +62,12 @@ if __name__ == "__main__":
     values_write_board, var_write_board = process_values(values_write[:25])
     values_write_offload, var_write_offload = process_values(values_write[25:50])
     values_write_protect, var_write_protect = process_values(values_write[50:75])
+
+    print("Overhead read offload :", np.sort(values_read_offload / values_read_board))
+    print("Overhead read protect :", np.sort(values_read_protect / values_read_board))
+
+    print("Overhead write offload :", np.sort(values_write_offload / values_write_board))
+    print("Overhead write protect :", np.sort(values_write_protect / values_write_board))
 
     values_len = ['128 K', '256 K', '512 K', '1 M', '2 M', '4 M', '8 M', '16 M', '32 M', '64 M', '128 M']
 

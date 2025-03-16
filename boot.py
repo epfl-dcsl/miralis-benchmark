@@ -24,13 +24,15 @@ for col in csv.columns:
     unit_of_time = np.arange(0, len(data[col]), 1)
 
 fig, ax = plt.subplots()
-print(unit_of_time)
-print(data.values)
+
+unit_of_time = list(map(lambda x:  str(2 * x) + "m", unit_of_time))
 ax.stackplot(unit_of_time, data.values(),
              labels=data.keys(), alpha=0.8)
+
+ax.set_xticks(unit_of_time[::50])
 ax.legend(loc='upper left', reverse=True)
 ax.set_title('Proportion of exceptions per category')
-ax.set_xlabel('1unit = 2 millions cpu cycles')
+ax.set_xlabel('Cpu cycles')
 ax.set_ylabel('Proportion')
 
 ax.set_ylim(0,1)
