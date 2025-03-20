@@ -37,7 +37,8 @@ markers = {
 }
 
 
-WITH_OFFLOAD=True
+WITH_OFFLOAD=False
+TITLE="VisionFive2"
 
 
 def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
@@ -85,6 +86,8 @@ def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
             fontsize=10, 
             color='black'
         )
+
+    plt.suptitle(TITLE)
 
     plt.savefig(f"plots/{path}", dpi=500)
 

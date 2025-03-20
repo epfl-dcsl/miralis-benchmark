@@ -68,6 +68,8 @@ if __name__ == "__main__":
 
         idx += 1
 
+    fig.suptitle(TITLE)
+
     plt.tight_layout(rect=[0, 0, 1, 0.96])  # Adjust layout to fit title
     plt.savefig("plots/cdf", dpi=500)
 

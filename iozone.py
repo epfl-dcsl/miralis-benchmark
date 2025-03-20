@@ -101,5 +101,7 @@ if __name__ == "__main__":
     axes[1].set_xticks(values_len)  
     axes[1].set_ylim(10, 17)
 
+    fig.suptitle(TITLE)
+
     plt.tight_layout(rect=[0, 0, 1, 1]) 
     plt.savefig("plots/iozone.png", dpi=500)
