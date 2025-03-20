@@ -5,8 +5,6 @@ import matplotlib.pyplot as plt
 
 csv = pd.read_csv("boot.csv")
 
-print(csv)
-
 import matplotlib.pyplot as plt
 import numpy as np
 

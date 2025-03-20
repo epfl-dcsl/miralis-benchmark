@@ -37,6 +37,9 @@ markers = {
 }
 
 
+WITH_OFFLOAD=True
+
+
 def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
     x = np.arange(len(x_ticks))  # the label locations
     width = 0.25  # the width of the bars
@@ -48,6 +51,8 @@ def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
     fig, ax = plt.subplots(layout='constrained')
 
     for i, (attribute, measurement) in enumerate(data.items()):
+        if attribute == "Offload" and not WITH_OFFLOAD:
+            continue
         offset = width * multiplier
         rects = ax.bar(x + offset, measurement, width, hatch=hatches[attribute], label=names[attribute], color=colors[attribute])
         multiplier += 1

@@ -42,6 +42,9 @@ if __name__ == "__main__":
     output_keystone = output_board / output_keystone
     output_board /= output_board
 
+    print("Output keystone performance :", np.sort(output_keystone))
+    print("Mean value : ", np.mean(output_keystone))
+
     plot_bar(workloads, {
         'Protect': output_board,
         'Keystone': output_keystone,

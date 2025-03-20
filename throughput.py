@@ -122,6 +122,10 @@ if __name__ == "__main__":
     offload = np.mean(values[5:10], axis=0) / normal
     protect = np.mean(values[10:15], axis=0) / normal
 
+    print("Workloads : ", workloads)
+    print("Offload : ", offload)
+    print("Protect : ", protect)
+
     plot_bar(workloads, {
         'Board': board,
         'Offload': offload,

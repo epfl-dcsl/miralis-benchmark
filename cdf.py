@@ -53,7 +53,8 @@ if __name__ == "__main__":
 
         # First subplot (Read performance)
         axes[idx].plot(percentile_protect, protect_values, label=names['Protect'])
-        axes[idx].plot(percentile_offload, offload_values, label=names['Offload'])
+        if WITH_OFFLOAD:
+            axes[idx].plot(percentile_offload, offload_values, label=names['Offload'])
         axes[idx].plot(percentile_board, board_values, label=names['Board'])
         axes[idx].set_ylabel("Latency (Ms)")  # Label for the y-axis
          # Label for the y-axis

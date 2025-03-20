@@ -75,10 +75,8 @@ if __name__ == "__main__":
 
     # First subplot (Read performance with variance)
     axes[0].plot(values_len, values_read_board, label="Read Board", marker=markers['Board'])
-    axes[0].plot(values_len, values_read_offload, label="Read Offload", marker=markers['Offload'],linestyle=':')
     axes[0].plot(values_len, values_read_protect, label="Read Protect", marker=markers['Protect'])
     axes[0].fill_between(values_len, values_read_board - np.sqrt(var_read_board), values_read_board + np.sqrt(var_read_board), alpha=0.2)
-    axes[0].fill_between(values_len, values_read_offload - np.sqrt(var_read_offload), values_read_offload + np.sqrt(var_read_offload), alpha=0.2)
     axes[0].fill_between(values_len, values_read_protect - np.sqrt(var_read_protect), values_read_protect + np.sqrt(var_read_protect), alpha=0.2)
     axes[0].set_ylabel("Read (MiB/s)")  
     axes[0].set_title("Read Performance") 
@@ -86,13 +84,18 @@ if __name__ == "__main__":
 
     # Second subplot (Write performance with variance)
     axes[1].plot(values_len, values_write_board, label="Write Board", marker=markers['Board'])
-    axes[1].plot(values_len, values_write_offload, label="Write Offload", marker=markers['Offload'])
     axes[1].plot(values_len, values_write_protect, label="Write Protect", marker=markers['Protect'])
     axes[1].fill_between(values_len, values_write_board - np.sqrt(var_write_board), values_write_board + np.sqrt(var_write_board), alpha=0.2)
-    axes[1].fill_between(values_len, values_write_offload - np.sqrt(var_write_offload), values_write_offload + np.sqrt(var_write_offload), alpha=0.2)
     axes[1].fill_between(values_len, values_write_protect - np.sqrt(var_write_protect), values_write_protect + np.sqrt(var_write_protect), alpha=0.2)
     axes[1].set_ylabel("Write (MiB/s)")  
     axes[1].set_xlabel("File size")  
+
+    if WITH_OFFLOAD:
+        axes[0].plot(values_len, values_read_offload, label="Read Offload", marker=markers['Offload'],linestyle=':')
+        axes[0].fill_between(values_len, values_read_offload - np.sqrt(var_read_offload), values_read_offload + np.sqrt(var_read_offload), alpha=0.2)
+        axes[1].plot(values_len, values_write_offload, label="Write Offload", marker=markers['Offload'])
+        axes[1].fill_between(values_len, values_write_offload - np.sqrt(var_write_offload), values_write_offload + np.sqrt(var_write_offload), alpha=0.2)
+
     axes[1].legend()
     axes[1].set_title("Write Performance")
     axes[1].set_xticks(values_len)  
