@@ -80,7 +80,7 @@ if __name__ == "__main__":
     axes[0].fill_between(values_len, values_read_protect - np.sqrt(var_read_protect), values_read_protect + np.sqrt(var_read_protect), alpha=0.2)
     axes[0].set_ylabel("Read (MiB/s)")  
     axes[0].set_title("Read Performance") 
-    axes[0].set_ylim(10, 200)
+    axes[0].set_ylim(10, 22)
 
     # Second subplot (Write performance with variance)
     axes[1].plot(values_len, values_write_board, label="Write Board", marker=markers['Board'])
@@ -99,7 +99,7 @@ if __name__ == "__main__":
     axes[1].legend()
     axes[1].set_title("Write Performance")
     axes[1].set_xticks(values_len)  
-    axes[1].set_ylim(10, 200)
+    axes[1].set_ylim(10, 18)
 
     fig.suptitle(TITLE)
 
