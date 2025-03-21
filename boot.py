@@ -45,4 +45,4 @@ ax.legend(loc="upper left", bbox_to_anchor=(1, 1))
 # Adjust layout to make space for the legend
 plt.tight_layout()
 
-plt.savefig("plots/boot.png", dpi=500)
+plt.savefig("plots/boot.pdf", format="pdf")

@@ -20,7 +20,5 @@ python3 throughput.py
 echo "Plotting Keystone"
 python3 keystone.py
 
-
-
-# echo "Generating boot"
-# python3 boot.py
+echo "Generating boot"
+python3 boot.py
