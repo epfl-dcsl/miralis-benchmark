@@ -55,5 +55,31 @@ ax.legend(loc="lower center", bbox_to_anchor=(0.5, 0), ncol=2)
 # Adjust layout for better spacing
 plt.tight_layout()
 
+from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes, mark_inset
+
+# Define zoom area (e.g., first 20 CPU cycles)
+x1, x2 = 15, 30
+y1, y2 = 0, 0.015  # Zoom sur toute la hauteur
+
+# Create inset
+axins = zoomed_inset_axes(ax, zoom=9, loc="upper right")  # Facteur de zoom ajustable
+
+# Replot same data in inset
+stacked_values_zoom = np.zeros_like(unit_of_time[:x2], dtype=float)
+for label, values in data.items():
+    axins.fill_between(unit_of_time[:x2], stacked_values_zoom, stacked_values_zoom + values[:x2], step="post", alpha=0.8)
+    stacked_values_zoom += values[:x2]
+
+# Format inset
+axins.set_xlim(x1, x2)
+axins.set_ylim(y1, y2)
+axins.set_xticks([])  # Enlever les ticks pour plus de lisibilité
+axins.set_yticks([])
+
+# Draw rectangle on main plot
+mark_inset(ax, axins, loc1=3, loc2=4, fc="none", ec="black", linestyle="--")
+
+
+
 # Save as PDF
 plt.savefig("plots/boot.pdf", format="pdf")
