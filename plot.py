@@ -38,8 +38,8 @@ markers = {
 
 
 WITH_OFFLOAD=True
-TITLE=""
-
+TITLE="Premier P550"
+HARDWARE="premier"
 
 def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
     x = np.arange(len(x_ticks))  # the label locations
@@ -89,7 +89,7 @@ def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
 
     plt.suptitle(TITLE)
 
-    plt.savefig(f"plots/{path}.pdf", format="pdf")
+    plt.savefig(f"plots/{path}_{HARDWARE}.pdf", format="pdf")
 
 
 
@@ -102,7 +102,7 @@ def extract_iteration(file_path):
 def is_workload(file_path, name):
     return str(file_path).split('/')[-1].startswith(f"{name}_") and "stats" not in str(file_path)
 
-def extract(key, extractor, path="results"):
+def extract(key, extractor, path=f"results_{HARDWARE}"):
     folder_path = Path(path)
 
     output = []

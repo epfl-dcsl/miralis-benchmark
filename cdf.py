@@ -71,6 +71,6 @@ if __name__ == "__main__":
     fig.suptitle(TITLE)
 
     plt.tight_layout(rect=[0, 0, 1, 0.96])  # Adjust layout to fit title
-    plt.savefig("plots/cdf.pdf", format="pdf")
+    plt.savefig(f"plots/cdf_{HARDWARE}.pdf", format="pdf")
 
 
