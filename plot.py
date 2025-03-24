@@ -16,9 +16,9 @@ colors = {
 }
 
 names = {
-    'Board' : 'VisionFive2 board',
+    'Board' : 'Native',
     'Protect' : 'Miralis',
-    'Offload' : 'Miralis + hardware emulation',
+    'Offload' : 'Miralis + Hardware emulation',
     'Keystone' : 'Keystone enclave in Miralis'
 }
 
@@ -38,7 +38,7 @@ markers = {
 
 
 WITH_OFFLOAD=True
-TITLE="Premier P550"
+TITLE=""
 HARDWARE="premier"
 
 def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):

@@ -74,33 +74,39 @@ if __name__ == "__main__":
     fig, axes = plt.subplots(2, 1, num=1)  # Create subplots in a single figure
 
     # First subplot (Read performance with variance)
-    axes[0].plot(values_len, values_read_board, label="Read Board", marker=markers['Board'])
-    axes[0].plot(values_len, values_read_protect, label="Read Protect", marker=markers['Protect'])
+    axes[0].plot(values_len, values_read_board, label=names['Board'], marker=markers['Board'])
+    axes[0].plot(values_len, values_read_protect, label=names['Protect'], marker=markers['Protect'])
     axes[0].fill_between(values_len, values_read_board - np.sqrt(var_read_board), values_read_board + np.sqrt(var_read_board), alpha=0.2)
     axes[0].fill_between(values_len, values_read_protect - np.sqrt(var_read_protect), values_read_protect + np.sqrt(var_read_protect), alpha=0.2)
     axes[0].set_ylabel("Read (MiB/s)")  
     axes[0].set_title("Read Performance") 
-    axes[0].set_ylim(10, 200)
+    if HARDWARE == "premier":
+        axes[0].set_ylim(10, 200)
+    else:
+        axes[0].set_ylim(15,22)
 
     # Second subplot (Write performance with variance)
-    axes[1].plot(values_len, values_write_board, label="Write Board", marker=markers['Board'])
-    axes[1].plot(values_len, values_write_protect, label="Write Protect", marker=markers['Protect'])
+    axes[1].plot(values_len, values_write_board, label=names['Board'], marker=markers['Board'])
+    axes[1].plot(values_len, values_write_protect, label=names['Protect'], marker=markers['Protect'])
     axes[1].fill_between(values_len, values_write_board - np.sqrt(var_write_board), values_write_board + np.sqrt(var_write_board), alpha=0.2)
     axes[1].fill_between(values_len, values_write_protect - np.sqrt(var_write_protect), values_write_protect + np.sqrt(var_write_protect), alpha=0.2)
     axes[1].set_ylabel("Write (MiB/s)")  
     axes[1].set_xlabel("File size")  
 
     if WITH_OFFLOAD:
-        axes[0].plot(values_len, values_read_offload, label="Read Offload", marker=markers['Offload'],linestyle=':')
+        axes[0].plot(values_len, values_read_offload, label=names['Offload'], marker=markers['Offload'],linestyle=':')
         axes[0].fill_between(values_len, values_read_offload - np.sqrt(var_read_offload), values_read_offload + np.sqrt(var_read_offload), alpha=0.2)
-        axes[1].plot(values_len, values_write_offload, label="Write Offload", marker=markers['Offload'])
+        axes[1].plot(values_len, values_write_offload, label=names['Offload'], marker=markers['Offload'])
         axes[1].fill_between(values_len, values_write_offload - np.sqrt(var_write_offload), values_write_offload + np.sqrt(var_write_offload), alpha=0.2)
 
     axes[1].legend()
     axes[1].set_title("Write Performance")
     axes[1].set_xticks(values_len)  
-    axes[1].set_ylim(10, 200)
-
+    if HARDWARE == "premier":
+        axes[1].set_ylim(10, 200)
+    else:
+        axes[1].set_ylim(10,17)
+    
     fig.suptitle(TITLE)
 
     plt.tight_layout(rect=[0, 0, 1, 1]) 

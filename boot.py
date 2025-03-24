@@ -4,11 +4,19 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 from plot import *
 
+
+# DIVIDING FACTOR 
+# 2_000_000 for the vf2
+# 200_000 for the premier
+
 # Read CSV
-csv = pd.read_csv("boot.csv")
+csv = pd.read_csv(f"boot/{HARDWARE}.csv")
 
 # Remove 'Firmware exit' column
 csv = csv.drop('Firmware exit', axis=1)
+
+if HARDWARE == "premier":
+    csv = csv.groupby(csv.index // 4).sum()
 
 # Normalize each row to sum to 1
 csv = csv.apply(lambda row: row / row.sum() if row.sum() > 0 else row, axis=1)
@@ -37,7 +45,7 @@ ax.set_xticks(unit_of_time[::50])
 ax.set_xticklabels(unit_of_time_labels[::50])
 
 # Labels and formatting
-ax.set_title(f"Proportion of exceptions per category on the {HARDWARE}")
+# ax.set_title(f"Proportion of exceptions per category on the {HARDWARE}")
 ax.set_xlabel('CPU cycles')
 ax.set_ylabel('Proportion')
 ax.set_ylim(0, 1)
@@ -49,20 +57,23 @@ ax.axvline(x=113, color='black', linestyle='--')
 # Minor ticks for y-axis
 ax.yaxis.set_minor_locator(mticker.MultipleLocator(.2))
 
-# Place legend outside the plot
-ax.legend(loc="lower center", bbox_to_anchor=(0.5, 0), ncol=2)
-
-# Adjust layout for better spacing
-plt.tight_layout()
-
 from mpl_toolkits.axes_grid1.inset_locator import zoomed_inset_axes, mark_inset
 
 # Define zoom area (e.g., first 20 CPU cycles)
 x1, x2 = 15, 30
 y1, y2 = 0, 0.015  # Zoom sur toute la hauteur
 
+
+if HARDWARE == "premier":
+    x1, x2 = 45, 55
+    y1, y2 = 0, 0.015   
+
 # Create inset
-axins = zoomed_inset_axes(ax, zoom=9, loc="upper right")  # Facteur de zoom ajustable
+
+if HARDWARE == "premier":
+    axins = zoomed_inset_axes(ax, zoom=9, loc="right")
+else:
+    axins = zoomed_inset_axes(ax, zoom=9, loc="right")  # Facteur de zoom ajustable
 
 # Replot same data in inset
 stacked_values_zoom = np.zeros_like(unit_of_time[:x2], dtype=float)
@@ -80,6 +91,12 @@ axins.set_yticks([])
 mark_inset(ax, axins, loc1=3, loc2=4, fc="none", ec="black", linestyle="--")
 
 
+# Place legend outside the plot
+ax.legend(loc="lower center", bbox_to_anchor=(0.5, 0), ncol=2)
+
+# Adjust layout for better spacing
+plt.tight_layout()
+
 
 # Save as PDF
-plt.savefig("plots/boot.pdf", format="pdf")
+plt.savefig(f"plots/boot_{HARDWARE}.pdf", format="pdf")
