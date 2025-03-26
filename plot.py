@@ -9,10 +9,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 colors = {
-    'Board': (0.12156862745098039, 0.4666666666666667, 0.7058823529411765), 
-    'Offload': (1.0, 0.4980392156862745, 0.054901960784313725), 
-    'Protect': (0.17254901960784313, 0.6274509803921569, 0.17254901960784313),
-    'Keystone':  (0.8392156862745098, 0.15294117647058825, 0.1568627450980392),
+    'Board': "#F8CECC", #(0.12156862745098039, 0.4666666666666667, 0.7058823529411765), 
+    'Offload': "#D5E8D4", #(1.0, 0.4980392156862745, 0.054901960784313725), 
+    'Protect': "#DAE8FC", #(0.17254901960784313, 0.6274509803921569, 0.17254901960784313),
+    'Keystone': "#FFF2CC", #(0.8392156862745098, 0.15294117647058825, 0.1568627450980392),
 }
 
 names = {
@@ -23,10 +23,10 @@ names = {
 }
 
 hatches = {
-    'Board' : '\\',
-    'Protect' : '+',
-    'Offload' : '-',
-    'Keystone' : '.'
+    'Board' : 'xx',
+    'Protect' : '//',
+    'Offload' : '\\\\',
+    'Keystone' : '\\\\'
 }
 
 markers = {
@@ -39,7 +39,8 @@ markers = {
 
 WITH_OFFLOAD=True
 TITLE=""
-HARDWARE="premier"
+# HARDWARE="premier"
+HARDWARE="visionfive2"
 
 def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
     x = np.arange(len(x_ticks))  # the label locations
@@ -55,7 +56,7 @@ def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
         if attribute == "Offload" and not WITH_OFFLOAD:
             continue
         offset = width * multiplier
-        rects = ax.bar(x + offset, measurement, width, hatch=hatches[attribute], label=names[attribute], color=colors[attribute])
+        rects = ax.bar(x + offset, measurement, width, hatch=hatches[attribute], label=names[attribute], color=colors[attribute], edgecolor='black', linewidth=1.5)
         multiplier += 1
 
     # Add labels, title, and legend

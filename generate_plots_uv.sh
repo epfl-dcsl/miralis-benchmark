@@ -7,19 +7,19 @@ touch overhead.txt
 mkdir -p plots/
 
 echo "Plotting CPU Microbenchmark"
-python3 coremark.py
+uv run coremark.py
  
 echo "Plotting Disk Microbenchmark"
-python3 iozone.py
+uv run iozone.py
 
 echo "Plotting Network Microbenchmark"
-python3 cdf.py
+uv run cdf.py
 
 echo "Plotting Benchmarks"
-python3 throughput.py
+uv run throughput.py
 
 echo "Plotting Keystone"
-python3 keystone.py
+uv run keystone.py
 
 echo "Generating boot"
-python3 boot.py
+uv run boot.py
