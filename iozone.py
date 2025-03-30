@@ -111,3 +111,4 @@ if __name__ == "__main__":
 
     plt.tight_layout(rect=[0, 0, 1, 1]) 
     plt.savefig(f"plots/iozone_{HARDWARE}.pdf",format="pdf")
+    plt.savefig(f"plots/iozone_{HARDWARE}",dpi=400)

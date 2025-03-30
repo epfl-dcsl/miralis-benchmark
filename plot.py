@@ -42,12 +42,16 @@ TITLE=""
 # HARDWARE="premier"
 HARDWARE="visionfive2"
 
+if False:
+    TITLE=""
+    HARDWARE="visionfive2"
+
 def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
     x = np.arange(len(x_ticks))  # the label locations
     width = 0.25  # the width of the bars
     multiplier = 0
     
-    if len(data) == 2:
+    if len(data) == 2 or WITH_OFFLOAD == False:
         width = 0.33
 
     fig, ax = plt.subplots(layout='constrained')
@@ -69,7 +73,7 @@ def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
 
     ax.legend(loc='lower right')
 
-    if len(data) == 2:
+    if len(data) == 2 or WITH_OFFLOAD == False:
         width /= 2
 
     # Add another set of x_ticks on top
@@ -91,6 +95,7 @@ def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
     plt.suptitle(TITLE)
 
     plt.savefig(f"plots/{path}_{HARDWARE}.pdf", format="pdf")
+    plt.savefig(f"plots/{path}_{HARDWARE}", dpi=400)
 
 
 

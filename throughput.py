@@ -96,8 +96,8 @@ def parse_times(filename):
 if __name__ == "__main__":
     title = 'Relative speedup'
 
-    workloads = ["redis-kv", "memcached-kv", "mysql", "redis-compilation"] #, "linux-compilation"]
-    extractor = [ycsb_tp, ycsb_tp, sysbench_tp, parse_times] #, parse_times]
+    workloads = ["redis-kv", "memcached-kv", "mysql", "redis-compilation","linux-compilation"]
+    extractor = [ycsb_tp, ycsb_tp, sysbench_tp, parse_times, parse_times]
     output = []
 
     values = []
@@ -116,7 +116,10 @@ if __name__ == "__main__":
     native[1] = "{:.0f} op/s".format(float(native[1]))
     native[2] = "{:.0f} op/s".format(float(native[2]))
     native[3] += " builds/h"
-    # native[4] += " build/min"
+    native[4] += " builds/h"
+
+    workloads[3] = "redis build"
+    workloads[4] = "linux build"
  
     board = np.mean(values[0:5], axis=0) / normal
     offload = np.mean(values[5:10], axis=0) / normal
@@ -128,6 +131,9 @@ if __name__ == "__main__":
 
     # Patch name of workloads before display
     workloads[3] = "gcc"
+
+    if HARDWARE == "premier":
+        protect[4] = 0 
 
     plot_bar(workloads, {
         'Board': board,
