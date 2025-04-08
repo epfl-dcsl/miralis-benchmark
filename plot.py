@@ -17,9 +17,9 @@ colors = {
 
 names = {
     'Board' : 'Native',
-    'Protect' : 'Miralis',
-    'Offload' : 'Miralis + Hardware emulation',
-    'Keystone' : 'Keystone enclave in Miralis'
+    'Protect' : 'System minimal',
+    'Offload' : 'System',
+    'Keystone' : 'Keystone enclave in System'
 }
 
 hatches = {
@@ -42,7 +42,7 @@ TITLE=""
 # HARDWARE="premier"
 HARDWARE="visionfive2"
 
-def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
+def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily, ymin: float = 0, figsize = (8, 6), fontsize=None, valfontsize=10):
     x = np.arange(len(x_ticks))  # the label locations
     width = 0.25  # the width of the bars
     multiplier = 0
@@ -50,7 +50,7 @@ def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
     if len(data) == 2:
         width = 0.33
 
-    fig, ax = plt.subplots(layout='constrained')
+    fig, ax = plt.subplots(layout='constrained', figsize=figsize)
 
     for i, (attribute, measurement) in enumerate(data.items()):
         if attribute == "Offload" and not WITH_OFFLOAD:
@@ -60,14 +60,14 @@ def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
         multiplier += 1
 
     # Add labels, title, and legend
-    ax.set_ylabel('Performance relative to native')
-    ax.set_xticks(x + width, x_ticks)
-    ax.set_ylim(0, 1.3)
+    ax.set_ylabel('Relative performance', fontsize=fontsize)
+    ax.set_xticks(x + width, x_ticks, fontsize=fontsize)
+    ax.tick_params(labelsize=fontsize)
 
     ax.axhline(y=1, color='black', linestyle='--')
-    ax.set_ylim(0, untily)
+    ax.set_ylim(ymin, untily)
 
-    ax.legend(loc='lower right')
+    ax.legend(loc='lower right', fontsize=fontsize)
 
     if len(data) == 2:
         width /= 2
@@ -84,7 +84,7 @@ def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily):
             xy=(x[i] + width, offset_unit),  # Shift the annotation a little to the right
             ha='center', 
             va='bottom', 
-            fontsize=10, 
+            fontsize=valfontsize, 
             color='black'
         )
 

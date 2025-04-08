@@ -22,7 +22,7 @@ def extract_iterations_per_second_jpeg(file_path):
 if __name__ == "__main__":
     title = 'Coremarkpro - [iterations/s] - multicore'
 
-    workloads = ["core", "gaussian","jpeg", "livermore", "neuralnetwork", "sha", "xml", "zip"]
+    workloads = ["xml", "gaussian","zip", "livermore", "neuralnetwork", "sha", "core", "jpeg"]
     output = []
     for w in workloads:
         if w == "jpeg":
@@ -39,7 +39,7 @@ if __name__ == "__main__":
 
     normal = np.mean(values[0:5], axis=0)
 
-    native = list(map(lambda x: "{:.1f} it/s".format(x) if x > 10 else "{:.2f} it/s".format(x) , normal))
+    native = list(map(lambda x: "{:.1f}it/s".format(x) if x > 10 else "{:.2f}it/s".format(x) , normal))
 
 
     board = np.mean(values[0:5], axis=0) / normal
@@ -55,4 +55,4 @@ if __name__ == "__main__":
         'Board': board,
         'Offload': offload,
         'Protect': protect,
-    }, 'coremark', native, 1.03, 1.1)
+    }, 'coremark', native, 1.002, 1.02, ymin=0.8, figsize=(6.5, 2.7), fontsize=14, valfontsize=11)
