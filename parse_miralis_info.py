@@ -9,6 +9,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.ticker as mticker
 
+PATH="results_visionfive2/stats"
+
 class Entry:
     def __init__(self,delta, world_switches, read_time, set_timer, misaligned_op, ipi, remote_fence, firmware_exits):
         self.delta = delta
@@ -240,9 +242,9 @@ def plot_traps_and_roofline(deltas, names):
 
 if __name__ == "__main__":
 
-    for file_name in sorted(os.listdir("results/stats")):
+    for file_name in sorted(os.listdir(PATH)):
         continue
-        file_path = os.path.join("results/stats", file_name) 
+        file_path = os.path.join(PATH, file_name) 
         if os.path.isfile(file_path) and "stats" in file_path and "board" not in file_path  and "offload" in file_path:
             if "stats_linux" in file_path:
                 continue
@@ -252,13 +254,15 @@ if __name__ == "__main__":
 
     deltas = []
     names = []
-    for file_path in sorted(Path("results/stats").rglob('*')):
-        if "_0" in str(file_path) and "offload" in str(file_path):
+    for file_path in sorted(Path(PATH).rglob('*')):
+        if "_4" in str(file_path) and "offload" in str(file_path):
             entries = []
             names.append(str(file_path).split('/')[2].split("_")[0])
             for i in range(0,5):
                 path = str(file_path).replace("0", str(i))
-                entries.append(compute_deltas(path)[0])
+                d = compute_deltas(path)
+                if len(d) != 0:
+                    entries.append([0])
             
             deltas.append(reduce(lambda x,y: x + y, entries))
 
