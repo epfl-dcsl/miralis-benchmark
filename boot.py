@@ -105,9 +105,9 @@ mark_inset(ax, axins, loc1=2, loc2=4, fc="none", ec="black", linestyle="-")
 # Place legend outside the plot
 ax.legend(loc="lower center", bbox_to_anchor=(0.45, -0.32), fancybox=False, ncol=3, labelspacing=-0.06, columnspacing=0.6, frameon=False, fontsize=10.4)
 
-ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=2)
-plt.tight_layout(rect=[0, 0, 1, 1])  # Ajuste l'espace en bas
+# Adjust layout for better spacing
+plt.tight_layout()
+
 
 # Save as PDF
 plt.savefig(f"plots/boot_{HARDWARE}.pdf", format="pdf")
-plt.savefig(f"plots/boot_{HARDWARE}", dpi=400)
