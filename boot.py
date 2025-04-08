@@ -18,6 +18,10 @@ csv = csv.drop('Firmware exit', axis=1)
 if HARDWARE == "premier":
     csv = csv.groupby(csv.index // 4).sum()
 
+print("Firmware traps/s: ", csv["Firmware call"][140:].mean())
+print("Total traps/s:    ", csv[140:].mean().sum())
+print("Total traps/s:    ", csv[140:].mean())
+
 # Normalize each row to sum to 1
 csv = csv.apply(lambda row: row / row.sum() if row.sum() > 0 else row, axis=1)
 
@@ -38,7 +42,7 @@ fig.set_figheight(3.2)
 fig.set_figwidth(5.4)
 
 # Convert unit_of_time to labels (every 2 minutes)
-unit_of_time_labels = list(map(lambda x: f"{2 * x}s", unit_of_time))
+unit_of_time_labels = list(map(lambda x: f"{x // 2}s", unit_of_time))
 
 # Compute cumulative sums for stacking
 stacked_values = np.zeros_like(unit_of_time, dtype=float)
@@ -49,12 +53,12 @@ for i, (label, values) in enumerate(data.items()):
 
 # Set x-axis ticks
 ax.set_xticks(unit_of_time[::50])
-ax.set_xticklabels(unit_of_time_labels[::50])
+ax.set_xticklabels(unit_of_time_labels[::50], fontsize=11.2)
 
 # Labels and formatting
 # ax.set_title(f"Proportion of exceptions per category on the {HARDWARE}")
 # ax.set_xlabel('CPU cycles')
-ax.set_ylabel('Proportion of traps to firmware')
+ax.set_ylabel('Proportion of traps', fontsize=11.2)
 ax.set_ylim(0, 1)
 ax.set_xlim(0, 180) # max is 256
 
@@ -99,8 +103,7 @@ mark_inset(ax, axins, loc1=2, loc2=4, fc="none", ec="black", linestyle="-")
 
 
 # Place legend outside the plot
-ax.legend(loc="lower center", bbox_to_anchor=(0.45, -0.28), fancybox=False, ncol=3, labelspacing=-0.06, columnspacing=0.8, frameon=False)
-plt.suptitle(TITLE)
+ax.legend(loc="lower center", bbox_to_anchor=(0.45, -0.32), fancybox=False, ncol=3, labelspacing=-0.06, columnspacing=0.6, frameon=False, fontsize=10.4)
 
 ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=2)
 plt.tight_layout(rect=[0, 0, 1, 1])  # Ajuste l'espace en bas
