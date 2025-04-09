@@ -12,7 +12,7 @@ import matplotlib.ticker as mticker
 PATH="results_visionfive2/stats"
 
 class Entry:
-    def __init__(self,delta, world_switches, read_time, set_timer, misaligned_op, ipi, remote_fence, firmware_exits):
+    def __init__(self,delta, world_switches, read_time, set_timer, misaligned_op, ipi, remote_fence, firmware_exits, workload: str = ""):
         self.delta = delta
         self.world_switches = world_switches
         self.read_time = read_time
@@ -21,6 +21,7 @@ class Entry:
         self.ipi = ipi
         self.remote_fence = remote_fence
         self.firmware_exits = firmware_exits
+        self.workload = workload
 
     def stacked(self):
         v1 = ['no-offload', 'read-time', 'set-timer', 'misaligned-op', 'ipi', 'remote-fence']
@@ -33,26 +34,40 @@ class Entry:
         v2 = v2 + [self.remote_fence_sec()]
     
         return v2
+
     def __add__(self, other):
         return Entry(
-            1, # 1 second
-            self.world_switches_sec() + other.world_switches_sec(),
-            self.read_time_sec() + other.read_time_sec(),
-            self.set_timer_sec() + other.set_timer_sec(),
-            self.misaligned_op_sec() + other.misaligned_op_sec(),
-            self.ipi_sec() + other.ipi_sec(),
-            self.remote_fence_sec() + other.remote_fence_sec() ,
-            self.firmware_trap_sec() + other.firmware_trap_sec()
+            self.delta + other.delta, # 1 second
+            self.world_switches + other.world_switches,
+            self.read_time + other.read_time,
+            self.set_timer + other.set_timer,
+            self.misaligned_op + other.misaligned_op,
+            self.ipi + other.ipi,
+            self.remote_fence + other.remote_fence ,
+            self.firmware_exits + other.firmware_exits,
+            workload=self.workload if self.workload == other.workload else ""
         )
     
     def normalize(self, size):
-        self.world_switches = self.world_switches_sec() / size
-        self.read_time = self.read_time_sec() / size
-        self.set_timer = self.set_timer_sec() / size
-        self.misaligned_op = self.misaligned_op_sec() / size
-        self.ipi = self.ipi_sec() / size
-        self.remote_fence = self.remote_fence_sec() / size
-        self.firmware_exits = self.firmware_trap_sec() / size    
+        self.delta = self.delta / size
+        self.world_switches = self.world_switches / size
+        self.read_time = self.read_time / size
+        self.set_timer = self.set_timer / size
+        self.misaligned_op = self.misaligned_op / size
+        self.ipi = self.ipi / size
+        self.remote_fence = self.remote_fence / size
+        self.firmware_exits = self.firmware_exits / size    
+
+    def per_seconds(self):
+        t = self.delta
+        self.delta = 1
+        self.world_switches = self.world_switches / t
+        self.read_time = self.read_time / t
+        self.set_timer = self.set_timer / t
+        self.misaligned_op = self.misaligned_op / t
+        self.ipi = self.ipi / t
+        self.remote_fence = self.remote_fence / t
+        self.firmware_exits = self.firmware_exits / t
     
     def firmware_trap_sec(self):
         return self.firmware_exits / self.delta
@@ -78,6 +93,18 @@ class Entry:
     def total_exceptions(self):
         return (self.world_switches + self.read_time + self.set_timer + self.misaligned_op + self.ipi + self.remote_fence) / self.delta
 
+    def __repr__(self) -> str:
+        return f"""Workload: {self.workload}
+delta:         {self.delta:>12.3f}
+world_switches {self.world_switches:>12.3f} {self.world_switches_sec():>12.3f}
+read_time      {self.read_time:>12.3f} {self.read_time_sec():>12.3f}
+set_timer      {self.set_timer:>12.3f} {self.set_timer_sec():>12.3f}
+misaligned_op  {self.misaligned_op:>12.3f} {self.misaligned_op_sec():>12.3f}
+ipi            {self.ipi:>12.3f} {self.ipi_sec():>12.3f}
+remote_fence   {self.remote_fence:>12.3f} {self.remote_fence_sec():>12.3f}
+firmware_exits {self.firmware_exits:>12.3f} {self.firmware_trap_sec():>12.3f}
+        """
+
 
 def parse_line(line):
     line = line.replace(" ", "")
@@ -99,7 +126,7 @@ def parse_line(line):
 
     return [time] + output
 
-def compute_deltas(file_path):
+def compute_deltas(file_path, workload: str = ""):
     values = []
     """Computes deltas between consecutive lines in the log file."""
     with open(file_path, 'r') as file:
@@ -123,10 +150,11 @@ def compute_deltas(file_path):
                 v7 = current_line[6] - previous_line[6]
                 v8 = current_line[7] - previous_line[7]
 
-                values.append(Entry(v1, v2,v3,v4,v5,v6,v7, v8))
+                values.append(Entry(v1, v2,v3,v4,v5,v6,v7, v8, workload))
 
             previous_line = current_line
 
+    # print(values)
     return values
 
 
@@ -257,19 +285,32 @@ if __name__ == "__main__":
     for file_path in sorted(Path(PATH).rglob('*')):
         if "_4" in str(file_path) and "offload" in str(file_path):
             entries = []
-            names.append(str(file_path).split('/')[2].split("_")[0])
+            name = str(file_path).split('/')[2].split("_")[0]
+            names.append(name)
             for i in range(0,5):
                 path = str(file_path).replace("0", str(i))
-                d = compute_deltas(path)
-                if len(d) != 0:
-                    entries.append([0])
+                d = compute_deltas(path, name)
+                entries.extend(d)
             
+            # print(entries)
+            # print(reduce(lambda x,y: x + y, entries))
             deltas.append(reduce(lambda x,y: x + y, entries))
 
+    coremark = Entry(0,0,0,0,0,0,0,0, "CoreMark-Pro")
+    
     for d in deltas:
         d.normalize(5)
+        print(d)
+        if ("coremark" in d.workload):
+            coremark = coremark + d
+        # d.per_seconds()
+        # print(d)
 
+    coremark.workload = "CoreMark-Pro"
+    print(coremark)
+    # coremark.per_seconds()
+    # print(coremark)
 
     all_values = deltas
-    plot_traps_and_roofline(deltas, names)
-    plot_ratio_traps(all_values)
+    # plot_traps_and_roofline(deltas, names)
+    # plot_ratio_traps(all_values)

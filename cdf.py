@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import pandas as pd
 import re
 from pathlib import Path
@@ -32,11 +33,13 @@ def extract_value(file_path, typ):
 
 if __name__ == "__main__":
     title = 'Network latency'
+    fontsize=14
+    ms=12
 
-    fig, axes = plt.subplots(2, 1, num=1)  # Create subplots in a single figure
+    fig, axes = plt.subplots(2, 1, num=1, figsize=(6.5, 3.6))  # Create subplots in a single figure
 
     v = [extract_get, extract_set]
-    v2 = ['GET', 'SET']
+    v2 = ['Get', 'Set']
 
     idx = 0
     for e in v:
@@ -52,23 +55,25 @@ if __name__ == "__main__":
         percentile_protect = list(map(lambda x:float(x[1]), output[2][1]))
 
         # First subplot (Read performance)
-        axes[idx].plot(percentile_protect, protect_values, label=names['Protect'])
-        if WITH_OFFLOAD:
-            axes[idx].plot(percentile_offload, offload_values, label=names['Offload'])
-        axes[idx].plot(percentile_board, board_values, label=names['Board'])
-        axes[idx].set_ylabel("Latency (Ms)")  # Label for the y-axis
+        axes[idx].plot(percentile_board, board_values, label=names['Board'], color=curve_colors['Board'])
+        axes[idx].plot(percentile_offload, offload_values, label=names['Offload'], color=curve_colors['Offload'])
+        axes[idx].plot(percentile_protect, protect_values, label=names['Protect'], color=curve_colors['Protect'])
+        axes[idx].set_ylabel(f"{v2[idx]} latency", fontsize=fontsize)  # Label for the y-axis
+        axes[idx].yaxis.set_major_formatter(ticker.FormatStrFormatter('%d$ms$'))
          # Label for the y-axis
         if idx == 1:
-            axes[idx].legend()  # Show legend
-            axes[idx].set_xlabel("Percentile")
-        axes[idx].set_title(v2[idx])  # Subplot title
+            axes[idx].legend(fontsize=fontsize - 2)  # Show legend
+            # axes[idx].set_xlabel("Percentile", fontsize=fontsize)
+        else:
+            axes[idx].set_xticklabels([])
+        # axes[idx].set_title(v2[idx])  # Subplot title
         #axes[idx].set_xticks(percentile_board)  # Set x-ticks
         axes[idx].set_ylim(0,50)
         axes[idx].set_xlim(10,100)
 
         idx += 1
 
-    fig.suptitle(TITLE)
+    # fig.suptitle(TITLE)
 
     plt.tight_layout(rect=[0, 0, 1, 0.96])  # Adjust layout to fit title
     plt.savefig(f"plots/cdf_{HARDWARE}.pdf", format="pdf")

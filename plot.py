@@ -15,6 +15,12 @@ colors = {
     'Keystone': "#FFF2CC", #(0.8392156862745098, 0.15294117647058825, 0.1568627450980392),
 }
 
+curve_colors = {
+    'Board': "#B85450",
+    'Offload': "#82B366",
+    'Protect': "#6C8EBF",
+}
+
 names = {
     'Board' : 'Native',
     'Protect' : 'System minimal',

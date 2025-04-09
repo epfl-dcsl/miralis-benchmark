@@ -45,6 +45,7 @@ if __name__ == "__main__":
 
     title = 'IOzone throughput in [KB/s]'
     fontsize=14
+    ms=12 # Marker size
 
     values = extract("iozone", parse_iozone_output)
     values = list(map(lambda x: x[1], values))
@@ -76,10 +77,12 @@ if __name__ == "__main__":
     fig.tight_layout()
 
     # First subplot (Read performance with variance)
-    axes[0].plot(values_len, values_read_board, label=names['Board'], marker=markers['Board'])
-    axes[0].plot(values_len, values_read_protect, label=names['Protect'], marker=markers['Protect'])
-    axes[0].fill_between(values_len, values_read_board - np.sqrt(var_read_board), values_read_board + np.sqrt(var_read_board), alpha=0.2)
-    axes[0].fill_between(values_len, values_read_protect - np.sqrt(var_read_protect), values_read_protect + np.sqrt(var_read_protect), alpha=0.2)
+    axes[0].plot(values_len, values_read_board, label=names['Board'], marker=markers['Board'], ms=ms, color=curve_colors['Board'])
+    axes[0].plot(values_len, values_read_offload, label=names['Offload'], marker=markers['Offload'], ms=ms, color=curve_colors['Offload'])
+    axes[0].plot(values_len, values_read_protect, label=names['Protect'], marker=markers['Protect'], ms=ms, color=curve_colors['Protect'])
+    axes[0].fill_between(values_len, values_read_board - np.sqrt(var_read_board), values_read_board + np.sqrt(var_read_board), alpha=0.2, color=curve_colors['Board'])
+    axes[0].fill_between(values_len, values_read_offload - np.sqrt(var_read_offload), values_read_offload + np.sqrt(var_read_offload), alpha=0.2, color=curve_colors['Offload'])
+    axes[0].fill_between(values_len, values_read_protect - np.sqrt(var_read_protect), values_read_protect + np.sqrt(var_read_protect), alpha=0.2, color=curve_colors['Protect'])
     axes[0].set_ylabel("Read (MiB/s)", fontsize=fontsize)  
     axes[0].set_xticklabels([])
     axes[0].tick_params(labelsize=fontsize - 2.7)
@@ -92,20 +95,16 @@ if __name__ == "__main__":
         axes[0].set_yticks(np.arange(17, 21+1, 1.0))
 
     # Second subplot (Write performance with variance)
-    axes[1].plot(values_len, values_write_board, label=names['Board'], marker=markers['Board'])
-    axes[1].plot(values_len, values_write_protect, label=names['Protect'], marker=markers['Protect'])
-    axes[1].fill_between(values_len, values_write_board - np.sqrt(var_write_board), values_write_board + np.sqrt(var_write_board), alpha=0.2)
-    axes[1].fill_between(values_len, values_write_protect - np.sqrt(var_write_protect), values_write_protect + np.sqrt(var_write_protect), alpha=0.2)
+    axes[1].plot(values_len, values_write_board, label=names['Board'], marker=markers['Board'], ms=ms, color=curve_colors['Board'])
+    axes[1].plot(values_len, values_write_offload, label=names['Offload'], marker=markers['Offload'], ms=ms, color=curve_colors['Offload'])
+    axes[1].plot(values_len, values_write_protect, label=names['Protect'], marker=markers['Protect'], ms=ms, color=curve_colors['Protect'])
+    axes[1].fill_between(values_len, values_write_board - np.sqrt(var_write_board), values_write_board + np.sqrt(var_write_board), alpha=0.2, color=curve_colors['Board'])
+    axes[1].fill_between(values_len, values_write_offload - np.sqrt(var_write_offload), values_write_offload + np.sqrt(var_write_offload), alpha=0.2, color=curve_colors['Offload'])
+    axes[1].fill_between(values_len, values_write_protect - np.sqrt(var_write_protect), values_write_protect + np.sqrt(var_write_protect), alpha=0.2, color=curve_colors['Protect'])
     axes[1].set_ylabel("Write (MiB/s)", fontsize=fontsize)  
     axes[1].set_xlabel("File size", fontsize=fontsize)
     axes[1].tick_params(labelsize=fontsize - 2.7)
     axes[1].margins(0)
-
-    if WITH_OFFLOAD:
-        axes[0].plot(values_len, values_read_offload, label=names['Offload'], marker=markers['Offload'])
-        axes[0].fill_between(values_len, values_read_offload - np.sqrt(var_read_offload), values_read_offload + np.sqrt(var_read_offload), alpha=0.2)
-        axes[1].plot(values_len, values_write_offload, label=names['Offload'], marker=markers['Offload'])
-        axes[1].fill_between(values_len, values_write_offload - np.sqrt(var_write_offload), values_write_offload + np.sqrt(var_write_offload), alpha=0.2)
 
     axes[1].legend(ncols=3, loc="lower center", fontsize=fontsize - 2)
     # axes[1].set_title("Write Performance")
