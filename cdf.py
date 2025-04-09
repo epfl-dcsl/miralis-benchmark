@@ -63,7 +63,7 @@ if __name__ == "__main__":
          # Label for the y-axis
         if idx == 1:
             axes[idx].legend(fontsize=fontsize - 2)  # Show legend
-            # axes[idx].set_xlabel("Percentile", fontsize=fontsize)
+            axes[idx].set_xlabel("Percentile", fontsize=fontsize)
         else:
             axes[idx].set_xticklabels([])
         # axes[idx].set_title(v2[idx])  # Subplot title

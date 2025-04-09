@@ -127,7 +127,7 @@ if __name__ == "__main__":
     print("Protect : ", protect)
 
     # Patch name of workloads before display
-    workloads[3] = "gcc"
+    workloads[3] = "GCC"
 
     plot_bar(workloads, {
         'Board': board,
