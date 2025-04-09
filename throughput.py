@@ -1,3 +1,4 @@
+from os import name
 import matplotlib.pyplot as plt
 import pandas as pd
 import re
@@ -89,8 +90,9 @@ def parse_times(filename):
                 # If we can't find a full block (real, user, sys), just move to the next non-empty line
                 i += 1
 
-    val = float(np.mean(real_times)) / 60 / 60
-    return 1 / val
+    return float(np.mean(real_times))
+    # val = float(np.mean(real_times)) / 60 / 60
+    # return 1 / val
 
 
 if __name__ == "__main__":
@@ -102,7 +104,11 @@ if __name__ == "__main__":
 
     values = []
     for w, ex in zip(workloads, extractor):
-        current = extract(w, ex)
+        current = extract(w, ex, "results_visionfive2")
+        current = list(map(lambda x: x[1], current))
+        values.append(np.array(current))
+    for w, ex in zip(workloads, extractor):
+        current = extract(w, ex, "results_premier")
         current = list(map(lambda x: x[1], current))
         values.append(np.array(current))
     
@@ -112,12 +118,15 @@ if __name__ == "__main__":
     
     native = list(map(lambda x: "{:.3f}".format(x), normal))
 
-    native[0] = "{:.0f} op/s".format(float(native[0]))
+    native[0] = f"{float(native[0]):.0f} op/s"
     native[1] = "{:.0f} op/s".format(float(native[1]))
-    native[2] = "{:.0f} op/s".format(float(native[2]))
-    native[3] += " builds/h"
-    # native[4] += " build/min"
- 
+    native[2] = "{:.1f} op/s".format(float(native[2]))
+    native[3] = f"{float(native[3]):.1f}s"
+    native[4] = "{:.0f} op/s".format(float(native[4]))
+    native[5] = "{:.0f} op/s".format(float(native[5]))
+    native[6] = "{:.1f} op/s".format(float(native[6]))
+    native[7] = f"{float(native[7]):.1f}s"
+
     board = np.mean(values[0:5], axis=0) / normal
     offload = np.mean(values[5:10], axis=0) / normal
     protect = np.mean(values[10:15], axis=0) / normal
@@ -126,11 +135,17 @@ if __name__ == "__main__":
     print("Offload : ", offload)
     print("Protect : ", protect)
 
-    # Patch name of workloads before display
-    workloads[3] = "GCC"
+    # Invert build time to ensure higher is better
+    offload[3] = 1/offload[3]
+    offload[7] = 1/offload[7]
+    protect[3] = 1/protect[3]
+    protect[7] = 1/protect[7]
 
-    plot_bar(workloads, {
+    # Patch name of workloads before display
+    labels = ["Redis", "Memcached", "MySQL", "GCC"] * 2
+
+    plot_bar(labels, {
         'Board': board,
         'Offload': offload,
         'Protect': protect,
-    }, 'throughput', native, 1.09, 1.15)
+    }, 'throughput', native, 1.09, 1.2, figsize=(6.5, 4.2), fontsize=14, valfontsize=11, tick_rotation=25, val_shift=True, ncols=3, split=True, split_labels=["VisionFive 2", "HiFive Premier P550"], split_label_height=1.202)

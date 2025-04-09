@@ -48,8 +48,11 @@ TITLE=""
 # HARDWARE="premier"
 HARDWARE="visionfive2"
 
-def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily, ymin: float = 0, figsize = (8, 6), fontsize=None, valfontsize=10):
-    x = np.arange(len(x_ticks))  # the label locations
+def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily, ymin: float = 0, figsize = (8, 6), fontsize=None, valfontsize=10, tick_rotation=0, val_shift=False, ncols=1, split=False, split_labels=None, split_label_height=1.0):
+    x = np.arange(len(x_ticks), dtype=np.float64)  # the label locations
+    if split:
+        x[len(x)//2:] += 0.2
+        print(x)
     width = 0.25  # the width of the bars
     multiplier = 0
     
@@ -67,13 +70,16 @@ def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily, ymin:
 
     # Add labels, title, and legend
     ax.set_ylabel('Relative performance', fontsize=fontsize)
-    ax.set_xticks(x + width, x_ticks, fontsize=fontsize)
+    ax.set_xticks(x + width, x_ticks, fontsize=fontsize, rotation=tick_rotation)
     ax.tick_params(labelsize=fontsize)
 
     ax.axhline(y=1, color='black', linestyle='--')
     ax.set_ylim(ymin, untily)
 
-    ax.legend(loc='lower right', fontsize=fontsize)
+    if ncols == 1:
+        ax.legend(loc='lower right', fontsize=fontsize)
+    else:
+        ax.legend(loc='lower center', fontsize=fontsize, ncols=ncols)
 
     if len(data) == 2:
         width /= 2
@@ -85,12 +91,36 @@ def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily, ymin:
 
     # Annotate "test" for each x-tick on top
     for i, xtick in enumerate(x_ticks):
+        shift = 0
+        if val_shift:
+            shift = 2 * ((i + 1) % 2) - 1 # +/- 1
+            shift *= 0.03 # scale shift
         ax.annotate(
             native_performance[i], 
-            xy=(x[i] + width, offset_unit),  # Shift the annotation a little to the right
+            xy=(x[i] + width, offset_unit + shift),  # Shift the annotation a little to the right
             ha='center', 
             va='bottom', 
             fontsize=valfontsize, 
+            color='black'
+        )
+
+    if split_labels is not None:
+        n = len(x)
+        middle = (x[n//2 - 1] + x[n//2 + 1]) / 2
+        ax.annotate(
+            split_labels[0],
+            xy=(middle * 0.5 - width, split_label_height),
+            ha='center', 
+            va='bottom', 
+            fontsize=fontsize, 
+            color='black'
+        )
+        ax.annotate(
+            split_labels[1],
+            xy=(middle * 1.5 - width, split_label_height),
+            ha='center', 
+            va='bottom', 
+            fontsize=fontsize, 
             color='black'
         )
 
