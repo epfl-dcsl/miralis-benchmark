@@ -1,4 +1,4 @@
-Firmware call,Read time,Set timer interrupt,Misaligned load/store,IPI,Remote fence,Firmware exit
+Other,Read time,Set timer interrupt,Misaligned load/store,IPI,Remote fence,Firmware exit
 0,0,0,0,0,0,0
 0,0,0,0,0,0,0
 0,0,0,0,0,0,0

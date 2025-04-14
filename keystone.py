@@ -46,9 +46,9 @@ if __name__ == "__main__":
     print("Mean value : ", np.mean(output_keystone))
 
     plot_bar(workloads, {
-        'Protect': output_board,
+        'Board': output_board,
         'Keystone': output_keystone,
-    }, 'keystone', native,1.03,  1.1)
+    }, 'keystone', native, 1.004, 1.025, ymin=0.8, figsize=(6.5, 2.7), fontsize=14, valfontsize=11)
 
 
 

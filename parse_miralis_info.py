@@ -10,6 +10,7 @@ import pandas as pd
 import matplotlib.ticker as mticker
 
 PATH="results_visionfive2/stats"
+# PATH="results_premier/stats"
 
 class Entry:
     def __init__(self,delta, world_switches, read_time, set_timer, misaligned_op, ipi, remote_fence, firmware_exits, workload: str = ""):
