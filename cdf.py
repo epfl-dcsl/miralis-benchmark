@@ -45,7 +45,6 @@ if __name__ == "__main__":
     for e in v:
         output = extract(f"memcached-cdf", e)
 
-        print(output)
         board_values = list(map(lambda x:float(x[0]), output[0][1]))
         percentile_board = list(map(lambda x:float(x[1]), output[0][1]))
 
@@ -59,8 +58,8 @@ if __name__ == "__main__":
         axes[idx].plot(board_values, percentile_board, label=names['Board'], color=curve_colors['Board'])
         axes[idx].plot(offload_values, percentile_offload, label=names['Offload'], color=curve_colors['Offload'])
         axes[idx].plot(protect_values, percentile_protect, label=names['Protect'], color=curve_colors['Protect'])
-        axes[idx].set_xlabel(f"{v2[idx]} latency", fontsize=fontsize)  # Label for the y-axis
-        axes[idx].xaxis.set_major_formatter(ticker.FormatStrFormatter('%d$ms$')) 
+        axes[idx].set_xlabel(f"{v2[idx]} latency ($ms$)", fontsize=fontsize)  # Label for the y-axis
+        axes[idx].xaxis.set_major_formatter(ticker.FormatStrFormatter('%.1f')) 
         # Label for the y-axis
         if idx == 1:
             axes[idx].legend(fontsize=fontsize - 2)  # Show legend
@@ -70,7 +69,7 @@ if __name__ == "__main__":
         #    axes[idx].set_yticklabels([])
         # axes[idx].set_title(v2[idx])  # Subplot title
         #axes[idx].set_xticks(percentile_board)  # Set x-ticks
-        axes[idx].set_xlim(0,2)
+        axes[idx].set_xlim(0,1.2)
         axes[idx].set_ylim(10,100)
 
         idx += 1
