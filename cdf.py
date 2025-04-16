@@ -36,7 +36,7 @@ if __name__ == "__main__":
     fontsize=14
     ms=12
 
-    fig, axes = plt.subplots(2, 1, num=1, figsize=(6.5, 3.6))  # Create subplots in a single figure
+    fig, axes = plt.subplots(1, 2, num=1, figsize=(6.5, 3.6))  # Create subplots in a single figure
 
     v = [extract_get, extract_set]
     v2 = ['Get', 'Set']
@@ -45,6 +45,7 @@ if __name__ == "__main__":
     for e in v:
         output = extract(f"memcached-cdf", e)
 
+        print(output)
         board_values = list(map(lambda x:float(x[0]), output[0][1]))
         percentile_board = list(map(lambda x:float(x[1]), output[0][1]))
 
@@ -55,27 +56,28 @@ if __name__ == "__main__":
         percentile_protect = list(map(lambda x:float(x[1]), output[2][1]))
 
         # First subplot (Read performance)
-        axes[idx].plot(percentile_board, board_values, label=names['Board'], color=curve_colors['Board'])
-        axes[idx].plot(percentile_offload, offload_values, label=names['Offload'], color=curve_colors['Offload'])
-        axes[idx].plot(percentile_protect, protect_values, label=names['Protect'], color=curve_colors['Protect'])
-        axes[idx].set_ylabel(f"{v2[idx]} latency", fontsize=fontsize)  # Label for the y-axis
-        axes[idx].yaxis.set_major_formatter(ticker.FormatStrFormatter('%d$ms$'))
-         # Label for the y-axis
+        axes[idx].plot(board_values, percentile_board, label=names['Board'], color=curve_colors['Board'])
+        axes[idx].plot(offload_values, percentile_offload, label=names['Offload'], color=curve_colors['Offload'])
+        axes[idx].plot(protect_values, percentile_protect, label=names['Protect'], color=curve_colors['Protect'])
+        axes[idx].set_xlabel(f"{v2[idx]} latency", fontsize=fontsize)  # Label for the y-axis
+        axes[idx].xaxis.set_major_formatter(ticker.FormatStrFormatter('%d$ms$')) 
+        # Label for the y-axis
         if idx == 1:
             axes[idx].legend(fontsize=fontsize - 2)  # Show legend
-            axes[idx].set_xlabel("Percentile", fontsize=fontsize)
-        else:
-            axes[idx].set_xticklabels([])
+        elif idx == 0:    
+            axes[idx].set_ylabel("Percentile", fontsize=fontsize)
+        #else:
+        #    axes[idx].set_yticklabels([])
         # axes[idx].set_title(v2[idx])  # Subplot title
         #axes[idx].set_xticks(percentile_board)  # Set x-ticks
-        axes[idx].set_ylim(0,2)
-        axes[idx].set_xlim(10,100)
+        axes[idx].set_xlim(0,2)
+        axes[idx].set_ylim(10,100)
 
         idx += 1
 
     # fig.suptitle(TITLE)
 
     plt.tight_layout(rect=[0, 0, 1, 0.96])  # Adjust layout to fit title
-    plt.savefig(f"plots/cdf_{HARDWARE}.pdf", format="pdf")
+    plt.savefig(f"plots/cdf_axes_swap_{HARDWARE}.pdf", format="pdf")
 
 
