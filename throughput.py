@@ -148,4 +148,4 @@ if __name__ == "__main__":
         'Board': board,
         'Offload': offload,
         'Protect': protect,
-    }, 'throughput', native, 1.09, 1.2, figsize=(6.5, 4.2), fontsize=14, valfontsize=11, tick_rotation=25, val_shift=True, ncols=3, split=True, split_labels=["VisionFive 2", "HiFive Premier P550"], split_label_height=1.202)
+    }, 'throughput', native, 1.09, 1.2, figsize=(6.5, 4.2), fontsize=14, legendsize=14, valfontsize=11, tick_rotation=25, val_shift=True, ncols=3, split=True, split_labels=["VisionFive 2", "HiFive Premier P550"], split_label_height=1.202, columnspacing=1.1)

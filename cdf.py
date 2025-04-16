@@ -68,7 +68,7 @@ if __name__ == "__main__":
             axes[idx].set_xticklabels([])
         # axes[idx].set_title(v2[idx])  # Subplot title
         #axes[idx].set_xticks(percentile_board)  # Set x-ticks
-        axes[idx].set_ylim(0,50)
+        axes[idx].set_ylim(0,2)
         axes[idx].set_xlim(10,100)
 
         idx += 1

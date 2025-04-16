@@ -117,7 +117,7 @@ mark_inset(ax, axins, loc1=1, loc2=3, fc="none", ec="black", linestyle="-")
 
 
 # Place legend outside the plot
-ax.legend(loc="lower center", bbox_to_anchor=(0.45, -0.32), fancybox=False, ncol=3, labelspacing=-0.06, columnspacing=0.6, frameon=False, fontsize=10.7)
+ax.legend(loc="lower center", bbox_to_anchor=(0.45, -0.32), fancybox=False, ncol=3, labelspacing=-0.06, columnspacing=0.6, frameon=False, fontsize=10.7, usetex=True)
 
 # Adjust layout for better spacing
 plt.tight_layout()

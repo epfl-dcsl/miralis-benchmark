@@ -23,7 +23,7 @@ curve_colors = {
 
 names = {
     'Board' : 'Native',
-    'Protect' : 'System minimal',
+    'Protect' : 'System no-offload',
     'Offload' : 'System',
     'Keystone' : 'Keystone enclave on System'
 }
@@ -42,13 +42,12 @@ markers = {
     'Keystone' : '+'
 }
 
-
 WITH_OFFLOAD=True
 TITLE=""
 # HARDWARE="premier"
 HARDWARE="visionfive2"
 
-def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily, ymin: float = 0, figsize = (8, 6), fontsize=None, valfontsize=10, tick_rotation=0, val_shift=False, ncols=1, split=False, split_labels=None, split_label_height=1.0):
+def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily, ymin: float = 0, figsize = (8, 6), fontsize=None, valfontsize=10, legendsize=None, tick_rotation=0, val_shift=False, ncols=1, split=False, split_labels=None, split_label_height=1.0, columnspacing=None):
     x = np.arange(len(x_ticks), dtype=np.float64)  # the label locations
     if split:
         x[len(x)//2:] += 0.2
@@ -69,7 +68,7 @@ def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily, ymin:
         multiplier += 1
 
     # Add labels, title, and legend
-    ax.set_ylabel('Relative performance', fontsize=fontsize)
+    ax.set_ylabel('Relative performance', fontsize=legendsize if legendsize is not None else fontsize)
     ax.set_xticks(x + width, x_ticks, fontsize=fontsize, rotation=tick_rotation)
     ax.tick_params(labelsize=fontsize)
 
@@ -77,9 +76,9 @@ def plot_bar(x_ticks, data, path, native_performance, offset_unit, untily, ymin:
     ax.set_ylim(ymin, untily)
 
     if ncols == 1:
-        ax.legend(loc='lower right', fontsize=fontsize)
+        ax.legend(loc='lower right', fontsize=fontsize, columnspacing=columnspacing)
     else:
-        ax.legend(loc='lower center', fontsize=fontsize, ncols=ncols)
+        ax.legend(loc='lower center', fontsize=fontsize, ncols=ncols, columnspacing=columnspacing)
 
     if len(data) == 2:
         width /= 2
@@ -147,6 +146,7 @@ def extract(key, extractor, path=f"results_{HARDWARE}"):
     for file_path in sorted(folder_path.rglob('*')):
         # Recursively search all files
         if is_workload(file_path, key):
+            print(file_path)
             output.append((extract_workload(file_path),extractor(file_path)))
 
     return output
