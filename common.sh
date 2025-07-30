@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # Todo: Replace the ips here
-BOARD_IP="user@128.178.116.90"
-MIRALIS_IP="user@128.178.116.53"
-PROTECT_PAYLOAD_IP="user@128.178.116.115"
-OFFLOAD_IP="user@128.178.116.115"
+BOARD_IP="sosp@84.226.61.221"
+MIRALIS_IP="sosp@84.226.61.221"
+PROTECT_PAYLOAD_IP="sosp@84.226.61.221"
+OFFLOAD_IP="sosp@84.226.61.221"
 
 function create_folder_if_not_exists() {
     local folder="$1" 

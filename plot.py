@@ -23,9 +23,9 @@ curve_colors = {
 
 names = {
     'Board' : 'Native',
-    'Protect' : 'System no-offload',
-    'Offload' : 'System',
-    'Keystone' : 'Keystone enclave on System'
+    'Protect' : 'Miralis no-offload',
+    'Offload' : 'Miralis',
+    'Keystone' : 'Keystone enclave on Miralis'
 }
 
 hatches = {
@@ -146,7 +146,6 @@ def extract(key, extractor, path=f"results_{HARDWARE}"):
     for file_path in sorted(folder_path.rglob('*')):
         # Recursively search all files
         if is_workload(file_path, key):
-            print(file_path)
             output.append((extract_workload(file_path),extractor(file_path)))
 
     return output

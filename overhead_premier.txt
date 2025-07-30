@@ -1,0 +1,170 @@
+Workload: coremarkpro-core
+delta:               46.748
+world_switches       22.000        0.471
+read_time        415241.000     8882.555
+set_timer         29340.000      627.621
+misaligned_op       358.000        7.658
+ipi                5101.000      109.117
+remote_fence         49.000        1.048
+firmware_exits      242.000        5.177
+        
+Workload: coremarkpro-fft
+delta:               19.481
+world_switches        9.000        0.462
+read_time        285231.000    14641.179
+set_timer         12886.000      661.451
+misaligned_op       388.000       19.916
+ipi                3361.000      172.523
+remote_fence         51.000        2.618
+firmware_exits       99.000        5.082
+        
+Workload: coremarkpro-gaussian
+delta:               47.498
+world_switches       23.000        0.484
+read_time        478662.000    10077.422
+set_timer         29350.000      617.915
+misaligned_op       394.000        8.295
+ipi                4320.000       90.950
+remote_fence         59.000        1.242
+firmware_exits      253.000        5.326
+        
+Workload: coremarkpro-jpeg
+delta:               59.494
+world_switches       28.000        0.471
+read_time        613951.000    10319.603
+set_timer         36947.000      621.024
+misaligned_op       382.000        6.421
+ipi                5270.000       88.581
+remote_fence         44.000        0.740
+firmware_exits      308.000        5.177
+        
+Workload: coremarkpro-livermore
+delta:               16.500
+world_switches        8.000        0.485
+read_time        272203.000    16497.060
+set_timer         11180.000      677.572
+misaligned_op       352.000       21.333
+ipi                2424.000      146.908
+remote_fence        125.000        7.576
+firmware_exits       88.000        5.333
+        
+Workload: coremarkpro-neuralnetwork
+delta:               18.365
+world_switches        9.000        0.490
+read_time        330639.000    18003.413
+set_timer         11159.000      607.612
+misaligned_op       394.000       21.453
+ipi                2366.000      128.830
+remote_fence        227.000       12.360
+firmware_exits       99.000        5.391
+        
+Workload: coremarkpro-sha
+delta:               10.762
+world_switches        5.000        0.465
+read_time        303491.000    28200.173
+set_timer          7786.000      723.470
+misaligned_op       340.000       31.593
+ipi                1757.000      163.259
+remote_fence         51.000        4.739
+firmware_exits       55.000        5.111
+        
+Workload: coremarkpro-xml
+delta:               70.408
+world_switches       34.000        0.483
+read_time        521982.000     7413.648
+set_timer         44213.000      627.952
+misaligned_op       472.000        6.704
+ipi                7361.000      104.547
+remote_fence         69.000        0.980
+firmware_exits      374.000        5.312
+        
+Workload: coremarkpro-zip
+delta:               55.584
+world_switches       27.000        0.486
+read_time        553591.000     9959.628
+set_timer         36963.000      664.999
+misaligned_op       382.000        6.873
+ipi                9956.000      179.118
+remote_fence       3298.000       59.334
+firmware_exits      297.000        5.343
+        
+Workload: idle-benchmark
+delta:               30.947
+world_switches       15.000        0.485
+read_time        305924.000     9885.361
+set_timer         19258.000      622.286
+misaligned_op       334.000       10.793
+ipi                2695.000       87.084
+remote_fence         66.000        2.133
+firmware_exits      165.000        5.332
+        
+Workload: iozone
+delta:               61.925
+world_switches       30.000        0.484
+read_time       1238546.000    20000.882
+set_timer        107617.000     1737.872
+misaligned_op       398.000        6.427
+ipi               14627.000      236.207
+remote_fence         67.000        1.082
+firmware_exits      330.000        5.329
+        
+Workload: memcached-kv
+delta:              183.816
+world_switches       89.000        0.484
+read_time      65503451.000   356353.927
+set_timer       3529078.000    19199.001
+misaligned_op       453.000        2.464
+ipi             2477272.000    13476.933
+remote_fence        141.000        0.767
+firmware_exits      985.000        5.359
+        
+Workload: mysql
+delta:              303.291
+world_switches      145.000        0.478
+read_time      45141058.000   148837.656
+set_timer       3606020.000    11889.654
+misaligned_op       646.000        2.130
+ipi             1395709.000     4601.887
+remote_fence        264.000        0.870
+firmware_exits     1602.000        5.282
+        
+Workload: netperf
+delta:               32.018
+world_switches       16.000        0.500
+read_time       1556715.000    48619.485
+set_timer        121085.000     3781.739
+misaligned_op       680.000       21.238
+ipi               66435.000     2074.905
+remote_fence        135.000        4.216
+firmware_exits      176.000        5.497
+        
+Workload: redis-compilation
+delta:              369.012
+world_switches      177.000        0.480
+read_time       3608199.000     9777.988
+set_timer        350643.000      950.220
+misaligned_op       790.000        2.141
+ipi              166918.000      452.337
+remote_fence       1009.000        2.734
+firmware_exits     1947.000        5.276
+        
+Workload: redis-kv
+delta:              350.546
+world_switches      168.000        0.479
+read_time      86000517.000   245332.946
+set_timer       9392032.000    26792.570
+misaligned_op       540.000        1.540
+ipi               26326.000       75.100
+remote_fence         47.000        0.134
+firmware_exits     1848.000        5.272
+        
+Workload: CoreMark-Pro
+delta:              344.841
+world_switches      165.000        0.478
+read_time       3774991.000    10947.058
+set_timer        219824.000      637.465
+misaligned_op      3462.000       10.039
+ipi               41916.000      121.552
+remote_fence       3973.000       11.521
+firmware_exits     1815.000        5.263
+        

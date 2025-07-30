@@ -41,7 +41,6 @@ if __name__ == "__main__":
 
     native = list(map(lambda x: "{:.1f}it/s".format(x) if x > 10 else "{:.2f}it/s".format(x) , normal))
 
-
     board = np.mean(values[0:5], axis=0) / normal
     offload = np.mean(values[5:10], axis=0) / normal
     protect = np.mean(values[10:15], axis=0) / normal
@@ -50,6 +49,8 @@ if __name__ == "__main__":
 
     print("Offload: ", np.sort(offload))
     print("Protect: ", np.sort(protect))
+
+    print((1 - np.mean(protect)) * 100)
 
     plot_bar(workloads, {
         'Board': board,
