@@ -13,6 +13,18 @@ WORKLOAD_NAME="mysql"
 # MySQL
 ###############
 
+# Remove the benchmark data, if any leftover
+sysbench \
+     --db-driver=mysql \
+     --mysql-host=$(echo "$ADDRESS" | cut -d'@' -f2-) \
+     --mysql-port=3306 \
+     --mysql-user=user \
+     --mysql-password=user \
+     --mysql-db=sbtest \
+     --tables=1 \
+     oltp_read_write \
+     cleanup
+
 for i in {0..4} 
 do
      # We need to load & unload after each experiment to make sure we get clean results

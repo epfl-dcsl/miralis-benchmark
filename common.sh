@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # Todo: Replace the ips here
-BOARD_IP="sosp@84.226.61.221"
-MIRALIS_IP="sosp@84.226.61.221"
-PROTECT_PAYLOAD_IP="sosp@84.226.61.221"
-OFFLOAD_IP="sosp@84.226.61.221"
+COMMON_IP="sosp@192.168.1.22"
+BOARD_IP=$COMMON_IP
+MIRALIS_IP=$COMMON_IP
+PROTECT_PAYLOAD_IP=$COMMON_IP
+OFFLOAD_IP=$COMMON_IP
 
 function create_folder_if_not_exists() {
     local folder="$1" 
@@ -15,7 +16,7 @@ function create_folder_if_not_exists() {
 }
 
 function RemoteExec() {
-    sshpass -p 'starfive' ssh -oStrictHostKeyChecking=no -p 22 "$1" "cd miralis-benchmark;$2";
+    ssh -oStrictHostKeyChecking=no -p 22 "$1" "cd miralis-benchmark;$2";
 }
 
 function setup() {
